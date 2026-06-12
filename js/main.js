@@ -114,8 +114,8 @@ function makeMiniScene(container, camPos, opts = {}) {
   const scene = new THREE.Scene();
   if (!opts.noEnv) scene.environment = ENV;
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100); camera.position.copy(camPos);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
   container.appendChild(renderer.domElement);
@@ -129,10 +129,10 @@ function makeMiniScene(container, camPos, opts = {}) {
   controls.enableDamping = true; controls.enablePan = false; controls.minDistance = 2; controls.maxDistance = 9;
   function resize() { const w = container.clientWidth, h = container.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
   new ResizeObserver(resize).observe(container); resize();
-  // Görünürlük: ekranda değilken render etme (performans)
-  let _visible = true;
+  // Görünürlük: ekranda değilken / sekme gizliyken render etme (performans)
+  let _visible = false;
   new IntersectionObserver(([e]) => { _visible = e.isIntersecting; }, { rootMargin: '160px' }).observe(container);
-  return { scene, camera, renderer, controls, resize, isVisible: () => _visible };
+  return { scene, camera, renderer, controls, resize, isVisible: () => _visible && !document.hidden };
 }
 
 // ==================================================================
@@ -216,7 +216,7 @@ goResetBtn.addEventListener('click', goReset);
 const lsMini = makeMiniScene(document.getElementById('lsLab'), new THREE.Vector3(0, 1, 4.6), { bareLights: true, noEnv: true });
 const lsState = { angle: 50, elev: 55, intensity: 2.4, color: '#ffffff', rough: 0.4, normalOn: false };
 const lsMat = new THREE.MeshStandardMaterial({ color: '#c0742e', metalness: 0.18, roughness: 0.4 });
-const lsSphere = new THREE.Mesh(new THREE.SphereGeometry(1.2, 96, 72), lsMat); lsMini.scene.add(lsSphere);
+const lsSphere = new THREE.Mesh(new THREE.SphereGeometry(1.2, 64, 44), lsMat); lsMini.scene.add(lsSphere);
 const lsFloor = new THREE.Mesh(new THREE.CircleGeometry(3.2, 48), new THREE.MeshStandardMaterial({ color: '#272c34', roughness: 1 })); lsFloor.rotation.x = -Math.PI / 2; lsFloor.position.y = -1.3; lsMini.scene.add(lsFloor);
 const lsLight = new THREE.DirectionalLight('#ffffff', 2.4); lsMini.scene.add(lsLight); lsMini.scene.add(lsLight.target);
 const lsBulb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 12), new THREE.MeshBasicMaterial({ color: '#fff4d6' })); lsMini.scene.add(lsBulb);
@@ -245,10 +245,12 @@ updateLS();
 //  AŞAMA 5 — DÜNYA / SAHNE (hiyerarşik ev + bahçe + yollar + arabalar)
 // ==================================================================
 const worldMini = makeMiniScene(document.getElementById('worldLab'), new THREE.Vector3(0, 9, 14));
+worldMini.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));   // en ağır sahne — biraz daha düşük
 worldMini.scene.background = new THREE.Color('#10131a'); worldMini.scene.fog = new THREE.Fog('#10131a', 16, 32);
 worldMini.controls.target.set(0, 0.5, 0); worldMini.controls.maxPolarAngle = Math.PI * 0.48; worldMini.controls.minDistance = 9; worldMini.controls.maxDistance = 28;
 worldMini.renderer.shadowMap.enabled = true; worldMini.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const sun = new THREE.DirectionalLight('#fff2dc', 1.7); sun.position.set(7, 13, 6); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024); sun.shadow.camera.near = 1; sun.shadow.camera.far = 44; sun.shadow.camera.left = -10; sun.shadow.camera.right = 10; sun.shadow.camera.top = 10; sun.shadow.camera.bottom = -10; sun.shadow.bias = -0.0006; worldMini.scene.add(sun);
+sun.shadow.autoUpdate = false; sun.shadow.needsUpdate = true;   // ev/ağaç statik → gölge bir kez hesaplanır, her karede değil
 const mapGround = new THREE.Mesh(new THREE.PlaneGeometry(46, 46), new THREE.MeshStandardMaterial({ color: '#33602f', roughness: 1 })); mapGround.rotation.x = -Math.PI / 2; mapGround.receiveShadow = true; worldMini.scene.add(mapGround);
 const gardenPlot = new THREE.Mesh(new THREE.BoxGeometry(7.4, 0.16, 7.4), new THREE.MeshStandardMaterial({ color: '#4f9140', roughness: 1 })); gardenPlot.position.y = 0.08; gardenPlot.receiveShadow = true; worldMini.scene.add(gardenPlot);
 const roadMat = new THREE.MeshStandardMaterial({ color: '#2b2e35', roughness: 0.95 });
@@ -287,8 +289,8 @@ function makeCar(color) {
   const g = new THREE.Group();
   const bodyMat = new THREE.MeshStandardMaterial({ color, metalness: 0.35, roughness: 0.4, transparent: true });
   const cabinMat = new THREE.MeshStandardMaterial({ color: '#e3ecf5', metalness: 0.1, roughness: 0.2, transparent: true });
-  const body = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.34, 0.62), bodyMat); body.position.y = 0.3; body.castShadow = true; g.add(body);
-  const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.3, 0.52), cabinMat); cabin.position.set(-0.05, 0.57, 0); cabin.castShadow = true; g.add(cabin);
+  const body = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.34, 0.62), bodyMat); body.position.y = 0.3; g.add(body);
+  const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.3, 0.52), cabinMat); cabin.position.set(-0.05, 0.57, 0); g.add(cabin);
   const wg = new THREE.CylinderGeometry(0.17, 0.17, 0.12, 12), wm = new THREE.MeshStandardMaterial({ color: '#15171c', roughness: 0.8 });
   [[0.37, 0.33], [-0.37, 0.33], [0.37, -0.33], [-0.37, -0.33]].forEach(([x, z]) => { const w = new THREE.Mesh(wg, wm); w.rotation.x = Math.PI / 2; w.position.set(x, 0.17, z); g.add(w); });
   const hlMat = new THREE.MeshBasicMaterial({ color: '#fff7e0' });
@@ -347,12 +349,12 @@ const viewportEl = document.getElementById('viewport'), hierarchyEl = document.g
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#14161b'); scene.fog = new THREE.Fog('#14161b', 14, 30); scene.environment = ENV;
 const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
 const DEFAULT_CAM = { pos: new THREE.Vector3(3.4, 2.6, 5.2), target: new THREE.Vector3(0, 1.4, 0) }; camera.position.copy(DEFAULT_CAM.pos);
-const renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' }); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0; viewportEl.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true; controls.dampingFactor = 0.08; controls.target.copy(DEFAULT_CAM.target); controls.minDistance = 2.5; controls.maxDistance = 16; controls.maxPolarAngle = Math.PI * 0.92;
 scene.add(new THREE.HemisphereLight('#aac4ff', '#2a2a30', 0.45));
-const keyLight = new THREE.DirectionalLight('#ffffff', 2.0); keyLight.position.set(4, 7, 5); keyLight.castShadow = true; keyLight.shadow.mapSize.set(2048, 2048); keyLight.shadow.camera.near = 1; keyLight.shadow.camera.far = 25; keyLight.shadow.camera.left = -6; keyLight.shadow.camera.right = 6; keyLight.shadow.camera.top = 6; keyLight.shadow.camera.bottom = -6; keyLight.shadow.bias = -0.0005; scene.add(keyLight);
+const keyLight = new THREE.DirectionalLight('#ffffff', 2.0); keyLight.position.set(4, 7, 5); keyLight.castShadow = true; keyLight.shadow.mapSize.set(1024, 1024); keyLight.shadow.camera.near = 1; keyLight.shadow.camera.far = 25; keyLight.shadow.camera.left = -6; keyLight.shadow.camera.right = 6; keyLight.shadow.camera.top = 6; keyLight.shadow.camera.bottom = -6; keyLight.shadow.bias = -0.0005; scene.add(keyLight);
 const rimLight = new THREE.DirectionalLight('#4ec9b0', 0.7); rimLight.position.set(-5, 3, -4); scene.add(rimLight);
 const ground = new THREE.Mesh(new THREE.CircleGeometry(9, 64), new THREE.MeshStandardMaterial({ color: '#23262e', roughness: 1 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
 const grid = new THREE.GridHelper(18, 36, '#3a4150', '#2a2f38'); grid.position.y = 0.001; scene.add(grid);
@@ -646,10 +648,10 @@ const initialLang = (savedLang === 'tr' || savedLang === 'en') ? savedLang : (na
 // ------------------------------------------------------------------
 function resizeEditor() { const w = viewportEl.clientWidth, h = viewportEl.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
 window.addEventListener('resize', resizeEditor); new ResizeObserver(resizeEditor).observe(viewportEl);
-let editorVisible = true;
+let editorVisible = false;
 new IntersectionObserver(([e]) => { editorVisible = e.isIntersecting; }, { rootMargin: '160px' }).observe(viewportEl);
 const clock = new THREE.Clock();
-function tick() { requestAnimationFrame(tick); if (!editorVisible) return; const t = clock.getElapsedTime(); applyAnimation(t); controls.update(); updateRig(); if (selBox.visible && selected) selBox.update(); renderer.render(scene, camera); }
+function tick() { requestAnimationFrame(tick); if (!editorVisible || document.hidden) return; const t = clock.getElapsedTime(); applyAnimation(t); controls.update(); updateRig(); if (selBox.visible && selected) selBox.update(); renderer.render(scene, camera); }
 
 // ------------------------------------------------------------------
 //  Başlat

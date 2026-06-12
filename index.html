@@ -20,9 +20,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=5" />
+  <link rel="stylesheet" href="css/style.css?v=6" />
   <script type="importmap">
-  { "imports": { "three": "./vendor/three.module.js", "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js" } }
+  { "imports": { "three": "./vendor/three.module.min.js", "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js" } }
   </script>
 </head>
 <body>
@@ -263,6 +263,6 @@
       window.addEventListener('error', function (e) { if (e && e.target && e.target.tagName === 'SCRIPT' && !window.__sceneReady) showError('Bir dosya yüklenemedi: <code ' + code + '>' + (e.target.src || '') + '</code>'); }, true);
     })();
   </script>
-  <script type="module" src="js/main.js?v=5"></script>
+  <script type="module" src="js/main.js?v=6"></script>
 </body>
 </html>
