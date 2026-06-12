@@ -554,3 +554,114 @@ input[type="color"] {
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: #444b59; }
 ::-webkit-scrollbar-track { background: transparent; }
+
+/* ====================================================================
+   YENİDEN TASARIM v2 — "Cesur & oyunsu" + sadeleştirilmiş aşamalar
+   ==================================================================== */
+
+/* Rozet takipçisi (üst başlık) */
+.badge-tracker {
+  display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: 30px;
+  padding: 7px 14px; font-size: 13px; font-weight: 700; color: var(--text); transition: all .15s;
+}
+.badge-tracker .bt-medal { font-size: 16px; filter: grayscale(1) opacity(.6); transition: filter .3s; }
+.badge-tracker:hover { border-color: var(--accent); transform: translateY(-1px); }
+.badge-tracker.complete { background: linear-gradient(135deg, #ffb454, #4ec9b0); color: #1a1206; border-color: transparent; }
+.badge-tracker.complete .bt-medal { filter: none; }
+
+/* HERO — büyük 3D */
+.hero2 {
+  max-width: 1280px; margin: 22px auto 8px; padding: 18px 22px;
+  display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center;
+}
+.hero-eyebrow {
+  display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: .4px;
+  color: var(--accent-2); background: rgba(78,201,176,.12); border: 1px solid rgba(78,201,176,.3);
+  padding: 6px 14px; border-radius: 30px; margin-bottom: 18px;
+}
+.hero-big {
+  font-size: 46px; line-height: 1.08; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px;
+  background: linear-gradient(100deg, #ffffff 10%, #ffd9a0 45%, #4ec9b0 95%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-sub { font-size: 16.5px; color: var(--text-dim); max-width: 540px; line-height: 1.6; }
+.hero-cta { display: flex; align-items: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+.btn-cta {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  font-size: 16px; font-weight: 750; padding: 14px 26px; border-radius: 12px; color: #2a1c05;
+  background: linear-gradient(135deg, #ffd06b, #ff9d3c); box-shadow: 0 8px 24px rgba(255,157,60,.35);
+  transition: transform .15s, box-shadow .15s; animation: ctaPulse 2.6s ease-in-out infinite;
+}
+.btn-cta:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 12px 30px rgba(255,157,60,.5); }
+@keyframes ctaPulse { 0%,100% { box-shadow: 0 8px 24px rgba(255,157,60,.35); } 50% { box-shadow: 0 8px 34px rgba(255,157,60,.6); } }
+.hero-hint { font-size: 12.5px; color: var(--text-mut); font-family: var(--mono); }
+.hero-right { position: relative; min-height: 340px; }
+.hero-canvas {
+  width: 100%; height: 380px; border-radius: 20px; overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, #2b3550, #15171c 72%);
+  border: 1px solid var(--line); box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.hero-canvas canvas { display: block; width: 100%; height: 100%; }
+
+/* Yol haritası — daha canlı */
+.roadmap { margin-top: 10px; }
+.roadmap a { font-size: 13.5px; padding: 9px 16px; }
+.roadmap a:hover, .roadmap a.active { background: color-mix(in srgb, var(--sa) 18%, var(--panel-2)); border-color: var(--sa); box-shadow: 0 0 0 2px color-mix(in srgb, var(--sa) 30%, transparent); }
+.roadmap a.active .rm-tx, .roadmap a:hover .rm-tx { color: #fff; }
+
+/* AŞAMA başlığı — dolu renkli rozet (daha cesur) */
+.stage-badge {
+  width: 52px; height: 52px; border-radius: 16px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 22px; font-weight: 800; color: #15171c;
+  background: var(--sa); box-shadow: 0 6px 18px color-mix(in srgb, var(--sa) 45%, transparent);
+}
+.stage-title { font-size: 25px; font-weight: 750; }
+.stage-chip { background: color-mix(in srgb, var(--sa) 16%, transparent); color: var(--sa); border-color: color-mix(in srgb, var(--sa) 38%, transparent); }
+.stage { scroll-margin-top: 76px; }
+.stage.reveal.in .stage-badge { animation: badgePop .5s cubic-bezier(.2,.9,.3,1.4); }
+@keyframes badgePop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* MİNİ GÖREV şeridi (tek, net, rozete bağlı) */
+.stage-task {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-top: 22px; padding: 14px 18px; border-radius: 14px;
+  background: color-mix(in srgb, var(--sa) 7%, var(--panel)); border: 1px solid color-mix(in srgb, var(--sa) 28%, var(--line));
+}
+.task-icon { font-size: 22px; flex-shrink: 0; }
+.task-main { flex: 1; min-width: 200px; }
+.task-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; color: var(--sa); text-transform: uppercase; font-family: var(--mono); }
+.task-goal { font-size: 14px; color: var(--text); margin-top: 2px; }
+.task-goal b { color: #fff; }
+.task-status {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700;
+  padding: 8px 14px; border-radius: 10px; white-space: nowrap;
+  background: var(--bg-2); border: 1px dashed var(--line); color: var(--text-mut); transition: all .3s;
+}
+.task-status.done { background: color-mix(in srgb, var(--sa) 20%, transparent); border: 1px solid var(--sa); border-style: solid; color: #fff; }
+.task-progress { font-size: 12px; color: var(--text-mut); font-family: var(--mono); white-space: nowrap; }
+.task-progress b { color: var(--sa); }
+
+/* KODU GÖSTER (sade, net) */
+.code-toggle {
+  display: inline-flex; align-items: center; gap: 9px; margin-top: 14px; cursor: pointer;
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 16px; font-size: 13.5px; font-weight: 650; color: var(--text-dim); transition: all .15s; font-family: var(--sans);
+}
+.code-toggle:hover { border-color: var(--sa); color: #fff; }
+.code-toggle .ct-ico { font-family: var(--mono); color: var(--sa); font-weight: 800; }
+.code-toggle .ct-arrow { transition: transform .25s; font-size: 11px; }
+.code-toggle.open .ct-arrow { transform: rotate(180deg); }
+.code-panel { margin-top: 12px; }
+.code-panel.hidden { display: none; }
+
+/* ---------- Duyarlı (responsive) v2 ---------- */
+@media (max-width: 1000px) {
+  .hero2 { grid-template-columns: 1fr; gap: 18px; }
+  .hero-big { font-size: 34px; }
+  .hero-right { min-height: 0; }
+  .hero-canvas { height: 280px; }
+  .stage-badge { width: 44px; height: 44px; font-size: 18px; border-radius: 13px; }
+  .stage-title { font-size: 20px; }
+}

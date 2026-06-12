@@ -6,7 +6,6 @@
   <title>Oyun Motoru Atölyesi · 2D Görselden 3D Oyun Nesnesine</title>
   <meta name="description" content="Bir 2D görselden başlayıp Texture, Material, Lighting, Normal Map, GameObject, Rig ve Animation adımlarıyla çalışan bir 3D oyun nesnesine giden etkileşimli öğrenme yolculuğu." />
 
-  <!-- Sosyal medya / link önizleme kartı (Open Graph + Twitter) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ugursirvermez.github.io/GameEngineStudio/" />
   <meta property="og:title" content="Game Engine Studio · Oyun Motoru Atölyesi" />
@@ -14,22 +13,13 @@
   <meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:locale" content="tr_TR" />
-  <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Game Engine Studio · Oyun Motoru Atölyesi" />
-  <meta name="twitter:description" content="From a 2D image to a living 3D game object — Texture, Material, Lighting, Normal Map, Rig & Animation, interactive. TR/EN." />
   <meta name="twitter:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png" />
 
   <link rel="stylesheet" href="css/style.css" />
-
   <script type="importmap">
-  {
-    "imports": {
-      "three": "./vendor/three.module.js",
-      "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js"
-    }
-  }
+  { "imports": { "three": "./vendor/three.module.js", "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js" } }
   </script>
 </head>
 <body>
@@ -39,338 +29,229 @@
   <header class="topbar">
     <div class="brand">
       <span class="logo">◉</span>
-      <div>
-        <h1 data-i18n="brand.title">Oyun Motoru Atölyesi</h1>
-        <p class="sub" data-i18n="brand.sub">2D Görsel → Texture → Material → GameObject → Avatar</p>
-      </div>
+      <div><h1 data-i18n="brand.title">Oyun Motoru Atölyesi</h1><p class="sub" data-i18n="brand.sub">2D Görsel → 3D Oyun Nesnesi</p></div>
     </div>
     <div class="topbar-actions">
+      <button class="badge-tracker locked" id="badgeTracker" title="Rozet ilerlemen"><span class="bt-medal">🏅</span><span id="trackerCount">0/6</span></button>
       <div class="lang-switch" id="langSwitch" title="Dil / Language">
         <button class="lang-btn" data-lang="tr">TR</button>
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
-      <a class="btn btn-accent" href="#stage-1" data-i18n="brand.start">▶ Yolculuğa Başla</a>
     </div>
   </header>
 
-  <!-- HERO + YOL HARİTASI -->
-  <section class="hero">
-    <h2 class="hero-title" data-i18n="hero.title">Bir 2D görselden, yaşayan bir 3D oyun nesnesine</h2>
-    <p class="hero-lead" data-i18n="hero.lead">
-      Bir oyun motorundaki her karakter aslında katman katman inşa edilir. Bu sayfada o yolu
-      <strong>baştan sona</strong>, her adımda kendin deneyerek yürüyeceksin. Her aşamada bir <b>kod örneği</b>, bir <b>mini-quiz</b> ve bir <b>"kendin dene"</b> görevi var.
-    </p>
-    <ol class="roadmap" id="roadmap">
-      <li><a href="#stage-1" style="--sa:#4ec9b0"><span class="rm-ico">📷</span><span class="rm-tx" data-i18n="rm.texture">Texture</span></a></li>
-      <li><a href="#stage-2" style="--sa:#ffb454"><span class="rm-ico">🎨</span><span class="rm-tx" data-i18n="rm.material">Material</span></a></li>
-      <li><a href="#stage-3" style="--sa:#5aa9ff"><span class="rm-ico">🧊</span><span class="rm-tx" data-i18n="rm.gameobject">GameObject</span></a></li>
-      <li><a href="#stage-4" style="--sa:#ffd34e"><span class="rm-ico">💡</span><span class="rm-tx" data-i18n="rm.lighting">Işık</span></a></li>
-      <li><a href="#stage-5" style="--sa:#c792ea"><span class="rm-ico">🗿</span><span class="rm-tx" data-i18n="rm.normal">Normal Map</span></a></li>
-      <li><a href="#stage-6" style="--sa:#7ee787"><span class="rm-ico">🤖</span><span class="rm-tx" data-i18n="rm.avatar">Avatar</span></a></li>
-    </ol>
+  <!-- HERO (büyük 3D) -->
+  <section class="hero2">
+    <div class="hero-left">
+      <div class="hero-eyebrow" data-i18n="hero.eyebrow">🎮 Etkileşimli 3D Atölye</div>
+      <h1 class="hero-big" data-i18n="hero.title">Bir 2D görselden,<br>yaşayan bir 3D oyun nesnesine</h1>
+      <p class="hero-sub" data-i18n="hero.lead">Bir karakteri katman katman, kendi ellerinle inşa et: doku, materyal, ışık, iskelet ve animasyon. Okuyarak değil — <b>dokunarak</b>.</p>
+      <div class="hero-cta">
+        <a class="btn-cta" href="#stage-1" data-i18n="brand.start">▶ Yolculuğa Başla</a>
+        <span class="hero-hint" data-i18n="hero.hint">6 aşama · her birinde mini görev · TR/EN</span>
+      </div>
+    </div>
+    <div class="hero-right"><div id="heroCanvas" class="hero-canvas"></div></div>
   </section>
+
+  <!-- YOL HARİTASI -->
+  <ol class="roadmap" id="roadmap">
+    <li><a href="#stage-1" style="--sa:#4ec9b0"><span class="rm-ico">📷</span><span class="rm-tx" data-i18n="rm.texture">Texture</span></a></li>
+    <li><a href="#stage-2" style="--sa:#ffb454"><span class="rm-ico">🎨</span><span class="rm-tx" data-i18n="rm.material">Material</span></a></li>
+    <li><a href="#stage-3" style="--sa:#5aa9ff"><span class="rm-ico">🧊</span><span class="rm-tx" data-i18n="rm.gameobject">GameObject</span></a></li>
+    <li><a href="#stage-4" style="--sa:#ffd34e"><span class="rm-ico">💡</span><span class="rm-tx" data-i18n="rm.lighting">Işık</span></a></li>
+    <li><a href="#stage-5" style="--sa:#c792ea"><span class="rm-ico">🗿</span><span class="rm-tx" data-i18n="rm.normal">Normal Map</span></a></li>
+    <li><a href="#stage-6" style="--sa:#7ee787"><span class="rm-ico">🤖</span><span class="rm-tx" data-i18n="rm.avatar">Avatar</span></a></li>
+  </ol>
 
   <!-- ============ AŞAMA 1: TEXTURE ============ -->
   <section class="stage reveal" id="stage-1" style="--sa:#4ec9b0">
-    <div class="stage-head">
-      <span class="stage-num">01</span>
-      <div><span class="stage-chip">Texture · Doku</span>
-        <h2 class="stage-title" data-i18n="s1.title">Her şey bir 2D görselle başlar</h2></div>
-    </div>
-    <div class="stage-tabs">
-      <button class="stab active" data-tab="concept">📘 <span data-i18n="tab.concept">Kavram</span></button>
-      <button class="stab" data-tab="code">💻 <span data-i18n="tab.code">Kod</span></button>
-    </div>
-    <div class="stab-panel" data-panel="concept">
-      <div class="stage-body two-col">
-        <div class="stage-text">
-          <p data-i18n="s1.p1">Bir <b>Texture (doku)</b>, sıradan bir 2B görüntüdür — tıpkı bir fotoğraf gibi piksellerden oluşur. Tek başına 3 boyutlu bir şey yapmaz; bir yüzeye <b>sarılmayı</b> bekler.</p>
-          <p data-i18n="s1.p2">Aşağıdan bir desen seç. Sağda hem <b>2B hâlini</b> hem de yüzeyde nasıl <b>tekrarlandığını (tiling)</b> göreceksin. Bir resmin model üzerine nasıl oturacağını <b>UV haritası</b> belirler.</p>
-          <div class="callout" data-i18n="s1.note">💡 Seçtiğin bu doku otomatik olarak bir sonraki adıma — <b>Material Stüdyosu</b>'na — taşınacak.</div>
-          <div class="swatches" id="texSwatches"></div>
-        </div>
-        <div class="stage-visual">
-          <div class="tex-preview-wrap">
-            <div class="tex-2d"><canvas id="tex2dCanvas" width="220" height="220"></canvas><span class="tex-cap" data-i18n="s1.cap2d">2B görüntü (piksel ızgarası)</span></div>
-            <div class="tex-tile"><canvas id="texTileCanvas" width="220" height="220"></canvas><span class="tex-cap" data-i18n="s1.captile">Yüzeyde tekrarlanışı (tiling)</span></div>
-          </div>
+    <div class="stage-head"><span class="stage-badge">01</span><div><span class="stage-chip">Texture · Doku</span><h2 class="stage-title" data-i18n="s1.title">Her şey bir 2D görselle başlar</h2></div></div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s1.p1">Bir <b>Texture (doku)</b>, sıradan bir 2B görüntüdür — tıpkı bir fotoğraf gibi piksellerden oluşur. Tek başına 3 boyutlu bir şey yapmaz; bir yüzeye <b>sarılmayı</b> bekler.</p>
+        <p data-i18n="s1.p2">Aşağıdan bir desen seç. Sağda hem <b>2B hâlini</b> hem de yüzeyde nasıl <b>tekrarlandığını (tiling)</b> göreceksin.</p>
+        <div class="callout" data-i18n="s1.note">💡 Seçtiğin bu doku otomatik olarak bir sonraki adıma — <b>Material Stüdyosu</b>'na — taşınacak.</div>
+        <div class="swatches" id="texSwatches"></div>
+      </div>
+      <div class="stage-visual">
+        <div class="tex-preview-wrap">
+          <div class="tex-2d"><canvas id="tex2dCanvas" width="220" height="220"></canvas><span class="tex-cap" data-i18n="s1.cap2d">2B görüntü</span></div>
+          <div class="tex-tile"><canvas id="texTileCanvas" width="220" height="220"></canvas><span class="tex-cap" data-i18n="s1.captile">Yüzeyde tekrarlanışı</span></div>
         </div>
       </div>
     </div>
-    <div class="stab-panel hidden" data-panel="code">
-      <div class="code-wrap"><button class="copy-btn" data-code="1">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-1"></pre></div>
-      <p class="code-note" data-i18n="code.note">Yukarıdaki kavramın gerçek Three.js karşılığı budur.</p>
-    </div>
-    <div class="stage-extras">
-      <div class="xcard" id="quiz-1"></div>
-      <div class="xcard" id="chal-1"></div>
-    </div>
+    <div class="stage-task" id="task-1"></div>
+    <button class="code-toggle" data-code="1"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
+    <div class="code-panel hidden" id="codePanel-1"><div class="code-wrap"><button class="copy-btn" data-code="1">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-1"></pre></div></div>
   </section>
 
   <!-- ============ AŞAMA 2: MATERIAL ============ -->
   <section class="stage reveal" id="stage-2" style="--sa:#ffb454">
-    <div class="stage-head">
-      <span class="stage-num">02</span>
-      <div><span class="stage-chip">Material · Materyal</span>
-        <h2 class="stage-title" data-i18n="s2.title">Texture + Özellikler = Material</h2></div>
-    </div>
-    <div class="stage-tabs">
-      <button class="stab active" data-tab="concept">📘 <span data-i18n="tab.concept">Kavram</span></button>
-      <button class="stab" data-tab="code">💻 <span data-i18n="tab.code">Kod</span></button>
-    </div>
-    <div class="stab-panel" data-panel="concept">
-      <div class="stage-body two-col">
-        <div class="stage-text">
-          <p data-i18n="s2.p1">Bir <b>Material (materyal)</b>, bir yüzeyin ışığa nasıl tepki vereceğini tanımlayan bir <b>tariftir</b>. İçine bir <b>Texture</b> koyarsın (Base / Albedo Map) ve sayısal özellikler eklersin: renk tonu, <b>metalness</b>, <b>roughness</b>.</p>
-          <p data-i18n="s2.p2">Tıpkı Unity'deki gibi: aşağıdaki <b>Material kartında</b> doku slot'unu doldur, kaydırıcılarla oyna. Sağdaki küre bu materyali <b>canlı</b> gösterir.</p>
-          <div class="mat-card">
-            <div class="mat-card-head"><span>🎨</span> <b>Material</b> <span class="mat-shader">Standard (PBR)</span></div>
-            <div class="mat-field">
-              <label data-i18n="s2.basemap">Base Map (Albedo · Texture)</label>
-              <div class="mat-slot-row"><div class="mat-thumb" id="matThumb"></div><select id="matBaseSelect"></select></div>
-            </div>
-            <div class="mat-field"><label data-i18n="s2.tint">Tint / Renk Tonu</label><input type="color" id="matColor" value="#ffffff" /></div>
-            <div class="mat-field"><label>Metalness · <span class="mval" id="matMetalVal">0.30</span></label><input type="range" id="matMetal" min="0" max="1" step="0.01" value="0.3" /></div>
-            <div class="mat-field"><label>Roughness · <span class="mval" id="matRoughVal">0.50</span></label><input type="range" id="matRough" min="0" max="1" step="0.01" value="0.5" /></div>
-          </div>
-          <div class="callout" data-i18n="s2.note">💡 Hazırladığın bu materyal, ileride bir <b>GameObject</b>'e giydirilecek.</div>
+    <div class="stage-head"><span class="stage-badge">02</span><div><span class="stage-chip">Material · Materyal</span><h2 class="stage-title" data-i18n="s2.title">Texture + Özellikler = Material</h2></div></div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s2.p1">Bir <b>Material (materyal)</b>, bir yüzeyin ışığa nasıl tepki vereceğini tanımlayan bir <b>tariftir</b>. İçine bir <b>Texture</b> koyarsın ve sayısal özellikler eklersin: renk, <b>metalness</b>, <b>roughness</b>.</p>
+        <p data-i18n="s2.p2">Tıpkı Unity'deki gibi: doku slot'unu doldur, kaydırıcılarla oyna. Sağdaki küre bu materyali <b>canlı</b> gösterir.</p>
+        <div class="mat-card">
+          <div class="mat-card-head"><span>🎨</span> <b>Material</b> <span class="mat-shader">Standard (PBR)</span></div>
+          <div class="mat-field"><label data-i18n="s2.basemap">Base Map (Albedo · Texture)</label><div class="mat-slot-row"><div class="mat-thumb" id="matThumb"></div><select id="matBaseSelect"></select></div></div>
+          <div class="mat-field"><label data-i18n="s2.tint">Tint / Renk Tonu</label><input type="color" id="matColor" value="#ffffff" /></div>
+          <div class="mat-field"><label>Metalness · <span class="mval" id="matMetalVal">0.30</span></label><input type="range" id="matMetal" min="0" max="1" step="0.01" value="0.3" /></div>
+          <div class="mat-field"><label>Roughness · <span class="mval" id="matRoughVal">0.50</span></label><input type="range" id="matRough" min="0" max="1" step="0.01" value="0.5" /></div>
         </div>
-        <div class="stage-visual"><div class="preview3d" id="matPreview"><span class="preview-tag" data-i18n="s2.previewtag">Canlı Material Önizleme</span></div></div>
       </div>
+      <div class="stage-visual"><div class="preview3d" id="matPreview"><span class="preview-tag" data-i18n="s2.previewtag">Canlı Material Önizleme</span></div></div>
     </div>
-    <div class="stab-panel hidden" data-panel="code">
-      <div class="code-wrap"><button class="copy-btn" data-code="2">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-2"></pre></div>
-      <p class="code-note" data-i18n="code.note">Yukarıdaki kavramın gerçek Three.js karşılığı budur.</p>
-    </div>
-    <div class="stage-extras">
-      <div class="xcard" id="quiz-2"></div>
-      <div class="xcard" id="chal-2"></div>
-    </div>
+    <div class="stage-task" id="task-2"></div>
+    <button class="code-toggle" data-code="2"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
+    <div class="code-panel hidden" id="codePanel-2"><div class="code-wrap"><button class="copy-btn" data-code="2">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-2"></pre></div></div>
   </section>
 
-  <!-- ============ AŞAMA 3: MESH + GAMEOBJECT ============ -->
+  <!-- ============ AŞAMA 3: GAMEOBJECT ============ -->
   <section class="stage reveal" id="stage-3" style="--sa:#5aa9ff">
-    <div class="stage-head">
-      <span class="stage-num">03</span>
-      <div><span class="stage-chip">Mesh + GameObject</span>
-        <h2 class="stage-title" data-i18n="s3.title">Mesh'e Material ekle → GameObject doğsun</h2></div>
-    </div>
-    <div class="stage-tabs">
-      <button class="stab active" data-tab="concept">📘 <span data-i18n="tab.concept">Kavram</span></button>
-      <button class="stab" data-tab="code">💻 <span data-i18n="tab.code">Kod</span></button>
-    </div>
-    <div class="stab-panel" data-panel="concept">
-      <div class="stage-body two-col">
-        <div class="stage-text">
-          <p data-i18n="s3.p1">Bir <b>GameObject</b>, sahnedeki boş bir kutudur — başlangıçta yalnızca bir <b>Transform</b> taşır. Görünür olması için ona <b>bileşenler</b> ekleriz:</p>
-          <p data-i18n="s3.p2"><b>Mesh</b> nesnenin <i>şeklidir</i> (köşe + üçgen), ama renksizdir. <b>Material</b> ise o şeklin <i>nasıl göründüğüdür</i>. İkisini bir GameObject'te birleştirince görünen bir nesne elde ederiz.</p>
-          <p class="step-instr" data-i18n="s3.instr">Sırayla adımları çalıştır:</p>
-          <div class="lab-steps" id="goStepList">
-            <button class="lab-step" id="goShapeBtn" data-done="false"><span class="ls-no">1</span> <span data-i18n="s3.step1">+ Mesh (şekil) ekle</span></button>
-            <select id="goShapeSelect" class="lab-shape-sel">
-              <option value="box" data-i18n="s3.box">Küp (Cube)</option>
-              <option value="sphere" data-i18n="s3.sphere">Küre (Sphere)</option>
-              <option value="cylinder" data-i18n="s3.cylinder">Silindir (Cylinder)</option>
-              <option value="torus" data-i18n="s3.torus">Simit (Torus)</option>
-            </select>
-            <button class="lab-step" id="goMatBtn" data-done="false" disabled><span class="ls-no">2</span> <span data-i18n="s3.step2">+ Material uygula (Aşama 2'den)</span></button>
-            <button class="lab-step ghost" id="goWireBtn"><span class="ls-no">👁</span> <span data-i18n="s3.wire">Wireframe (mesh'i göster)</span></button>
-            <button class="lab-step ghost" id="goResetBtn"><span class="ls-no">↺</span> <span data-i18n="s3.reset">Sıfırla</span></button>
-          </div>
-        </div>
-        <div class="stage-visual">
-          <div class="preview3d" id="goLab"><span class="preview-tag" id="goStatusTag" data-i18n="s3.empty">Boş GameObject (yalnızca Transform)</span></div>
-          <div class="components" id="goComponents"></div>
+    <div class="stage-head"><span class="stage-badge">03</span><div><span class="stage-chip">Mesh + GameObject</span><h2 class="stage-title" data-i18n="s3.title">Mesh'e Material ekle → GameObject doğsun</h2></div></div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s3.p1">Bir <b>GameObject</b>, sahnedeki boş bir kutudur — başlangıçta yalnızca bir <b>Transform</b> taşır. Görünür olması için ona <b>bileşenler</b> ekleriz:</p>
+        <p data-i18n="s3.p2"><b>Mesh</b> nesnenin <i>şeklidir</i>, ama renksizdir. <b>Material</b> ise o şeklin <i>nasıl göründüğüdür</i>. İkisini birleştirince görünen bir nesne elde ederiz.</p>
+        <p class="step-instr" data-i18n="s3.instr">Sırayla adımları çalıştır:</p>
+        <div class="lab-steps" id="goStepList">
+          <button class="lab-step" id="goShapeBtn" data-done="false"><span class="ls-no">1</span> <span data-i18n="s3.step1">+ Mesh (şekil) ekle</span></button>
+          <select id="goShapeSelect" class="lab-shape-sel">
+            <option value="box" data-i18n="s3.box">Küp (Cube)</option>
+            <option value="sphere" data-i18n="s3.sphere">Küre (Sphere)</option>
+            <option value="cylinder" data-i18n="s3.cylinder">Silindir (Cylinder)</option>
+            <option value="torus" data-i18n="s3.torus">Simit (Torus)</option>
+          </select>
+          <button class="lab-step" id="goMatBtn" data-done="false" disabled><span class="ls-no">2</span> <span data-i18n="s3.step2">+ Material uygula (Aşama 2'den)</span></button>
+          <button class="lab-step ghost" id="goWireBtn"><span class="ls-no">👁</span> <span data-i18n="s3.wire">Wireframe (mesh'i göster)</span></button>
+          <button class="lab-step ghost" id="goResetBtn"><span class="ls-no">↺</span> <span data-i18n="s3.reset">Sıfırla</span></button>
         </div>
       </div>
+      <div class="stage-visual">
+        <div class="preview3d" id="goLab"><span class="preview-tag" id="goStatusTag" data-i18n="s3.empty">Boş GameObject (yalnızca Transform)</span></div>
+        <div class="components" id="goComponents"></div>
+      </div>
     </div>
-    <div class="stab-panel hidden" data-panel="code">
-      <div class="code-wrap"><button class="copy-btn" data-code="3">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-3"></pre></div>
-      <p class="code-note" data-i18n="code.note">Yukarıdaki kavramın gerçek Three.js karşılığı budur.</p>
-    </div>
-    <div class="stage-extras">
-      <div class="xcard" id="quiz-3"></div>
-      <div class="xcard" id="chal-3"></div>
-    </div>
+    <div class="stage-task" id="task-3"></div>
+    <button class="code-toggle" data-code="3"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
+    <div class="code-panel hidden" id="codePanel-3"><div class="code-wrap"><button class="copy-btn" data-code="3">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-3"></pre></div></div>
   </section>
 
-  <!-- ============ AŞAMA 4: IŞIK (LIGHTING) ============ -->
+  <!-- ============ AŞAMA 4: IŞIK ============ -->
   <section class="stage reveal" id="stage-4" style="--sa:#ffd34e">
-    <div class="stage-head">
-      <span class="stage-num">04</span>
-      <div><span class="stage-chip">Lighting · Işık</span>
-        <h2 class="stage-title" data-i18n="s4l.title">Işık olmadan materyal görünmez</h2></div>
-    </div>
-    <div class="stage-tabs">
-      <button class="stab active" data-tab="concept">📘 <span data-i18n="tab.concept">Kavram</span></button>
-      <button class="stab" data-tab="code">💻 <span data-i18n="tab.code">Kod</span></button>
-    </div>
-    <div class="stab-panel" data-panel="concept">
-      <div class="stage-body two-col">
-        <div class="stage-text">
-          <p data-i18n="s4l.p1">Bir materyalin rengini ve parlaklığını gözümüz, <b>ışığın yüzeyden yansımasıyla</b> görür. Aynı materyal, ışığın <b>yönüne, şiddetine ve rengine</b> göre bambaşka görünebilir.</p>
-          <p data-i18n="s4l.p2">Aşağıdaki ışığı hareket ettir; parlak noktanın (specular) nasıl kaydığına bak. <b>Roughness</b>'ı değiştir: pürüzlü yüzey ışığı <i>dağıtır</i> (mat), pürüzsüz yüzey <i>yansıtır</i> (parlak).</p>
-          <div class="light-card">
-            <div class="mat-field"><label data-i18n="s4l.angle">Işık açısı</label><input type="range" id="liAngle" min="0" max="360" value="50" /></div>
-            <div class="mat-field"><label data-i18n="s4l.height">Işık yüksekliği</label><input type="range" id="liElev" min="5" max="88" value="55" /></div>
-            <div class="mat-field"><label data-i18n="s4l.intensity">Şiddet (Intensity) · <span class="mval" id="liIntVal">2.0</span></label><input type="range" id="liInt" min="0" max="5" step="0.1" value="2" /></div>
-            <div class="mat-field"><label data-i18n="s4l.color">Işık rengi</label><input type="color" id="liColor" value="#ffffff" /></div>
-            <div class="mat-field"><label>Roughness · <span class="mval" id="liRoughVal">0.35</span></label><input type="range" id="liRough" min="0" max="1" step="0.01" value="0.35" /></div>
-          </div>
+    <div class="stage-head"><span class="stage-badge">04</span><div><span class="stage-chip">Lighting · Işık</span><h2 class="stage-title" data-i18n="s4l.title">Işık olmadan materyal görünmez</h2></div></div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s4l.p1">Bir materyalin rengini ve parlaklığını gözümüz, <b>ışığın yüzeyden yansımasıyla</b> görür. Aynı materyal, ışığın <b>yönüne, şiddetine ve rengine</b> göre bambaşka görünebilir.</p>
+        <p data-i18n="s4l.p2">Işığı hareket ettir; parlak noktanın nasıl kaydığına bak. <b>Roughness</b>'ı değiştir: pürüzlü yüzey ışığı <i>dağıtır</i>, pürüzsüz yüzey <i>yansıtır</i>.</p>
+        <div class="light-card">
+          <div class="mat-field"><label data-i18n="s4l.angle">Işık açısı</label><input type="range" id="liAngle" min="0" max="360" value="50" /></div>
+          <div class="mat-field"><label data-i18n="s4l.height">Işık yüksekliği</label><input type="range" id="liElev" min="5" max="88" value="55" /></div>
+          <div class="mat-field"><label data-i18n="s4l.intensity">Şiddet (Intensity) · <span class="mval" id="liIntVal">2.0</span></label><input type="range" id="liInt" min="0" max="5" step="0.1" value="2" /></div>
+          <div class="mat-field"><label data-i18n="s4l.color">Işık rengi</label><input type="color" id="liColor" value="#ffffff" /></div>
+          <div class="mat-field"><label>Roughness · <span class="mval" id="liRoughVal">0.35</span></label><input type="range" id="liRough" min="0" max="1" step="0.01" value="0.35" /></div>
         </div>
-        <div class="stage-visual"><div class="preview3d" id="lightLab"><span class="preview-tag" data-i18n="s4l.tag">Işık & Materyal</span></div></div>
       </div>
+      <div class="stage-visual"><div class="preview3d" id="lightLab"><span class="preview-tag" data-i18n="s4l.tag">Işık & Materyal</span></div></div>
     </div>
-    <div class="stab-panel hidden" data-panel="code">
-      <div class="code-wrap"><button class="copy-btn" data-code="4">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-4"></pre></div>
-      <p class="code-note" data-i18n="code.note">Yukarıdaki kavramın gerçek Three.js karşılığı budur.</p>
-    </div>
-    <div class="stage-extras">
-      <div class="xcard" id="quiz-4"></div>
-      <div class="xcard" id="chal-4"></div>
-    </div>
+    <div class="stage-task" id="task-4"></div>
+    <button class="code-toggle" data-code="4"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
+    <div class="code-panel hidden" id="codePanel-4"><div class="code-wrap"><button class="copy-btn" data-code="4">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-4"></pre></div></div>
   </section>
 
   <!-- ============ AŞAMA 5: NORMAL MAP ============ -->
   <section class="stage reveal" id="stage-5" style="--sa:#c792ea">
-    <div class="stage-head">
-      <span class="stage-num">05</span>
-      <div><span class="stage-chip">Normal Map</span>
-        <h2 class="stage-title" data-i18n="s5n.title">Geometri değişmeden detay: Normal Map</h2></div>
-    </div>
-    <div class="stage-tabs">
-      <button class="stab active" data-tab="concept">📘 <span data-i18n="tab.concept">Kavram</span></button>
-      <button class="stab" data-tab="code">💻 <span data-i18n="tab.code">Kod</span></button>
-    </div>
-    <div class="stab-panel" data-panel="concept">
-      <div class="stage-body two-col">
-        <div class="stage-text">
-          <p data-i18n="s5n.p1">Bir <b>Normal Map</b>, her piksele bir <b>yön (yüzey normali)</b> kodlayan özel bir dokudur (o mavimsi görüntü). Motor, ışığı hesaplarken bu yönleri kullanır ve yüzey <b>girintili-çıkıntılıymış gibi</b> görünür.</p>
-          <p data-i18n="s5n.p2">Ama hile şu: <b>geometri hiç değişmez</b>. Aşağıda aç/kapat ve <b>Wireframe</b> ile kontrol et — tüm o pürüz, sadece bir <b>ışık aldatmacası</b>. Milyonlarca poligon yerine tek bir doku.</p>
-          <div class="toggle-row">
-            <button class="toggle-chip active" id="nmOff" data-i18n="s5n.off">Normal Map: Kapalı</button>
-            <button class="toggle-chip" id="nmOn" data-i18n="s5n.on">Normal Map: Açık</button>
-          </div>
-          <div class="toggle-row"><button class="toggle-chip" id="nmWire" data-i18n="s5n.wire">Wireframe (geometriyi göster)</button></div>
-          <div class="callout" data-i18n="s5n.note">💡 Wireframe açıkken küre hâlâ pürüzsüz görünür — tüm detay normal map'ten gelir.</div>
-          <div style="margin-top:6px"><span class="tex-cap" data-i18n="s5n.thumb">Kullanılan normal map:</span><br><canvas id="nmThumb" width="110" height="110" style="border:1px solid var(--line);border-radius:8px;margin-top:6px"></canvas></div>
+    <div class="stage-head"><span class="stage-badge">05</span><div><span class="stage-chip">Normal Map</span><h2 class="stage-title" data-i18n="s5n.title">Geometri değişmeden detay: Normal Map</h2></div></div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s5n.p1">Bir <b>Normal Map</b>, her piksele bir <b>yön (yüzey normali)</b> kodlayan özel bir dokudur. Motor, ışığı hesaplarken bu yönleri kullanır ve yüzey <b>girintili-çıkıntılıymış gibi</b> görünür.</p>
+        <p data-i18n="s5n.p2">Ama hile şu: <b>geometri hiç değişmez</b>. Aç/kapat ve <b>Wireframe</b> ile kontrol et — tüm o pürüz, sadece bir <b>ışık aldatmacası</b>.</p>
+        <div class="toggle-row">
+          <button class="toggle-chip active" id="nmOff" data-i18n="s5n.off">Normal Map: Kapalı</button>
+          <button class="toggle-chip" id="nmOn" data-i18n="s5n.on">Normal Map: Açık</button>
         </div>
-        <div class="stage-visual"><div class="preview3d" id="normalLab"><span class="preview-tag" data-i18n="s5n.tag">Normal Map etkisi</span></div></div>
+        <div class="toggle-row"><button class="toggle-chip" id="nmWire" data-i18n="s5n.wire">Wireframe (geometriyi göster)</button></div>
+        <div class="callout" data-i18n="s5n.note">💡 Wireframe açıkken küre hâlâ pürüzsüz görünür — tüm detay normal map'ten gelir.</div>
+        <div style="margin-top:6px"><span class="tex-cap" data-i18n="s5n.thumb">Kullanılan normal map:</span><br><canvas id="nmThumb" width="110" height="110" style="border:1px solid var(--line);border-radius:8px;margin-top:6px"></canvas></div>
       </div>
+      <div class="stage-visual"><div class="preview3d" id="normalLab"><span class="preview-tag" data-i18n="s5n.tag">Normal Map etkisi</span></div></div>
     </div>
-    <div class="stab-panel hidden" data-panel="code">
-      <div class="code-wrap"><button class="copy-btn" data-code="5">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-5"></pre></div>
-      <p class="code-note" data-i18n="code.note">Yukarıdaki kavramın gerçek Three.js karşılığı budur.</p>
-    </div>
-    <div class="stage-extras">
-      <div class="xcard" id="quiz-5"></div>
-      <div class="xcard" id="chal-5"></div>
-    </div>
+    <div class="stage-task" id="task-5"></div>
+    <button class="code-toggle" data-code="5"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
+    <div class="code-panel hidden" id="codePanel-5"><div class="code-wrap"><button class="copy-btn" data-code="5">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-5"></pre></div></div>
   </section>
 
-  <!-- ============ AŞAMA 6: TAM EDİTÖR (Hiyerarşi + Rig + Animation) ============ -->
+  <!-- ============ AŞAMA 6: AVATAR EDİTÖRÜ ============ -->
   <section class="stage reveal" id="stage-6" style="--sa:#7ee787">
-    <div class="stage-head">
-      <span class="stage-num">06</span>
-      <div><span class="stage-chip">Hierarchy · Rig · Animation · Avatar</span>
-        <h2 class="stage-title" data-i18n="s6.title">Çok sayıda GameObject → yaşayan bir Avatar</h2></div>
-    </div>
-    <p class="stage-lead" data-i18n="s6.lead">Şimdi her şey bir arada. Onlarca GameObject bir <b>Hiyerarşi</b> içinde iç içe geçer, bir <b>Rig (iskelet)</b> onları bağlar ve <b>Animation</b> bu iskeleti hareket ettirir. Aşağıda gerçek bir editör var — tıkla, düzenle, oynat.</p>
-    <div class="stage-tabs">
-      <button class="stab active" data-tab="concept">📘 <span data-i18n="tab.concept">Kavram</span></button>
-      <button class="stab" data-tab="code">💻 <span data-i18n="tab.code">Kod</span></button>
-    </div>
-    <div class="stab-panel" data-panel="concept">
-      <div class="editor">
-        <aside class="panel hierarchy-panel">
-          <div class="panel-head"><span class="panel-title" data-i18n="ed.hierarchy">⛬ Hiyerarşi</span><span class="panel-tag" data-i18n="ed.scenegraph">Sahne Grafiği</span></div>
-          <div class="panel-hint" data-i18n="ed.hierarchyhint">Parent → Child ilişkisi. Bir öğeye tıkla → seç.</div>
-          <ul id="hierarchy" class="tree"></ul>
-        </aside>
-        <section class="viewport-wrap">
-          <div class="toolbar">
-            <div class="tool-group">
-              <span class="tool-label" data-i18n="ed.animation">Animasyon</span>
-              <button class="btn btn-tool active" data-anim="stop" data-i18n="ed.manual">⏹ Manuel</button>
-              <button class="btn btn-tool" data-anim="idle">🧍 Idle</button>
-              <button class="btn btn-tool" data-anim="wave" data-i18n="ed.wave">👋 El Salla</button>
-              <button class="btn btn-tool" data-anim="walk" data-i18n="ed.walk">🚶 Yürü</button>
-            </div>
-            <div class="tool-group">
-              <span class="tool-label" data-i18n="ed.view">Görünüm</span>
-              <button class="btn btn-tool" id="toggleWireframe">🔲 Wireframe</button>
-              <button class="btn btn-tool" id="toggleRig" data-i18n="ed.rig">🦴 Rig / İskelet</button>
-              <button class="btn btn-tool" id="resetView" data-i18n="ed.resetcam">🎯 Kamerayı Sıfırla</button>
-            </div>
+    <div class="stage-head"><span class="stage-badge">06</span><div><span class="stage-chip">Hierarchy · Rig · Animation</span><h2 class="stage-title" data-i18n="s6.title">Çok sayıda GameObject → yaşayan bir Avatar</h2></div></div>
+    <p class="stage-lead" data-i18n="s6.lead">Şimdi her şey bir arada. Onlarca GameObject bir <b>Hiyerarşi</b> içinde iç içe geçer, bir <b>Rig</b> onları bağlar ve <b>Animation</b> bu iskeleti hareket ettirir. Tıkla, düzenle, oynat.</p>
+    <div class="editor">
+      <aside class="panel hierarchy-panel">
+        <div class="panel-head"><span class="panel-title" data-i18n="ed.hierarchy">⛬ Hiyerarşi</span><span class="panel-tag" data-i18n="ed.scenegraph">Sahne Grafiği</span></div>
+        <div class="panel-hint" data-i18n="ed.hierarchyhint">Parent → Child. Bir öğeye tıkla → seç.</div>
+        <ul id="hierarchy" class="tree"></ul>
+      </aside>
+      <section class="viewport-wrap">
+        <div class="toolbar">
+          <div class="tool-group"><span class="tool-label" data-i18n="ed.animation">Animasyon</span>
+            <button class="btn btn-tool active" data-anim="stop" data-i18n="ed.manual">⏹ Manuel</button>
+            <button class="btn btn-tool" data-anim="idle">🧍 Idle</button>
+            <button class="btn btn-tool" data-anim="wave" data-i18n="ed.wave">👋 El Salla</button>
+            <button class="btn btn-tool" data-anim="walk" data-i18n="ed.walk">🚶 Yürü</button>
           </div>
-          <div id="viewport" class="viewport">
-            <div class="viewport-badge"><span data-i18n="ed.selected">Seçili:</span> <strong id="selName">—</strong></div>
-            <div class="loading" id="loading"><div class="spinner"></div><span data-i18n="ed.loading">3D sahne hazırlanıyor…</span></div>
+          <div class="tool-group"><span class="tool-label" data-i18n="ed.view">Görünüm</span>
+            <button class="btn btn-tool" id="toggleWireframe">🔲 Wireframe</button>
+            <button class="btn btn-tool" id="toggleRig" data-i18n="ed.rig">🦴 Rig</button>
+            <button class="btn btn-tool" id="resetView" data-i18n="ed.resetcam">🎯 Kamera</button>
           </div>
-        </section>
-        <aside class="panel inspector-panel">
-          <div class="panel-head"><span class="panel-title" data-i18n="ed.inspector">⚙ Inspector</span><span class="panel-tag" data-i18n="ed.properties">Özellikler</span></div>
-          <div id="inspector" class="inspector"><div class="empty-state" data-i18n="ed.empty">Bir nesne seç ve özelliklerini burada düzenle.</div></div>
-        </aside>
-      </div>
-      <div class="lesson-bar" id="lessonBar">
-        <div class="lesson-icon" id="lessonIcon">📘</div>
-        <div class="lesson-content">
-          <div class="lesson-meta"><span class="lesson-step" id="lessonStep">Tur 1 / 5</span><span class="lesson-chip" id="lessonChip">Hierarchy</span></div>
-          <h2 class="lesson-title" id="lessonTitle" data-i18n="tour.intro.title">Editör turunu başlatmak için "Sonraki"ye bas</h2>
-          <p class="lesson-body" id="lessonBody" data-i18n="tour.intro.body">Her adım ilgili nesneyi otomatik seçer ve ne deneyeceğini söyler.</p>
         </div>
-        <div class="lesson-nav">
-          <button class="btn btn-ghost" id="prevLesson" data-i18n="tour.prev">‹ Önceki</button>
-          <div class="lesson-dots" id="lessonDots"></div>
-          <button class="btn btn-accent" id="nextLesson" data-i18n="tour.next">Sonraki ›</button>
+        <div id="viewport" class="viewport">
+          <div class="viewport-badge"><span data-i18n="ed.selected">Seçili:</span> <strong id="selName">—</strong></div>
+          <div class="loading" id="loading"><div class="spinner"></div><span data-i18n="ed.loading">3D sahne hazırlanıyor…</span></div>
         </div>
+      </section>
+      <aside class="panel inspector-panel">
+        <div class="panel-head"><span class="panel-title" data-i18n="ed.inspector">⚙ Inspector</span><span class="panel-tag" data-i18n="ed.properties">Özellikler</span></div>
+        <div id="inspector" class="inspector"><div class="empty-state" data-i18n="ed.empty">Bir nesne seç ve özelliklerini burada düzenle.</div></div>
+      </aside>
+    </div>
+    <div class="lesson-bar" id="lessonBar">
+      <div class="lesson-icon" id="lessonIcon">📘</div>
+      <div class="lesson-content">
+        <div class="lesson-meta"><span class="lesson-step" id="lessonStep">Tur 1 / 5</span><span class="lesson-chip" id="lessonChip">Hierarchy</span></div>
+        <h2 class="lesson-title" id="lessonTitle" data-i18n="tour.intro.title">Editör turunu başlatmak için "Sonraki"ye bas</h2>
+        <p class="lesson-body" id="lessonBody" data-i18n="tour.intro.body">Her adım ilgili nesneyi otomatik seçer ve ne deneyeceğini söyler.</p>
       </div>
+      <div class="lesson-nav"><button class="btn btn-ghost" id="prevLesson" data-i18n="tour.prev">‹ Önceki</button><div class="lesson-dots" id="lessonDots"></div><button class="btn btn-accent" id="nextLesson" data-i18n="tour.next">Sonraki ›</button></div>
     </div>
-    <div class="stab-panel hidden" data-panel="code">
-      <div class="code-wrap"><button class="copy-btn" data-code="6">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-6"></pre></div>
-      <p class="code-note" data-i18n="code.note">Yukarıdaki kavramın gerçek Three.js karşılığı budur.</p>
-    </div>
-    <div class="stage-extras">
-      <div class="xcard" id="quiz-6"></div>
-      <div class="xcard" id="chal-6"></div>
-    </div>
+    <div class="stage-task" id="task-6"></div>
+    <button class="code-toggle" data-code="6"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
+    <div class="code-panel hidden" id="codePanel-6"><div class="code-wrap"><button class="copy-btn" data-code="6">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-6"></pre></div></div>
   </section>
 
   <!-- BİTİRME ROZETİ -->
   <section class="finale locked" id="finale">
     <div class="finale-badge">🏅</div>
     <h2 id="finaleTitle" data-i18n="finale.lockedTitle">Atölyeyi tamamla</h2>
-    <p id="finaleBody" data-i18n="finale.lockedBody">Her aşamadaki "Kendin Dene" görevini bitir; bu rozet o zaman parlayacak.</p>
+    <p id="finaleBody" data-i18n="finale.lockedBody">Her aşamadaki mini görevi bitir; bu rozet o zaman parlayacak.</p>
     <div class="finale-progress"><span id="finaleCount">0 / 6</span></div>
     <div class="finale-bar"><i id="finaleFill"></i></div>
   </section>
 
-  <!-- KAVRAM SÖZLÜĞÜ -->
-  <section class="glossary">
-    <h2 data-i18n="gloss.title">Kavram Sözlüğü</h2>
-    <div class="glossary-grid" id="glossaryGrid"></div>
-  </section>
-
+  <!-- SÖZLÜK -->
+  <section class="glossary"><h2 data-i18n="gloss.title">Kavram Sözlüğü</h2><div class="glossary-grid" id="glossaryGrid"></div></section>
   <footer class="site-footer"><p data-i18n="footer">Oyun Motoru Atölyesi · Three.js ile geliştirildi · Öğrenciler için açık eğitim materyali</p></footer>
-
   <div class="toast" id="toast"></div>
 
-  <!-- Tanılama: modül yüklenemezse yardımcı mesaj göster -->
   <script>
     (function () {
-      function showError(msg) {
-        var el = document.getElementById('loading'); if (!el) return;
-        el.classList.remove('hidden');
-        el.innerHTML = '<div style="max-width:480px;text-align:center;padding:24px"><div style="font-size:42px;margin-bottom:10px">⚠️</div><div style="color:#ff6b6b;font-weight:700;font-size:16px;margin-bottom:12px">3D sahne başlatılamadı</div><div style="color:#9aa3b2;font-size:13.5px;line-height:1.7;text-align:left">' + msg + '</div></div>';
-      }
+      function showError(msg) { var el = document.getElementById('loading'); if (!el) return; el.classList.remove('hidden'); el.innerHTML = '<div style="max-width:480px;text-align:center;padding:24px"><div style="font-size:42px;margin-bottom:10px">⚠️</div><div style="color:#ff6b6b;font-weight:700;font-size:16px;margin-bottom:12px">3D sahne başlatılamadı</div><div style="color:#9aa3b2;font-size:13.5px;line-height:1.7;text-align:left">' + msg + '</div></div>'; }
       var code = 'style="font-family:monospace;background:#2a2f3a;padding:2px 6px;border-radius:4px;color:#ffb454"';
-      if (location.protocol === 'file:') {
-        setTimeout(function () { if (!window.__sceneReady) showError('Bu sayfayı <b>çift tıklayarak (file://)</b> açtınız. Tarayıcılar bu modda 3D motorunu engeller.<br><br>✅ <b>En kolay çözüm:</b> Klasördeki <b style="color:#4ec9b0">baslat.bat</b> dosyasını çift tıklayın.<br><br>🛠️ <b>Alternatif:</b> <code ' + code + '>python -m http.server 8000</code> çalıştırıp <code ' + code + '>http://localhost:8000</code> adresine gidin.'); }, 1200);
-      } else {
-        setTimeout(function () { if (!window.__sceneReady) showError('Three.js motoru yüklenemedi.<br><br>• <b>vendor/</b> klasörünün mevcut olduğundan emin olun.<br>• Tarayıcı konsolunu (<b>F12</b>) kontrol edin.'); }, 7000);
-      }
-      window.addEventListener('error', function (e) { if (e && e.target && e.target.tagName === 'SCRIPT' && !window.__sceneReady) showError('Bir dosya yüklenemedi: <code ' + code + '>' + (e.target.src || e.target.outerHTML) + '</code>'); }, true);
+      if (location.protocol === 'file:') { setTimeout(function () { if (!window.__sceneReady) showError('Bu sayfayı <b>çift tıklayarak (file://)</b> açtınız. Tarayıcılar bu modda 3D motorunu engeller.<br><br>✅ Klasördeki <b style="color:#4ec9b0">baslat.bat</b> dosyasını çift tıklayın.<br><br>🛠️ Ya da <code ' + code + '>python -m http.server 8000</code> çalıştırıp <code ' + code + '>http://localhost:8000</code> adresine gidin.'); }, 1200); }
+      else { setTimeout(function () { if (!window.__sceneReady) showError('Three.js motoru yüklenemedi.<br><br>• <b>vendor/</b> klasörünün mevcut olduğundan emin olun.<br>• Konsolu (<b>F12</b>) kontrol edin.'); }, 7000); }
+      window.addEventListener('error', function (e) { if (e && e.target && e.target.tagName === 'SCRIPT' && !window.__sceneReady) showError('Bir dosya yüklenemedi: <code ' + code + '>' + (e.target.src || '') + '</code>'); }, true);
     })();
   </script>
   <script type="module" src="js/main.js"></script>

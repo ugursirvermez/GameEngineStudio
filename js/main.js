@@ -247,6 +247,27 @@ nmWire.addEventListener('click', () => { nmMat.wireframe = !nmMat.wireframe; nmW
 (function loopNormal() { requestAnimationFrame(loopNormal); nmSphere.rotation.y += 0.006; normalMini.controls.update(); normalMini.renderer.render(normalMini.scene, normalMini.camera); })();
 
 // ==================================================================
+//  HERO — büyük 3D (oyunsu giriş)
+// ==================================================================
+const heroMini = makeMiniScene(document.getElementById('heroCanvas'), new THREE.Vector3(0, 0.3, 5.2));
+heroMini.controls.enableRotate = false; heroMini.controls.enableZoom = false;
+const heroGroup = new THREE.Group(); heroMini.scene.add(heroGroup);
+const heroCore = new THREE.Mesh(new THREE.IcosahedronGeometry(1.45, 1), new THREE.MeshStandardMaterial({ color: '#6db1ff', metalness: 0.55, roughness: 0.22, flatShading: true }));
+heroGroup.add(heroCore);
+const heroColors = ['#4ec9b0', '#ffb454', '#5aa9ff', '#ffd34e', '#c792ea', '#7ee787'];
+const heroShapes = [new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.SphereGeometry(0.26, 20, 16), new THREE.TorusGeometry(0.24, 0.1, 12, 24), new THREE.ConeGeometry(0.26, 0.5, 18), new THREE.TetrahedronGeometry(0.34), new THREE.DodecahedronGeometry(0.28)];
+const heroOrbs = heroColors.map((col, i) => { const m = new THREE.Mesh(heroShapes[i], new THREE.MeshStandardMaterial({ color: col, metalness: 0.35, roughness: 0.35 })); m.userData = { a: i / 6 * Math.PI * 2, r: 2.7, sp: 0.35 + i * 0.04, yo: (i % 2 ? 0.45 : -0.4) }; heroGroup.add(m); return m; });
+const heroClock = new THREE.Clock();
+(function loopHero() {
+  requestAnimationFrame(loopHero);
+  const t = heroClock.getElapsedTime();
+  heroCore.rotation.set(t * 0.16, t * 0.3, 0);
+  heroOrbs.forEach((m, i) => { const u = m.userData, a = u.a + t * u.sp; m.position.set(Math.cos(a) * u.r, Math.sin(t * 0.8 + i) * 0.4 + u.yo, Math.sin(a) * u.r); m.rotation.set(t * 0.6, t * 0.8, 0); });
+  heroGroup.rotation.y = t * 0.06;
+  heroMini.controls.update(); heroMini.renderer.render(heroMini.scene, heroMini.camera);
+})();
+
+// ==================================================================
 //  AŞAMA 6 — TAM EDİTÖR
 // ==================================================================
 const viewportEl = document.getElementById('viewport'), hierarchyEl = document.getElementById('hierarchy'), inspectorEl = document.getElementById('inspector'), selNameEl = document.getElementById('selName'), loadingEl = document.getElementById('loading');
@@ -398,37 +419,19 @@ function hl(src) {
 function renderCode() { for (let n = 1; n <= 6; n++) { const pre = document.getElementById('code-' + n); if (pre) pre.innerHTML = hl(CODE[n]); } }
 document.querySelectorAll('.copy-btn').forEach(btn => btn.addEventListener('click', async () => { const n = btn.dataset.code; try { await navigator.clipboard.writeText(CODE[n]); const sp = btn.querySelector('span'); const old = sp.textContent; sp.textContent = LANG === 'tr' ? 'Kopyalandı ✓' : 'Copied ✓'; setTimeout(() => sp.textContent = old, 1400); } catch (e) {} }));
 
-// Sekme geçişi (Kavram | Kod)
-document.querySelectorAll('.stage-tabs').forEach(tabs => {
-  const stage = tabs.closest('.stage');
-  tabs.querySelectorAll('.stab').forEach(tab => tab.addEventListener('click', () => {
-    tabs.querySelectorAll('.stab').forEach(t => t.classList.toggle('active', t === tab));
-    stage.querySelectorAll('.stab-panel').forEach(p => p.classList.toggle('hidden', p.dataset.panel !== tab.dataset.tab));
-  }));
-});
+// "Kodu Göster" aç/kapat
+document.querySelectorAll('.code-toggle').forEach(btn => btn.addEventListener('click', () => {
+  const panel = document.getElementById('codePanel-' + btn.dataset.code);
+  const nowHidden = panel.classList.toggle('hidden');
+  btn.classList.toggle('open', !nowHidden);
+  const label = btn.querySelector('[data-i18n="code.show"]');
+  if (label) label.textContent = nowHidden ? L(STR['code.show']) : L(STR['code.hide']);
+}));
+// Üstteki rozet takipçisine tıkla → bitirme rozetine git
+document.getElementById('badgeTracker').addEventListener('click', () => document.getElementById('finale').scrollIntoView({ behavior: 'smooth' }));
 
 // ------------------------------------------------------------------
-//  MINI-QUIZ
-// ------------------------------------------------------------------
-const QUIZ = {
-  1: { q: { tr: 'Bir texture tek başına ne yapar?', en: 'What does a texture do on its own?' }, opts: [{ tr: '3B bir şekil oluşturur', en: 'Creates a 3D shape' }, { tr: '2B bir görüntüdür, yüzeye sarılır', en: 'It is a 2D image, wrapped on a surface' }, { tr: 'Bir ışık kaynağıdır', en: 'It is a light source' }], correct: 1, fb: { tr: 'Doğru! Texture yalnızca 2B bir görüntüdür.', en: 'Correct! A texture is just a 2D image.' } },
-  2: { q: { tr: 'Bir yüzeyi parlak/aynasal yapmak için ne yaparsın?', en: 'How do you make a surface glossy/mirror-like?' }, opts: [{ tr: 'Roughness\'ı düşürürüm', en: 'Lower the roughness' }, { tr: 'Roughness\'ı yükseltirim', en: 'Raise the roughness' }, { tr: 'Sadece rengi değiştiririm', en: 'Just change the color' }], correct: 0, fb: { tr: 'Doğru! Düşük roughness = pürüzsüz = parlak yansıma.', en: 'Correct! Low roughness = smooth = glossy reflection.' } },
-  3: { q: { tr: 'Bir Mesh neyi belirler?', en: 'What does a Mesh define?' }, opts: [{ tr: 'Nesnenin rengini', en: 'The object color' }, { tr: 'Nesnenin şeklini/geometrisini', en: 'The object shape/geometry' }, { tr: 'Sahnedeki ışığı', en: 'The scene lighting' }], correct: 1, fb: { tr: 'Doğru! Mesh = geometri (şekil). Renk Material\'den gelir.', en: 'Correct! Mesh = geometry (shape). Color comes from the Material.' } },
-  4: { q: { tr: 'Sahnede hiç ışık yoksa PBR materyal nasıl görünür?', en: 'With no light in the scene, how does a PBR material look?' }, opts: [{ tr: 'Aynı görünür', en: 'Looks the same' }, { tr: 'Görünmez / siyah', en: 'Invisible / black' }, { tr: 'Daha parlak', en: 'Brighter' }], correct: 1, fb: { tr: 'Doğru! Işık olmadan yansıyacak bir şey yok — yüzey kararır.', en: 'Correct! With no light there is nothing to reflect — it goes dark.' } },
-  5: { q: { tr: 'Normal map açınca poligon (geometri) sayısı artar mı?', en: 'Does enabling a normal map increase polygon count?' }, opts: [{ tr: 'Evet, geometri detaylanır', en: 'Yes, geometry gets more detail' }, { tr: 'Hayır, sadece bir ışık hilesi', en: 'No, it is only a lighting trick' }, { tr: 'Yarıya iner', en: 'It halves' }], correct: 1, fb: { tr: 'Doğru! Geometri aynı kalır; detay ışık hesabından gelir.', en: 'Correct! Geometry stays the same; detail comes from the lighting math.' } },
-  6: { q: { tr: 'Parent (Hips) döndürülünce ne olur?', en: 'What happens when the parent (Hips) rotates?' }, opts: [{ tr: 'Sadece kendisi döner', en: 'Only itself rotates' }, { tr: 'Tüm child\'ları onunla döner', en: 'All its children rotate with it' }, { tr: 'Hiçbir şey olmaz', en: 'Nothing happens' }], correct: 1, fb: { tr: 'Doğru! Hiyerarşide dönüş çocuklara aktarılır.', en: 'Correct! In a hierarchy, rotation passes to the children.' } },
-};
-function renderQuizzes() {
-  for (let n = 1; n <= 6; n++) {
-    const el = document.getElementById('quiz-' + n); if (!el) continue; const Q = QUIZ[n];
-    el.innerHTML = `<div class="xcard-head"><span class="xi">❓</span> ${LANG === 'tr' ? 'Mini-Quiz' : 'Mini Quiz'}</div><div class="quiz-q">${L(Q.q)}</div><div class="quiz-opts"></div><div class="quiz-feedback"></div>`;
-    const opts = el.querySelector('.quiz-opts'), fb = el.querySelector('.quiz-feedback');
-    Q.opts.forEach((o, idx) => { const b = document.createElement('button'); b.className = 'quiz-opt'; b.textContent = L(o); b.addEventListener('click', () => { if (el.dataset.answered) return; el.dataset.answered = '1'; const ok = idx === Q.correct; b.classList.add(ok ? 'correct' : 'wrong'); if (!ok) opts.children[Q.correct].classList.add('correct'); fb.className = 'quiz-feedback ' + (ok ? 'ok' : 'no'); fb.innerHTML = (ok ? '✓ ' : '✗ ') + L(Q.fb); }); opts.appendChild(b); });
-  }
-}
-
-// ------------------------------------------------------------------
-//  "KENDİN DENE" GÖREVLERİ + BİTİRME ROZETİ
+//  MİNİ GÖREVLER (tek şerit) + BİTİRME ROZETİ
 // ------------------------------------------------------------------
 const CHAL = {
   1: { goal: { tr: '<b>Tuğla</b> dokusunu seç.', en: 'Pick the <b>Brick</b> texture.' }, check: () => journey.texKey === 'brick' },
@@ -439,18 +442,24 @@ const CHAL = {
   6: { goal: { tr: '<b>🚶 Yürü</b> animasyonunu oynat.', en: 'Play the <b>🚶 Walk</b> animation.' }, check: () => currentAnim === 'walk' },
 };
 const doneSet = new Set();
-function renderChallenges() {
+function renderTasks() {
   for (let n = 1; n <= 6; n++) {
-    const el = document.getElementById('chal-' + n); if (!el) continue; const isDone = doneSet.has(n);
-    el.innerHTML = `<div class="xcard-head"><span class="xi">🎯</span> ${LANG === 'tr' ? 'Kendin Dene' : 'Try It Yourself'}</div><div class="chal-goal">${L(CHAL[n].goal)}</div><div class="chal-status ${isDone ? 'done' : ''}"><span class="cs-icon">${isDone ? '✅' : '⏳'}</span><span>${isDone ? (LANG === 'tr' ? 'Tamamlandı!' : 'Completed!') : (LANG === 'tr' ? 'Bekliyor…' : 'Waiting…')}</span></div>`;
+    const el = document.getElementById('task-' + n); if (!el) continue; const isDone = doneSet.has(n);
+    el.innerHTML = `<div class="task-icon">🎯</div>` +
+      `<div class="task-main"><div class="task-label">${LANG === 'tr' ? 'Mini Görev' : 'Mini Task'}</div><div class="task-goal">${L(CHAL[n].goal)}</div></div>` +
+      `<div class="task-status ${isDone ? 'done' : ''}"><span>${isDone ? '✅' : '⏳'}</span><span>${isDone ? (LANG === 'tr' ? 'Tamamlandı' : 'Done') : (LANG === 'tr' ? 'Bekliyor' : 'Waiting')}</span></div>` +
+      `<div class="task-progress">🏅 ${LANG === 'tr' ? 'Rozet' : 'Badge'}: <b>${doneSet.size}/6</b></div>`;
   }
+}
+function updateTracker() {
+  const c = document.getElementById('trackerCount'); if (c) c.textContent = `${doneSet.size}/6`;
+  const t = document.getElementById('badgeTracker'); if (t) { t.classList.toggle('complete', doneSet.size >= 6); t.classList.toggle('locked', doneSet.size < 6); }
 }
 function markDone(n) {
   if (doneSet.has(n)) return; doneSet.add(n);
-  const el = document.getElementById('chal-' + n); if (el) { const st = el.querySelector('.chal-status'); st.classList.add('done'); st.querySelector('.cs-icon').textContent = '✅'; st.querySelector('span:last-child').textContent = LANG === 'tr' ? 'Tamamlandı!' : 'Completed!'; }
+  renderTasks(); updateTracker(); updateFinale();
   const pill = document.querySelector(`#roadmap a[href="#stage-${n}"]`); if (pill) pill.classList.add('done');
-  showToast('✅ ' + (LANG === 'tr' ? `Görev ${n} tamamlandı!` : `Task ${n} done!`));
-  updateFinale();
+  showToast('✅ ' + (LANG === 'tr' ? `Görev tamam!  ·  🏅 ${doneSet.size}/6` : `Task done!  ·  🏅 ${doneSet.size}/6`));
 }
 function evaluateChallenges() { for (let n = 1; n <= 6; n++) { if (!doneSet.has(n)) { try { if (CHAL[n].check()) markDone(n); } catch (e) {} } } }
 function updateFinale() {
@@ -502,12 +511,14 @@ stageEls.forEach(s => spy.observe(s));
 // ------------------------------------------------------------------
 const STR = {
   'brand.title': { tr: 'Oyun Motoru Atölyesi', en: 'Game Engine Studio' },
-  'brand.sub': { tr: '2D Görsel → Texture → Material → GameObject → Avatar', en: '2D Image → Texture → Material → GameObject → Avatar' },
+  'brand.sub': { tr: '2D Görsel → 3D Oyun Nesnesi', en: '2D Image → 3D Game Object' },
   'brand.start': { tr: '▶ Yolculuğa Başla', en: '▶ Start the Journey' },
-  'hero.title': { tr: 'Bir 2D görselden, yaşayan bir 3D oyun nesnesine', en: 'From a 2D image to a living 3D game object' },
-  'hero.lead': { tr: 'Bir oyun motorundaki her karakter aslında katman katman inşa edilir. Bu sayfada o yolu <strong>baştan sona</strong>, her adımda kendin deneyerek yürüyeceksin. Her aşamada bir <b>kod örneği</b>, bir <b>mini-quiz</b> ve bir <b>"kendin dene"</b> görevi var.', en: 'Every character in a game engine is built layer by layer. Here you walk that path <strong>from start to finish</strong>, trying each step yourself. Every stage has a <b>code sample</b>, a <b>mini quiz</b> and a <b>"try it yourself"</b> task.' },
+  'hero.eyebrow': { tr: '🎮 Etkileşimli 3D Atölye', en: '🎮 Interactive 3D Studio' },
+  'hero.title': { tr: 'Bir 2D görselden,<br>yaşayan bir 3D oyun nesnesine', en: 'From a 2D image<br>to a living 3D game object' },
+  'hero.lead': { tr: 'Bir karakteri katman katman, kendi ellerinle inşa et: doku, materyal, ışık, iskelet ve animasyon. Okuyarak değil — <b>dokunarak</b>.', en: 'Build a character layer by layer with your own hands: texture, material, light, rig and animation. Not by reading — by <b>doing</b>.' },
+  'hero.hint': { tr: '6 aşama · her birinde mini görev · TR/EN', en: '6 stages · a mini task in each · TR/EN' },
   'rm.texture': { tr: 'Texture', en: 'Texture' }, 'rm.material': { tr: 'Material', en: 'Material' }, 'rm.gameobject': { tr: 'GameObject', en: 'GameObject' }, 'rm.lighting': { tr: 'Işık', en: 'Lighting' }, 'rm.normal': { tr: 'Normal Map', en: 'Normal Map' }, 'rm.avatar': { tr: 'Avatar', en: 'Avatar' },
-  'tab.concept': { tr: 'Kavram', en: 'Concept' }, 'tab.code': { tr: 'Kod', en: 'Code' }, 'copy': { tr: 'Kopyala', en: 'Copy' }, 'code.note': { tr: 'Yukarıdaki kavramın gerçek Three.js karşılığı budur.', en: 'This is the real Three.js code behind the concept above.' },
+  'copy': { tr: 'Kopyala', en: 'Copy' }, 'code.show': { tr: 'Kodu Göster', en: 'Show Code' }, 'code.hide': { tr: 'Kodu Gizle', en: 'Hide Code' }, 'code.note': { tr: 'Yukarıdaki kavramın gerçek Three.js karşılığı budur.', en: 'This is the real Three.js code behind the concept above.' },
   's1.title': { tr: 'Her şey bir 2D görselle başlar', en: 'It all starts with a 2D image' },
   's1.p1': { tr: 'Bir <b>Texture (doku)</b>, sıradan bir 2B görüntüdür — tıpkı bir fotoğraf gibi piksellerden oluşur. Tek başına 3 boyutlu bir şey yapmaz; bir yüzeye <b>sarılmayı</b> bekler.', en: 'A <b>Texture</b> is just a 2D image — pixels, like a photo. On its own it does nothing in 3D; it waits to be <b>wrapped</b> onto a surface.' },
   's1.p2': { tr: 'Aşağıdan bir desen seç. Sağda hem <b>2B hâlini</b> hem de yüzeyde nasıl <b>tekrarlandığını (tiling)</b> göreceksin. Bir resmin model üzerine nasıl oturacağını <b>UV haritası</b> belirler.', en: 'Pick a pattern below. On the right you see its <b>2D form</b> and how it <b>tiles</b> on a surface. A <b>UV map</b> decides how an image sits on a model.' },
@@ -533,7 +544,7 @@ const STR = {
   's6.lead': { tr: 'Şimdi her şey bir arada. Onlarca GameObject bir <b>Hiyerarşi</b> içinde iç içe geçer, bir <b>Rig (iskelet)</b> onları bağlar ve <b>Animation</b> bu iskeleti hareket ettirir. Aşağıda gerçek bir editör var — tıkla, düzenle, oynat.', en: 'Now everything comes together. Dozens of GameObjects nest inside a <b>Hierarchy</b>, a <b>Rig (skeleton)</b> links them, and <b>Animation</b> moves that skeleton. Below is a real editor — click, edit, play.' },
   'ed.hierarchy': { tr: '⛬ Hiyerarşi', en: '⛬ Hierarchy' }, 'ed.scenegraph': { tr: 'Sahne Grafiği', en: 'Scene Graph' }, 'ed.hierarchyhint': { tr: 'Parent → Child ilişkisi. Bir öğeye tıkla → seç.', en: 'Parent → Child. Click an item → select.' }, 'ed.animation': { tr: 'Animasyon', en: 'Animation' }, 'ed.manual': { tr: '⏹ Manuel', en: '⏹ Manual' }, 'ed.wave': { tr: '👋 El Salla', en: '👋 Wave' }, 'ed.walk': { tr: '🚶 Yürü', en: '🚶 Walk' }, 'ed.view': { tr: 'Görünüm', en: 'View' }, 'ed.rig': { tr: '🦴 Rig / İskelet', en: '🦴 Rig / Skeleton' }, 'ed.resetcam': { tr: '🎯 Kamerayı Sıfırla', en: '🎯 Reset Camera' }, 'ed.selected': { tr: 'Seçili:', en: 'Selected:' }, 'ed.loading': { tr: '3D sahne hazırlanıyor…', en: 'Preparing 3D scene…' }, 'ed.inspector': { tr: '⚙ Inspector', en: '⚙ Inspector' }, 'ed.properties': { tr: 'Özellikler', en: 'Properties' }, 'ed.empty': { tr: 'Bir nesne seç ve özelliklerini burada düzenle.', en: 'Select an object to edit its properties here.' },
   'tour.intro.title': { tr: 'Editör turunu başlatmak için "Sonraki"ye bas', en: 'Hit "Next" to start the editor tour' }, 'tour.intro.body': { tr: 'Her adım ilgili nesneyi otomatik seçer ve ne deneyeceğini söyler.', en: 'Each step auto-selects the relevant object and tells you what to try.' }, 'tour.prev': { tr: '‹ Önceki', en: '‹ Prev' }, 'tour.next': { tr: 'Sonraki ›', en: 'Next ›' },
-  'finale.lockedTitle': { tr: 'Atölyeyi tamamla', en: 'Complete the studio' }, 'finale.lockedBody': { tr: 'Her aşamadaki "Kendin Dene" görevini bitir; bu rozet o zaman parlayacak.', en: 'Finish the "Try It Yourself" task in every stage; this badge will then light up.' }, 'finale.doneTitle': { tr: '🎉 Tebrikler, Atölyeyi tamamladın!', en: '🎉 Congrats, you completed the studio!' }, 'finale.doneBody': { tr: 'Texture\'dan animasyona, bir oyun nesnesinin tüm katmanlarını kendi ellerinle kurdun. Artık gerçek motora hazırsın!', en: 'From textures to animation, you built every layer of a game object yourself. You are ready for a real engine!' },
+  'finale.lockedTitle': { tr: 'Atölyeyi tamamla', en: 'Complete the studio' }, 'finale.lockedBody': { tr: 'Her aşamadaki <b>mini görevi</b> bitir (sağ üstteki 🏅 sayacı dolacak); 6/6 olunca bu rozet parlayacak.', en: 'Finish the <b>mini task</b> in every stage (the 🏅 counter at the top right fills up); at 6/6 this badge lights up.' }, 'finale.doneTitle': { tr: '🎉 Tebrikler, Atölyeyi tamamladın!', en: '🎉 Congrats, you completed the studio!' }, 'finale.doneBody': { tr: 'Texture\'dan animasyona, bir oyun nesnesinin tüm katmanlarını kendi ellerinle kurdun. Artık gerçek motora hazırsın!', en: 'From textures to animation, you built every layer of a game object yourself. You are ready for a real engine!' },
   'gloss.title': { tr: 'Kavram Sözlüğü', en: 'Concept Glossary' },
   'footer': { tr: 'Oyun Motoru Atölyesi · Three.js ile geliştirildi · Öğrenciler için açık eğitim materyali', en: 'Game Engine Studio · Built with Three.js · Open educational material for students' },
 };
@@ -544,7 +555,7 @@ function setLang(lang) {
   document.title = lang === 'tr' ? 'Oyun Motoru Atölyesi · 2D Görselden 3D Oyun Nesnesine' : 'Game Engine Studio · From a 2D Image to a 3D Game Object';
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
   applyI18n();
-  buildSwatches(); fillBaseSelect(); updateMatThumb(); renderGoComponents(); refreshGoStatus(); renderGlossary(); renderInspector(); renderQuizzes(); renderChallenges(); updateFinale();
+  buildSwatches(); fillBaseSelect(); updateMatThumb(); renderGoComponents(); refreshGoStatus(); renderGlossary(); renderInspector(); renderTasks(); updateTracker(); updateFinale();
   if (lessonIdx >= 0) gotoLesson(lessonIdx); else lessonStepEl.textContent = `${lang === 'tr' ? 'Tur' : 'Tour'} 1 / ${lessons.length}`;
 }
 function refreshGoStatus() { goStatusTag.textContent = L(goStep >= 2 ? GO_STATUS.full : goStep >= 1 ? GO_STATUS.mesh : GO_STATUS.empty); }
