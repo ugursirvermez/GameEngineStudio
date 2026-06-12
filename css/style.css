@@ -673,3 +673,96 @@ input[type="color"] {
   .stage-badge { width: 44px; height: 44px; font-size: 18px; border-radius: 13px; }
   .stage-title { font-size: 20px; }
 }
+
+/* ====================================================================
+   NEON ARCADE / SYNTHWAVE TEMA
+   ==================================================================== */
+:root {
+  --bg: #0b0918; --bg-2: #120e26; --panel: #15102e; --panel-2: #1b1540;
+  --line: #3a2e72; --line-soft: #261f4a;
+  --text: #ece9ff; --text-dim: #a79fd6; --text-mut: #6f6699;
+  --accent: #ff8a3c; --accent-2: #2de2ff;
+  --neon-pink: #ff4fb8; --neon-cyan: #2de2ff; --neon-purple: #b16bff; --neon-orange: #ff8a3c;
+  --shadow: 0 10px 36px rgba(0,0,0,.55);
+  --font-display: 'Orbitron', -apple-system, "Segoe UI", sans-serif;
+}
+body { background: #0b0918; }
+
+/* Synthwave gökyüzü + güneş */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -3; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 42% at 50% 90%, rgba(255,79,184,.22), transparent 60%),
+    radial-gradient(circle 240px at 50% 97%, rgba(255,138,60,.32), transparent 70%),
+    linear-gradient(180deg, #170b33 0%, #0c0920 52%, #060410 100%);
+}
+/* Hareketli perspektif ızgara (synthwave zemin) */
+body::after {
+  content: ''; position: fixed; left: 50%; bottom: -4vh; z-index: -2; pointer-events: none;
+  width: 320vw; height: 66vh;
+  transform: translateX(-50%) perspective(320px) rotateX(61deg); transform-origin: 50% 100%;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(45,226,255,.55) 0 1px, transparent 1px 86px),
+    repeating-linear-gradient(0deg, rgba(255,79,184,.45) 0 1px, transparent 1px 86px);
+  -webkit-mask-image: linear-gradient(transparent 0%, #000 58%); mask-image: linear-gradient(transparent 0%, #000 58%);
+  animation: gridScroll 2.4s linear infinite; opacity: .5;
+}
+@keyframes gridScroll { to { background-position: 0 86px, 0 86px; } }
+/* CRT scanline + vignette */
+.crt { position: fixed; inset: 0; z-index: 60; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px); opacity: .25; mix-blend-mode: overlay; }
+.crt::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 220px rgba(8,4,20,.8); }
+
+/* Orbitron başlıklar / oyun UI yazıları */
+.topbar h1, .hero-big, .stage-title, .lesson-title, .finale h2, .hero-eyebrow,
+.stage-badge, .badge-tracker, .stage-chip, .rm-tx, .panel-title, .lesson-step,
+.task-label, .lang-btn, .mat-shader, .finale-progress { font-family: var(--font-display); letter-spacing: .6px; }
+
+/* Üst şerit = arcade HUD */
+.topbar { background: rgba(12,9,24,.8); backdrop-filter: blur(8px); border-bottom: 1px solid var(--neon-cyan); box-shadow: 0 2px 24px rgba(45,226,255,.22); }
+.logo { color: var(--neon-pink); filter: drop-shadow(0 0 12px var(--neon-pink)); }
+.topbar h1 { font-size: 16px; color: #fff; text-shadow: 0 0 12px rgba(45,226,255,.55); }
+
+/* Neon başlıklar */
+.hero-big { background: linear-gradient(100deg, #ffffff 0%, var(--neon-cyan) 45%, var(--neon-pink) 100%); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 18px rgba(45,226,255,.35)); }
+.hero-eyebrow { color: var(--neon-cyan); background: rgba(45,226,255,.1); border-color: var(--neon-cyan); box-shadow: 0 0 16px rgba(45,226,255,.3); text-shadow: 0 0 8px rgba(45,226,255,.5); }
+.stage-title { text-shadow: 0 0 14px color-mix(in srgb, var(--sa) 55%, transparent); }
+
+/* Butonlar = neon */
+.btn-cta { background: linear-gradient(135deg, var(--neon-pink), var(--neon-orange)); color: #1a0418; box-shadow: 0 0 26px rgba(255,79,184,.6); }
+.btn-cta:hover { box-shadow: 0 0 42px rgba(255,79,184,.9); }
+.btn-accent { background: linear-gradient(135deg, var(--neon-pink), #ff7ad0); color: #1a0418; border-color: transparent; box-shadow: 0 0 18px rgba(255,79,184,.45); }
+.btn:hover { border-color: var(--neon-cyan); box-shadow: 0 0 14px rgba(45,226,255,.4); }
+.btn-tool.active { background: rgba(45,226,255,.14); border-color: var(--neon-cyan); color: #cdf6ff; box-shadow: 0 0 14px rgba(45,226,255,.4); }
+
+/* Paneller / 3D kutuları neon kenar */
+.viewport, .preview3d, .hero-canvas { box-shadow: 0 0 26px rgba(45,226,255,.13), inset 0 0 60px rgba(177,107,255,.06); }
+
+/* Yol haritası = LEVEL SELECT */
+.roadmap a { background: rgba(21,16,46,.72); }
+.roadmap a:hover, .roadmap a.active { box-shadow: 0 0 18px color-mix(in srgb, var(--sa) 55%, transparent); text-shadow: 0 0 8px var(--sa); }
+.roadmap a.done { box-shadow: 0 0 14px rgba(45,226,255,.5); }
+
+/* Stage badge = LEVEL rozeti */
+.stage-badge { position: relative; box-shadow: 0 0 22px color-mix(in srgb, var(--sa) 70%, transparent); }
+.stage-badge::before { content: 'LVL'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-family: var(--font-display); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; color: var(--sa); text-shadow: 0 0 8px var(--sa); }
+.stage-chip { box-shadow: 0 0 12px color-mix(in srgb, var(--sa) 28%, transparent); }
+
+/* QUEST şeridi */
+.stage-task { box-shadow: 0 0 0 1px color-mix(in srgb, var(--sa) 25%, transparent), 0 0 24px color-mix(in srgb, var(--sa) 13%, transparent); }
+.task-status.done { box-shadow: 0 0 16px color-mix(in srgb, var(--sa) 55%, transparent); }
+.task-label { color: var(--sa); text-shadow: 0 0 8px color-mix(in srgb, var(--sa) 60%, transparent); }
+
+/* Rozet takipçisi (HUD) */
+.badge-tracker { border-color: var(--neon-cyan); box-shadow: 0 0 14px rgba(45,226,255,.3); }
+.badge-tracker.complete { background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan)); box-shadow: 0 0 26px rgba(45,226,255,.7); }
+
+/* Finale = ACHIEVEMENT */
+.finale { border: 1px solid var(--neon-pink); box-shadow: 0 0 36px rgba(255,79,184,.25); background: linear-gradient(135deg, rgba(255,79,184,.1), rgba(45,226,255,.1)); }
+.finale h2 { text-shadow: 0 0 16px rgba(255,79,184,.5); }
+.finale-badge { filter: drop-shadow(0 0 16px var(--neon-orange)); }
+
+/* Toast / seçim / kaydırıcı */
+.toast { border-color: var(--neon-cyan); box-shadow: 0 0 26px rgba(45,226,255,.5); background: rgba(21,16,46,.96); color: #cdf6ff; }
+.node-row.selected { background: rgba(45,226,255,.14); outline-color: var(--neon-cyan); box-shadow: 0 0 12px rgba(45,226,255,.3); color: #cdf6ff; }
+input[type="range"] { accent-color: var(--neon-pink); }
+.code-toggle:hover { box-shadow: 0 0 14px rgba(45,226,255,.35); }

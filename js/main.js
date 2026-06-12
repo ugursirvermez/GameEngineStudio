@@ -519,9 +519,9 @@ function renderTasks() {
   for (let n = 1; n <= 6; n++) {
     const el = document.getElementById('task-' + n); if (!el) continue; const isDone = doneSet.has(n);
     el.innerHTML = `<div class="task-icon">🎯</div>` +
-      `<div class="task-main"><div class="task-label">${LANG === 'tr' ? 'Mini Görev' : 'Mini Task'}</div><div class="task-goal">${L(CHAL[n].goal)}</div></div>` +
-      `<div class="task-status ${isDone ? 'done' : ''}"><span>${isDone ? '✅' : '⏳'}</span><span>${isDone ? (LANG === 'tr' ? 'Tamamlandı' : 'Done') : (LANG === 'tr' ? 'Bekliyor' : 'Waiting')}</span></div>` +
-      `<div class="task-progress">🏅 ${LANG === 'tr' ? 'Rozet' : 'Badge'}: <b>${doneSet.size}/6</b></div>`;
+      `<div class="task-main"><div class="task-label">${LANG === 'tr' ? '◆ GÖREV' : '◆ QUEST'}</div><div class="task-goal">${L(CHAL[n].goal)}</div></div>` +
+      `<div class="task-status ${isDone ? 'done' : ''}"><span>${isDone ? '✅' : '⏳'}</span><span>${isDone ? (LANG === 'tr' ? 'TAMAM' : 'COMPLETE') : (LANG === 'tr' ? 'BEKLİYOR' : 'LOCKED')}</span></div>` +
+      `<div class="task-progress">🏅 <b>${doneSet.size}/6</b></div>`;
   }
 }
 function updateTracker() {
@@ -532,7 +532,7 @@ function markDone(n) {
   if (doneSet.has(n)) return; doneSet.add(n);
   renderTasks(); updateTracker(); updateFinale();
   const pill = document.querySelector(`#roadmap a[href="#stage-${n}"]`); if (pill) pill.classList.add('done');
-  showToast('✅ ' + (LANG === 'tr' ? `Görev tamam!  ·  🏅 ${doneSet.size}/6` : `Task done!  ·  🏅 ${doneSet.size}/6`));
+  showToast('⚡ ' + (LANG === 'tr' ? `GÖREV TAMAM!  ·  🏅 ${doneSet.size}/6` : `QUEST COMPLETE!  ·  🏅 ${doneSet.size}/6`));
 }
 function evaluateChallenges() { for (let n = 1; n <= 6; n++) { if (!doneSet.has(n)) { try { if (CHAL[n].check()) markDone(n); } catch (e) {} } } }
 function updateFinale() {
@@ -585,8 +585,8 @@ stageEls.forEach(s => spy.observe(s));
 const STR = {
   'brand.title': { tr: 'Oyun Motoru Atölyesi', en: 'Game Engine Studio' },
   'brand.sub': { tr: '2D Görsel → 3D Oyun Nesnesi', en: '2D Image → 3D Game Object' },
-  'brand.start': { tr: '▶ Yolculuğa Başla', en: '▶ Start the Journey' },
-  'hero.eyebrow': { tr: '🎮 Etkileşimli 3D Atölye', en: '🎮 Interactive 3D Studio' },
+  'brand.start': { tr: '▶ PRESS START', en: '▶ PRESS START' },
+  'hero.eyebrow': { tr: '🕹️ ETKİLEŞİMLİ 3D ARCADE', en: '🕹️ INTERACTIVE 3D ARCADE' },
   'hero.title': { tr: 'Bir 2D görselden,<br>yaşayan bir 3D oyun nesnesine', en: 'From a 2D image<br>to a living 3D game object' },
   'hero.lead': { tr: 'Bir karakteri katman katman, kendi ellerinle inşa et: doku, materyal, ışık, iskelet ve animasyon. Okuyarak değil — <b>dokunarak</b>.', en: 'Build a character layer by layer with your own hands: texture, material, light, rig and animation. Not by reading — by <b>doing</b>.' },
   'hero.hint': { tr: '6 aşama · her birinde mini görev · TR/EN', en: '6 stages · a mini task in each · TR/EN' },
@@ -621,7 +621,7 @@ const STR = {
   's6.lead': { tr: 'Şimdi her şey bir arada. Onlarca GameObject bir <b>Hiyerarşi</b> içinde iç içe geçer, bir <b>Rig (iskelet)</b> onları bağlar ve <b>Animation</b> bu iskeleti hareket ettirir. Aşağıda gerçek bir editör var — tıkla, düzenle, oynat.', en: 'Now everything comes together. Dozens of GameObjects nest inside a <b>Hierarchy</b>, a <b>Rig (skeleton)</b> links them, and <b>Animation</b> moves that skeleton. Below is a real editor — click, edit, play.' },
   'ed.hierarchy': { tr: '⛬ Hiyerarşi', en: '⛬ Hierarchy' }, 'ed.scenegraph': { tr: 'Sahne Grafiği', en: 'Scene Graph' }, 'ed.hierarchyhint': { tr: 'Parent → Child ilişkisi. Bir öğeye tıkla → seç.', en: 'Parent → Child. Click an item → select.' }, 'ed.animation': { tr: 'Animasyon', en: 'Animation' }, 'ed.manual': { tr: '⏹ Manuel', en: '⏹ Manual' }, 'ed.wave': { tr: '👋 El Salla', en: '👋 Wave' }, 'ed.walk': { tr: '🚶 Yürü', en: '🚶 Walk' }, 'ed.view': { tr: 'Görünüm', en: 'View' }, 'ed.rig': { tr: '🦴 Rig / İskelet', en: '🦴 Rig / Skeleton' }, 'ed.resetcam': { tr: '🎯 Kamerayı Sıfırla', en: '🎯 Reset Camera' }, 'ed.selected': { tr: 'Seçili:', en: 'Selected:' }, 'ed.loading': { tr: '3D sahne hazırlanıyor…', en: 'Preparing 3D scene…' }, 'ed.inspector': { tr: '⚙ Inspector', en: '⚙ Inspector' }, 'ed.properties': { tr: 'Özellikler', en: 'Properties' }, 'ed.empty': { tr: 'Bir nesne seç ve özelliklerini burada düzenle.', en: 'Select an object to edit its properties here.' },
   'tour.intro.title': { tr: 'Editör turunu başlatmak için "Sonraki"ye bas', en: 'Hit "Next" to start the editor tour' }, 'tour.intro.body': { tr: 'Her adım ilgili nesneyi otomatik seçer ve ne deneyeceğini söyler.', en: 'Each step auto-selects the relevant object and tells you what to try.' }, 'tour.prev': { tr: '‹ Önceki', en: '‹ Prev' }, 'tour.next': { tr: 'Sonraki ›', en: 'Next ›' },
-  'finale.lockedTitle': { tr: 'Atölyeyi tamamla', en: 'Complete the studio' }, 'finale.lockedBody': { tr: 'Her aşamadaki <b>mini görevi</b> bitir (sağ üstteki 🏅 sayacı dolacak); 6/6 olunca bu rozet parlayacak.', en: 'Finish the <b>mini task</b> in every stage (the 🏅 counter at the top right fills up); at 6/6 this badge lights up.' }, 'finale.doneTitle': { tr: '🎉 Tebrikler, Atölyeyi tamamladın!', en: '🎉 Congrats, you completed the studio!' }, 'finale.doneBody': { tr: 'Texture\'dan animasyona, bir oyun nesnesinin tüm katmanlarını kendi ellerinle kurdun. Artık gerçek motora hazırsın!', en: 'From textures to animation, you built every layer of a game object yourself. You are ready for a real engine!' },
+  'finale.lockedTitle': { tr: 'Atölyeyi tamamla', en: 'Complete the studio' }, 'finale.lockedBody': { tr: 'Her aşamadaki <b>mini görevi</b> bitir (sağ üstteki 🏅 sayacı dolacak); 6/6 olunca bu rozet parlayacak.', en: 'Finish the <b>mini task</b> in every stage (the 🏅 counter at the top right fills up); at 6/6 this badge lights up.' }, 'finale.doneTitle': { tr: '🏆 BAŞARIM AÇILDI! Atölyeyi tamamladın!', en: '🏆 ACHIEVEMENT UNLOCKED! Studio complete!' }, 'finale.doneBody': { tr: 'Texture\'dan animasyona, bir oyun nesnesinin tüm katmanlarını kendi ellerinle kurdun. Artık gerçek motora hazırsın!', en: 'From textures to animation, you built every layer of a game object yourself. You are ready for a real engine!' },
   'gloss.title': { tr: 'Kavram Sözlüğü', en: 'Concept Glossary' },
   'footer': { tr: 'Oyun Motoru Atölyesi · Three.js ile geliştirildi · Öğrenciler için açık eğitim materyali', en: 'Game Engine Studio · Built with Three.js · Open educational material for students' },
 };
