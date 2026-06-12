@@ -17,7 +17,7 @@
   <meta name="twitter:title" content="Game Engine Studio · Oyun Motoru Atölyesi" />
   <meta name="twitter:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png" />
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
   <script type="importmap">
   { "imports": { "three": "./vendor/three.module.js", "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js" } }
   </script>
@@ -259,6 +259,6 @@
       window.addEventListener('error', function (e) { if (e && e.target && e.target.tagName === 'SCRIPT' && !window.__sceneReady) showError('Bir dosya yüklenemedi: <code ' + code + '>' + (e.target.src || '') + '</code>'); }, true);
     })();
   </script>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js?v=4"></script>
 </body>
 </html>
