@@ -1,5 +1,11 @@
 # 🎮 Game Engine Studio · Oyun Motoru Atölyesi
 
+[![Game Engine Studio](cover.png)](https://ugursirvermez.github.io/GameEngineStudio/)
+
+### 🔴 Live demo → **<https://ugursirvermez.github.io/GameEngineStudio/>**
+
+[![Open the live site](https://img.shields.io/badge/▶_Open_Live_Demo-ffb454?style=for-the-badge&logoColor=black)](https://ugursirvermez.github.io/GameEngineStudio/)
+
 An interactive learning journey that goes **from a 2D image to a working 3D game object**.
 It is built to help students *grasp by doing* the core game-engine concepts:
 **Texture, Material, Mesh, GameObject, Hierarchy, Rig and Animation**.
@@ -12,7 +18,12 @@ carries over into the next stage:
 | **01** | 📷 **Texture** | Pick a 2D pattern; see its flat (2D) form and how it **tiles** on a surface. |
 | **02** | 🎨 **Material Studio** | *Just like Unity:* drop a Texture into a slot and add color / metalness / roughness to **build a Material**. Live 3D sphere preview. |
 | **03** | 🧊 **GameObject Lab** | Empty GameObject → add a **Mesh** (shape) → apply the **Material** you built. Component list: Transform / Mesh Filter / Mesh Renderer. |
-| **04** | 🤖 **Avatar Editor** | Many GameObjects become a full avatar through **Hierarchy**, **Rig** and **Animation**. Click-select, edit, play. |
+| **04** | 💡 **Lighting** | Move a light around a sphere; see how direction, intensity, color and **roughness** change how the surface looks. |
+| **05** | 🗿 **Normal Map** | Make a flat sphere look **bumpy** with a single texture — toggle it on/off and prove the geometry never changed with Wireframe. |
+| **06** | 🤖 **Avatar Editor** | Many GameObjects become a full avatar through **Hierarchy**, **Rig** and **Animation**. Click-select, edit, play. |
+
+Every stage also has a **💻 Code tab** (the real Three.js snippet, copyable), a **❓ mini quiz**,
+and a **🎯 "Try It Yourself"** task. Finish all six tasks and a **completion badge** lights up.
 
 - 🌍 **Bilingual (TR / EN):** Opens automatically in the browser's language (Turkish if the
   browser is Turkish, English otherwise). You can also switch manually with the **TR / EN**
@@ -178,6 +189,8 @@ git push
 │   ├── three.module.js     # Three.js r160 (local — no internet needed)
 │   └── OrbitControls.js    # Camera controls (local)
 ├── baslat.bat              # Windows: double-click → local server + browser
+├── cover.png               # Social / link-preview card (Open Graph image)
+├── tools/generate_cover.py # Script that regenerates cover.png (optional)
 ├── .nojekyll               # Tells GitHub Pages to serve files as-is
 └── README.md
 ```
@@ -193,9 +206,12 @@ Walk down the page following the journey:
 | **01 · Texture** | Pick different patterns; show how the same image **tiles** across a surface. Point out that the chosen texture carries into the next stage. |
 | **02 · Material** | Fill the texture slot, play with **Metalness / Roughness**; show the sphere updating live. Drive home: "Texture + properties = Material". |
 | **03 · GameObject** | Run **1) Add Mesh → 2) Apply Material**. Show the component list (**Transform / Mesh Filter / Mesh Renderer**) filling up — same idea as the Unity Inspector. Toggle **Wireframe** to reveal the mesh. |
-| **04 · Avatar** | Press **Next** to run the editor tour (Hierarchy → Mesh → Rig → Animation → Avatar). Rotate `Hips` (parent/child), turn on **Rig**, and play **Wave / Walk** to watch the animation drive the rig. |
+| **04 · Lighting** | Move the light; show the specular highlight sliding. Set **Roughness** low vs high to contrast glossy vs matte. |
+| **05 · Normal Map** | Toggle the normal map on; the sphere looks bumpy. Turn on **Wireframe** to prove the geometry is still smooth — the detail is a lighting trick. |
+| **06 · Avatar** | Press **Next** to run the editor tour (Hierarchy → Mesh → Rig → Animation → Avatar). Rotate `Hips` (parent/child), turn on **Rig**, and play **Wave / Walk** to watch the animation drive the rig. |
 
-> 💡 Tip: Switch to **EN** at the top right to run the same tour in English (for international students).
+> 💡 Tips: Open the **💻 Code tab** on any stage to show the real Three.js behind it. Have students
+> finish each **🎯 Try It Yourself** task to earn the completion badge. Switch to **EN** for international students.
 
 ---
 
