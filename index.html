@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oyun Motoru Atölyesi · 2D Görselden 3D Oyun Nesnesine</title>
+  <meta name="description" content="Bir 2D görselden başlayıp Texture, Material, Mesh, GameObject, Hiyerarşi, Rig ve Animation adımlarıyla çalışan bir 3D oyun nesnesine giden etkileşimli öğrenme yolculuğu." />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Three.js YEREL dosyadan yüklenir (internet/CDN gerekmez, GitHub Pages'te de çalışır) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js",
+      "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ÜST BAŞLIK -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◉</span>
+      <div>
+        <h1 data-i18n="brand.title">Oyun Motoru Atölyesi</h1>
+        <p class="sub" data-i18n="brand.sub">2D Görsel → Texture → Material → GameObject → Avatar</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <div class="lang-switch" id="langSwitch" title="Dil / Language">
+        <button class="lang-btn" data-lang="tr">TR</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+      <a class="btn btn-accent" href="#stage-1" data-i18n="brand.start">▶ Yolculuğa Başla</a>
+    </div>
+  </header>
+
+  <!-- HERO + YOL HARİTASI -->
+  <section class="hero">
+    <h2 class="hero-title" data-i18n="hero.title">Bir 2D görselden, yaşayan bir 3D oyun nesnesine</h2>
+    <p class="hero-lead" data-i18n="hero.lead">
+      Bir oyun motorundaki her karakter aslında katman katman inşa edilir. Bu sayfada o yolu
+      <strong>baştan sona</strong>, her adımda kendin deneyerek yürüyeceksin. Aşağıdaki yol haritasına tıklayarak da gezebilirsin.
+    </p>
+    <ol class="roadmap" id="roadmap">
+      <li><a href="#stage-1" data-step="1"><span class="rm-ico">📷</span><span class="rm-tx" data-i18n="rm.texture">2D Görsel · Texture</span></a></li>
+      <li><a href="#stage-2" data-step="2"><span class="rm-ico">🎨</span><span class="rm-tx" data-i18n="rm.material">Material</span></a></li>
+      <li><a href="#stage-3" data-step="3"><span class="rm-ico">🧊</span><span class="rm-tx" data-i18n="rm.gameobject">Mesh · GameObject</span></a></li>
+      <li><a href="#stage-4" data-step="4"><span class="rm-ico">🤖</span><span class="rm-tx" data-i18n="rm.avatar">Hiyerarşi · Rig · Avatar</span></a></li>
+    </ol>
+  </section>
+
+  <!-- ======================= AŞAMA 1: TEXTURE ======================= -->
+  <section class="stage" id="stage-1">
+    <div class="stage-head">
+      <span class="stage-num">01</span>
+      <div>
+        <span class="stage-chip">Texture · Doku</span>
+        <h2 class="stage-title" data-i18n="s1.title">Her şey bir 2D görselle başlar</h2>
+      </div>
+    </div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s1.p1">Bir <b>Texture (doku)</b>, sıradan bir 2B görüntüdür — tıpkı bir fotoğraf gibi piksellerden oluşur. Tek başına 3 boyutlu bir şey yapmaz; bir yüzeye <b>sarılmayı</b> bekler.</p>
+        <p data-i18n="s1.p2">Aşağıdan bir desen seç. Sağda görüntünün hem <b>2B hâlini</b> hem de bir yüzeye sarıldığında nasıl <b>tekrarlandığını (tiling)</b> göreceksin. Bir resmin model üzerine nasıl oturacağını <b>UV haritası</b> belirler.</p>
+        <div class="callout" data-i18n="s1.note">💡 Seçtiğin bu doku otomatik olarak bir sonraki adıma — <b>Material Stüdyosu</b>'na — taşınacak.</div>
+        <div class="swatches" id="texSwatches"></div>
+      </div>
+      <div class="stage-visual">
+        <div class="tex-preview-wrap">
+          <div class="tex-2d">
+            <canvas id="tex2dCanvas" width="220" height="220"></canvas>
+            <span class="tex-cap" data-i18n="s1.cap2d">2B görüntü (piksel ızgarası)</span>
+          </div>
+          <div class="tex-tile">
+            <canvas id="texTileCanvas" width="220" height="220"></canvas>
+            <span class="tex-cap" data-i18n="s1.captile">Yüzeyde tekrarlanışı (tiling)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= AŞAMA 2: MATERIAL ======================= -->
+  <section class="stage" id="stage-2">
+    <div class="stage-head">
+      <span class="stage-num">02</span>
+      <div>
+        <span class="stage-chip">Material · Materyal</span>
+        <h2 class="stage-title" data-i18n="s2.title">Texture + Özellikler = Material</h2>
+      </div>
+    </div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s2.p1">Bir <b>Material (materyal)</b>, bir yüzeyin ışığa nasıl tepki vereceğini tanımlayan bir <b>tariftir</b>. İçine bir <b>Texture</b> koyarsın (Base / Albedo Map) ve birkaç sayısal özellik eklersin: renk tonu, <b>metalness</b> (metal mi?), <b>roughness</b> (mat mı, parlak mı?).</p>
+        <p data-i18n="s2.p2">Tıpkı Unity'deki gibi: aşağıdaki <b>Material kartında</b> doku slot'unu doldur, kaydırıcılarla oyna. Sağdaki küre bu materyali <b>canlı</b> gösterir.</p>
+        <!-- Unity benzeri material kartı -->
+        <div class="mat-card">
+          <div class="mat-card-head"><span>🎨</span> <b>Material</b> <span class="mat-shader">Standard (PBR)</span></div>
+          <div class="mat-field">
+            <label data-i18n="s2.basemap">Base Map (Albedo · Texture)</label>
+            <div class="mat-slot-row">
+              <div class="mat-thumb" id="matThumb"></div>
+              <select id="matBaseSelect"></select>
+            </div>
+          </div>
+          <div class="mat-field">
+            <label data-i18n="s2.tint">Tint / Renk Tonu</label>
+            <input type="color" id="matColor" value="#ffffff" />
+          </div>
+          <div class="mat-field">
+            <label>Metalness (Metaliklik) · <span class="mval" id="matMetalVal">0.30</span></label>
+            <input type="range" id="matMetal" min="0" max="1" step="0.01" value="0.3" />
+          </div>
+          <div class="mat-field">
+            <label>Roughness (Pürüzlülük) · <span class="mval" id="matRoughVal">0.50</span></label>
+            <input type="range" id="matRough" min="0" max="1" step="0.01" value="0.5" />
+          </div>
+        </div>
+        <div class="callout" data-i18n="s2.note">💡 Hazırladığın bu materyal, bir sonraki adımda bir <b>GameObject</b>'e giydirilecek.</div>
+      </div>
+      <div class="stage-visual">
+        <div class="preview3d" id="matPreview">
+          <span class="preview-tag" data-i18n="s2.previewtag">Canlı Material Önizleme</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= AŞAMA 3: MESH + GAMEOBJECT ======================= -->
+  <section class="stage" id="stage-3">
+    <div class="stage-head">
+      <span class="stage-num">03</span>
+      <div>
+        <span class="stage-chip">Mesh + GameObject</span>
+        <h2 class="stage-title" data-i18n="s3.title">Mesh'e Material ekle → GameObject doğsun</h2>
+      </div>
+    </div>
+    <div class="stage-body two-col">
+      <div class="stage-text">
+        <p data-i18n="s3.p1">Bir <b>GameObject</b>, sahnedeki boş bir kutudur — başlangıçta yalnızca bir <b>Transform</b> (Konum/Dönüş/Ölçek) taşır. Görünür olması için ona <b>bileşenler</b> ekleriz:</p>
+        <p data-i18n="s3.p2"><b>Mesh</b> nesnenin <i>şeklidir</i> (köşe noktaları + üçgenler), ama renksizdir. <b>Material</b> ise o şeklin <i>nasıl göründüğüdür</i>. İkisini bir GameObject'te birleştirince ekranda görünen bir nesne elde ederiz.</p>
+        <p class="step-instr" data-i18n="s3.instr">Sırayla adımları çalıştır:</p>
+        <div class="lab-steps" id="goStepList">
+          <button class="lab-step" id="goShapeBtn" data-done="false"><span class="ls-no">1</span> <span data-i18n="s3.step1">+ Mesh (şekil) ekle</span></button>
+          <select id="goShapeSelect" class="lab-shape-sel">
+            <option value="box" data-i18n="s3.box">Küp (Cube)</option>
+            <option value="sphere" data-i18n="s3.sphere">Küre (Sphere)</option>
+            <option value="cylinder" data-i18n="s3.cylinder">Silindir (Cylinder)</option>
+            <option value="torus" data-i18n="s3.torus">Simit (Torus)</option>
+          </select>
+          <button class="lab-step" id="goMatBtn" data-done="false" disabled><span class="ls-no">2</span> <span data-i18n="s3.step2">+ Material uygula (Aşama 2'den)</span></button>
+          <button class="lab-step ghost" id="goWireBtn"><span class="ls-no">👁</span> <span data-i18n="s3.wire">Wireframe (mesh'i göster)</span></button>
+          <button class="lab-step ghost" id="goResetBtn"><span class="ls-no">↺</span> <span data-i18n="s3.reset">Sıfırla</span></button>
+        </div>
+      </div>
+      <div class="stage-visual">
+        <div class="preview3d" id="goLab">
+          <span class="preview-tag" id="goStatusTag" data-i18n="s3.empty">Boş GameObject (yalnızca Transform)</span>
+        </div>
+        <!-- Bileşen listesi (Unity Inspector benzeri) -->
+        <div class="components" id="goComponents"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= AŞAMA 4: TAM EDİTÖR (Hiyerarşi + Rig + Animation) ======================= -->
+  <section class="stage" id="stage-4">
+    <div class="stage-head">
+      <span class="stage-num">04</span>
+      <div>
+        <span class="stage-chip">Hierarchy · Rig · Animation · Avatar</span>
+        <h2 class="stage-title" data-i18n="s4.title">Çok sayıda GameObject → yaşayan bir Avatar</h2>
+      </div>
+    </div>
+    <p class="stage-lead" data-i18n="s4.lead">
+      Şimdi her şey bir arada. Onlarca GameObject bir <b>Hiyerarşi</b> içinde iç içe geçer, bir <b>Rig (iskelet)</b> onları birbirine bağlar ve <b>Animation</b> bu iskeleti hareket ettirir. Aşağıda gerçek bir oyun motoru editörü var — bir nesneye tıkla, özelliklerini değiştir, animasyonu oynat.
+    </p>
+
+    <!-- ANA EDİTÖR DÜZENİ -->
+    <div class="editor">
+      <!-- SOL: HİYERARŞİ -->
+      <aside class="panel hierarchy-panel">
+        <div class="panel-head">
+          <span class="panel-title" data-i18n="ed.hierarchy">⛬ Hiyerarşi</span>
+          <span class="panel-tag" data-i18n="ed.scenegraph">Sahne Grafiği</span>
+        </div>
+        <div class="panel-hint" data-i18n="ed.hierarchyhint">Parent → Child ilişkisi. Bir öğeye tıkla → seç.</div>
+        <ul id="hierarchy" class="tree"></ul>
+      </aside>
+
+      <!-- ORTA: VIEWPORT -->
+      <section class="viewport-wrap">
+        <div class="toolbar">
+          <div class="tool-group">
+            <span class="tool-label" data-i18n="ed.animation">Animasyon</span>
+            <button class="btn btn-tool active" data-anim="stop" data-i18n="ed.manual">⏹ Manuel</button>
+            <button class="btn btn-tool" data-anim="idle">🧍 Idle</button>
+            <button class="btn btn-tool" data-anim="wave" data-i18n="ed.wave">👋 El Salla</button>
+            <button class="btn btn-tool" data-anim="walk" data-i18n="ed.walk">🚶 Yürü</button>
+          </div>
+          <div class="tool-group">
+            <span class="tool-label" data-i18n="ed.view">Görünüm</span>
+            <button class="btn btn-tool" id="toggleWireframe">🔲 Wireframe</button>
+            <button class="btn btn-tool" id="toggleRig" data-i18n="ed.rig">🦴 Rig / İskelet</button>
+            <button class="btn btn-tool" id="resetView" data-i18n="ed.resetcam">🎯 Kamerayı Sıfırla</button>
+          </div>
+        </div>
+        <div id="viewport" class="viewport">
+          <div class="viewport-badge"><span data-i18n="ed.selected">Seçili:</span> <strong id="selName">—</strong></div>
+          <div class="loading" id="loading"><div class="spinner"></div><span data-i18n="ed.loading">3D sahne hazırlanıyor…</span></div>
+        </div>
+      </section>
+
+      <!-- SAĞ: INSPECTOR -->
+      <aside class="panel inspector-panel">
+        <div class="panel-head">
+          <span class="panel-title" data-i18n="ed.inspector">⚙ Inspector</span>
+          <span class="panel-tag" data-i18n="ed.properties">Özellikler</span>
+        </div>
+        <div id="inspector" class="inspector">
+          <div class="empty-state" data-i18n="ed.empty">Bir nesne seç ve özelliklerini burada düzenle.</div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- DERS ŞERİDİ -->
+    <div class="lesson-bar" id="lessonBar">
+      <div class="lesson-icon" id="lessonIcon">📘</div>
+      <div class="lesson-content">
+        <div class="lesson-meta">
+          <span class="lesson-step" id="lessonStep">Tur 1 / 5</span>
+          <span class="lesson-chip" id="lessonChip">Hierarchy</span>
+        </div>
+        <h2 class="lesson-title" id="lessonTitle" data-i18n="tour.intro.title">Editör turunu başlatmak için "Sonraki"ye bas</h2>
+        <p class="lesson-body" id="lessonBody" data-i18n="tour.intro.body">Her adım ilgili nesneyi otomatik seçer ve ne deneyeceğini söyler.</p>
+      </div>
+      <div class="lesson-nav">
+        <button class="btn btn-ghost" id="prevLesson" data-i18n="tour.prev">‹ Önceki</button>
+        <div class="lesson-dots" id="lessonDots"></div>
+        <button class="btn btn-accent" id="nextLesson" data-i18n="tour.next">Sonraki ›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- KAVRAM SÖZLÜĞÜ -->
+  <section class="glossary">
+    <h2 data-i18n="gloss.title">Kavram Sözlüğü</h2>
+    <div class="glossary-grid" id="glossaryGrid"></div>
+  </section>
+
+  <footer class="site-footer">
+    <p data-i18n="footer">Oyun Motoru Atölyesi · Three.js ile geliştirildi · Öğrenciler için açık eğitim materyali</p>
+  </footer>
+
+  <!-- Tanılama: modül yüklenemezse (örn. dosya çift tıklanıp file:// ile açıldıysa) yardımcı mesaj göster. -->
+  <script>
+    (function () {
+      function showError(msg) {
+        var el = document.getElementById('loading');
+        if (!el) return;
+        el.classList.remove('hidden');
+        el.innerHTML =
+          '<div style="max-width:480px;text-align:center;padding:24px">' +
+          '<div style="font-size:42px;margin-bottom:10px">⚠️</div>' +
+          '<div style="color:#ff6b6b;font-weight:700;font-size:16px;margin-bottom:12px">3D sahne başlatılamadı</div>' +
+          '<div style="color:#9aa3b2;font-size:13.5px;line-height:1.7;text-align:left">' + msg + '</div></div>';
+      }
+      var code = 'style="font-family:monospace;background:#2a2f3a;padding:2px 6px;border-radius:4px;color:#ffb454"';
+      if (location.protocol === 'file:') {
+        setTimeout(function () {
+          if (!window.__sceneReady) {
+            showError(
+              'Bu sayfayı <b>çift tıklayarak (file://)</b> açtınız. Tarayıcılar güvenlik nedeniyle ' +
+              'bu modda 3D motorunu engeller.<br><br>' +
+              '✅ <b>En kolay çözüm:</b> Bu klasördeki <b style="color:#4ec9b0">baslat.bat</b> dosyasını çift tıklayın.<br><br>' +
+              '🛠️ <b>Alternatif:</b> Terminalde <code ' + code + '>python -m http.server 8000</code> çalıştırıp ' +
+              '<code ' + code + '>http://localhost:8000</code> adresine gidin.'
+            );
+          }
+        }, 1200);
+      } else {
+        setTimeout(function () {
+          if (!window.__sceneReady) {
+            showError('Three.js motoru yüklenemedi.<br><br>• <b>vendor/</b> klasörünün mevcut olduğundan emin olun.<br>• Tarayıcı konsolunu (<b>F12</b>) kontrol edin.');
+          }
+        }, 7000);
+      }
+      window.addEventListener('error', function (e) {
+        if (e && e.target && e.target.tagName === 'SCRIPT' && !window.__sceneReady) {
+          showError('Bir dosya yüklenemedi: <code ' + code + '>' + (e.target.src || e.target.outerHTML) + '</code>');
+        }
+      }, true);
+    })();
+  </script>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
