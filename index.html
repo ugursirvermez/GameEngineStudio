@@ -59,8 +59,8 @@
     <li><a href="#stage-1" style="--sa:#4ec9b0"><span class="rm-ico">📷</span><span class="rm-tx" data-i18n="rm.texture">Texture</span></a></li>
     <li><a href="#stage-2" style="--sa:#ffb454"><span class="rm-ico">🎨</span><span class="rm-tx" data-i18n="rm.material">Material</span></a></li>
     <li><a href="#stage-3" style="--sa:#5aa9ff"><span class="rm-ico">🧊</span><span class="rm-tx" data-i18n="rm.gameobject">GameObject</span></a></li>
-    <li><a href="#stage-4" style="--sa:#ffd34e"><span class="rm-ico">💡</span><span class="rm-tx" data-i18n="rm.lighting">Işık</span></a></li>
-    <li><a href="#stage-5" style="--sa:#c792ea"><span class="rm-ico">🗿</span><span class="rm-tx" data-i18n="rm.normal">Normal Map</span></a></li>
+    <li><a href="#stage-4" style="--sa:#ffd34e"><span class="rm-ico">💡</span><span class="rm-tx" data-i18n="rm.surface">Işık & Yüzey</span></a></li>
+    <li><a href="#stage-5" style="--sa:#c792ea"><span class="rm-ico">🏠</span><span class="rm-tx" data-i18n="rm.world">Dünya</span></a></li>
     <li><a href="#stage-6" style="--sa:#7ee787"><span class="rm-ico">🤖</span><span class="rm-tx" data-i18n="rm.avatar">Avatar</span></a></li>
   </ol>
 
@@ -141,42 +141,47 @@
 
   <!-- ============ AŞAMA 4: IŞIK ============ -->
   <section class="stage reveal" id="stage-4" style="--sa:#ffd34e">
-    <div class="stage-head"><span class="stage-badge">04</span><div><span class="stage-chip">Lighting · Işık</span><h2 class="stage-title" data-i18n="s4l.title">Işık olmadan materyal görünmez</h2></div></div>
+    <div class="stage-head"><span class="stage-badge">04</span><div><span class="stage-chip">Lighting · Surface</span><h2 class="stage-title" data-i18n="s4l.title">Yüzey ışıkla buluşunca: parlaklık + pürüz</h2></div></div>
     <div class="stage-body two-col">
       <div class="stage-text">
-        <p data-i18n="s4l.p1">Bir materyalin rengini ve parlaklığını gözümüz, <b>ışığın yüzeyden yansımasıyla</b> görür. Aynı materyal, ışığın <b>yönüne, şiddetine ve rengine</b> göre bambaşka görünebilir.</p>
-        <p data-i18n="s4l.p2">Işığı hareket ettir; parlak noktanın nasıl kaydığına bak. <b>Roughness</b>'ı değiştir: pürüzlü yüzey ışığı <i>dağıtır</i>, pürüzsüz yüzey <i>yansıtır</i>.</p>
+        <p data-i18n="s4l.p1">Bir materyalin rengini ve parlaklığını gözümüz, <b>ışığın yüzeyden yansımasıyla</b> görür. Işığı gezdir; parlak nokta kayar. <b>Roughness</b>: pürüzlü yüzey ışığı dağıtır (mat), pürüzsüz yansıtır (parlak).</p>
+        <p data-i18n="s4l.p2">Şimdi aynı yüzeye bir <b>Normal Map</b> ekle: yüzey <b>girintili-çıkıntılı</b> görünür ama <b>geometri hiç değişmez</b>. <b>Wireframe</b> ile kontrol et.</p>
         <div class="light-card">
           <div class="mat-field"><label data-i18n="s4l.angle">Işık açısı</label><input type="range" id="liAngle" min="0" max="360" value="50" /></div>
           <div class="mat-field"><label data-i18n="s4l.height">Işık yüksekliği</label><input type="range" id="liElev" min="5" max="88" value="55" /></div>
-          <div class="mat-field"><label data-i18n="s4l.intensity">Şiddet (Intensity) · <span class="mval" id="liIntVal">2.0</span></label><input type="range" id="liInt" min="0" max="5" step="0.1" value="2" /></div>
+          <div class="mat-field"><label data-i18n="s4l.intensity">Şiddet (Intensity) · <span class="mval" id="liIntVal">2.4</span></label><input type="range" id="liInt" min="0" max="5" step="0.1" value="2.4" /></div>
           <div class="mat-field"><label data-i18n="s4l.color">Işık rengi</label><input type="color" id="liColor" value="#ffffff" /></div>
-          <div class="mat-field"><label>Roughness · <span class="mval" id="liRoughVal">0.35</span></label><input type="range" id="liRough" min="0" max="1" step="0.01" value="0.35" /></div>
+          <div class="mat-field"><label>Roughness · <span class="mval" id="liRoughVal">0.40</span></label><input type="range" id="liRough" min="0" max="1" step="0.01" value="0.4" /></div>
+          <div class="ls-divider"></div>
+          <div class="toggle-row">
+            <button class="toggle-chip active" id="nmOff" data-i18n="s5n.off">Normal Map: Kapalı</button>
+            <button class="toggle-chip" id="nmOn" data-i18n="s5n.on">Normal Map: Açık</button>
+            <button class="toggle-chip" id="nmWire" data-i18n="s5n.wire">Wireframe</button>
+          </div>
+          <div style="margin-top:10px;display:flex;align-items:center;gap:10px"><span class="tex-cap" data-i18n="s5n.thumb">Kullanılan normal map:</span><canvas id="nmThumb" width="64" height="64" style="border:1px solid var(--line);border-radius:6px"></canvas></div>
         </div>
       </div>
-      <div class="stage-visual"><div class="preview3d" id="lightLab"><span class="preview-tag" data-i18n="s4l.tag">Işık & Materyal</span></div></div>
+      <div class="stage-visual"><div class="preview3d" id="lsLab"><span class="preview-tag" data-i18n="s4l.tag">Işık & Yüzey</span></div></div>
     </div>
     <div class="stage-task" id="task-4"></div>
     <button class="code-toggle" data-code="4"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
     <div class="code-panel hidden" id="codePanel-4"><div class="code-wrap"><button class="copy-btn" data-code="4">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-4"></pre></div></div>
   </section>
 
-  <!-- ============ AŞAMA 5: NORMAL MAP ============ -->
+  <!-- ============ AŞAMA 5: DÜNYA / SAHNE ============ -->
   <section class="stage reveal" id="stage-5" style="--sa:#c792ea">
-    <div class="stage-head"><span class="stage-badge">05</span><div><span class="stage-chip">Normal Map</span><h2 class="stage-title" data-i18n="s5n.title">Geometri değişmeden detay: Normal Map</h2></div></div>
+    <div class="stage-head"><span class="stage-badge">05</span><div><span class="stage-chip">World · Scene</span><h2 class="stage-title" data-i18n="s5w.title">Bir dünya da GameObject hiyerarşisidir</h2></div></div>
     <div class="stage-body two-col">
       <div class="stage-text">
-        <p data-i18n="s5n.p1">Bir <b>Normal Map</b>, her piksele bir <b>yön (yüzey normali)</b> kodlayan özel bir dokudur. Motor, ışığı hesaplarken bu yönleri kullanır ve yüzey <b>girintili-çıkıntılıymış gibi</b> görünür.</p>
-        <p data-i18n="s5n.p2">Ama hile şu: <b>geometri hiç değişmez</b>. Aç/kapat ve <b>Wireframe</b> ile kontrol et — tüm o pürüz, sadece bir <b>ışık aldatmacası</b>.</p>
-        <div class="toggle-row">
-          <button class="toggle-chip active" id="nmOff" data-i18n="s5n.off">Normal Map: Kapalı</button>
-          <button class="toggle-chip" id="nmOn" data-i18n="s5n.on">Normal Map: Açık</button>
+        <p data-i18n="s5w.p1">Az önce tek bir GameObject yaptın. Bir <b>sahne</b> ise yüzlerce GameObject'in iç içe geçmiş hâlidir. Şu <b>ev</b>, tıpkı bir iskelet gibi hiyerarşiktir: <code>Bahçe → Ev → Çatı, Duvarlar, Kapı…</code></p>
+        <p data-i18n="s5w.p2">Hiyerarşiden (ya da 3D'de) bir parçaya tıkla → seçili kutuyu gör. <b>Duvarlar, Aşama 2'de oluşturduğun materyali giyer.</b> Arabalar yollarda ilerler ve harita kenarında kaybolur.</p>
+        <button class="btn btn-accent" id="applyMatBtn" style="margin:6px 0 14px" data-i18n="s5w.apply">🎨 Materyalimi eve uygula</button>
+        <div class="house-hier">
+          <div class="hh-head" data-i18n="s5w.hier">⛬ Ev Hiyerarşisi</div>
+          <ul id="houseTree" class="tree"></ul>
         </div>
-        <div class="toggle-row"><button class="toggle-chip" id="nmWire" data-i18n="s5n.wire">Wireframe (geometriyi göster)</button></div>
-        <div class="callout" data-i18n="s5n.note">💡 Wireframe açıkken küre hâlâ pürüzsüz görünür — tüm detay normal map'ten gelir.</div>
-        <div style="margin-top:6px"><span class="tex-cap" data-i18n="s5n.thumb">Kullanılan normal map:</span><br><canvas id="nmThumb" width="110" height="110" style="border:1px solid var(--line);border-radius:8px;margin-top:6px"></canvas></div>
       </div>
-      <div class="stage-visual"><div class="preview3d" id="normalLab"><span class="preview-tag" data-i18n="s5n.tag">Normal Map etkisi</span></div></div>
+      <div class="stage-visual"><div class="preview3d" id="worldLab" style="height:440px"><span class="preview-tag" data-i18n="s5w.tag">Bahçe · Yollar · Arabalar</span></div></div>
     </div>
     <div class="stage-task" id="task-5"></div>
     <button class="code-toggle" data-code="5"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>

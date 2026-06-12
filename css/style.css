@@ -656,6 +656,14 @@ input[type="color"] {
 .code-panel { margin-top: 12px; }
 .code-panel.hidden { display: none; }
 
+/* Işık & Yüzey: kart içi ayraç */
+.ls-divider { height: 1px; background: var(--line); margin: 16px 0 6px; }
+
+/* Dünya: ev hiyerarşi paneli (editördeki ağaç gibi) */
+.house-hier { margin-top: 6px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.hh-head { padding: 10px 13px; font-size: 12.5px; font-weight: 700; color: var(--sa); background: var(--panel-2); border-bottom: 1px solid var(--line); }
+.house-hier .tree { max-height: 240px; padding: 6px; }
+
 /* ---------- Duyarlı (responsive) v2 ---------- */
 @media (max-width: 1000px) {
   .hero2 { grid-template-columns: 1fr; gap: 18px; }

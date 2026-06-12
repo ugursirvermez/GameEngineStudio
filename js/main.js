@@ -127,7 +127,10 @@ function makeMiniScene(container, camPos, opts = {}) {
   controls.enableDamping = true; controls.enablePan = false; controls.minDistance = 2; controls.maxDistance = 9;
   function resize() { const w = container.clientWidth, h = container.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
   new ResizeObserver(resize).observe(container); resize();
-  return { scene, camera, renderer, controls, resize };
+  // Görünürlük: ekranda değilken render etme (performans)
+  let _visible = true;
+  new IntersectionObserver(([e]) => { _visible = e.isIntersecting; }, { rootMargin: '160px' }).observe(container);
+  return { scene, camera, renderer, controls, resize, isVisible: () => _visible };
 }
 
 // ==================================================================
@@ -172,7 +175,7 @@ const matMini = makeMiniScene(document.getElementById('matPreview'), new THREE.V
 const previewSphere = new THREE.Mesh(new THREE.SphereGeometry(1.15, 64, 48), journey.material); matMini.scene.add(previewSphere);
 const matPed = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.4, 0.25, 48), new THREE.MeshStandardMaterial({ color: '#2a2f3a', roughness: 1 })); matPed.position.y = -1.55; matMini.scene.add(matPed);
 addShadowDisc(matMini.scene, -1.42, 1.7);
-(function loopMat() { requestAnimationFrame(loopMat); previewSphere.rotation.y += 0.004; matMini.controls.update(); matMini.renderer.render(matMini.scene, matMini.camera); })();
+(function loopMat() { requestAnimationFrame(loopMat); if (!matMini.isVisible()) return; previewSphere.rotation.y += 0.004; matMini.controls.update(); matMini.renderer.render(matMini.scene, matMini.camera); })();
 
 // ==================================================================
 //  AŞAMA 3 — MESH + GAMEOBJECT
@@ -203,48 +206,114 @@ goShapeSelect.addEventListener('change', () => { if (goStep >= 1) goAddMesh(); }
 goMatBtn.addEventListener('click', goApplyMaterial);
 goWireBtn.addEventListener('click', () => { if (goMesh) goMesh.material.wireframe = !goMesh.material.wireframe; });
 goResetBtn.addEventListener('click', goReset);
-(function loopGo() { requestAnimationFrame(loopGo); if (goMesh) goMesh.rotation.y += 0.006; goLab.controls.update(); goLab.renderer.render(goLab.scene, goLab.camera); })();
+(function loopGo() { requestAnimationFrame(loopGo); if (!goLab.isVisible()) return; if (goMesh) goMesh.rotation.y += 0.006; goLab.controls.update(); goLab.renderer.render(goLab.scene, goLab.camera); })();
 
 // ==================================================================
-//  AŞAMA 4 — IŞIK (LIGHTING)
+//  AŞAMA 4 — IŞIK & YÜZEY (Lighting + Normal Map birleşik)
 // ==================================================================
-const lightMini = makeMiniScene(document.getElementById('lightLab'), new THREE.Vector3(0, 1, 4.5), { bareLights: true, noEnv: true });
-const lightState = { angle: 50, elev: 55, intensity: 2, color: '#ffffff', rough: 0.35 };
-const liSphere = new THREE.Mesh(new THREE.SphereGeometry(1.15, 64, 48), new THREE.MeshStandardMaterial({ color: '#c4cad6', metalness: 0.25, roughness: 0.35 }));
-lightMini.scene.add(liSphere);
-const liFloor = new THREE.Mesh(new THREE.CircleGeometry(3.2, 48), new THREE.MeshStandardMaterial({ color: '#272c34', roughness: 1 })); liFloor.rotation.x = -Math.PI / 2; liFloor.position.y = -1.25; lightMini.scene.add(liFloor);
-const liLight = new THREE.DirectionalLight('#ffffff', 2); lightMini.scene.add(liLight); lightMini.scene.add(liLight.target);
-const liBulb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 12), new THREE.MeshBasicMaterial({ color: '#fff4d6' })); lightMini.scene.add(liBulb);
-function updateLight() {
-  const az = lightState.angle * Math.PI / 180, el = lightState.elev * Math.PI / 180, r = 4.2;
-  liLight.position.set(r * Math.cos(el) * Math.cos(az), r * Math.sin(el), r * Math.cos(el) * Math.sin(az));
-  liBulb.position.copy(liLight.position); liLight.intensity = lightState.intensity; liLight.color.set(lightState.color); liBulb.material.color.set(lightState.color);
-  liSphere.material.roughness = lightState.rough;
+const lsMini = makeMiniScene(document.getElementById('lsLab'), new THREE.Vector3(0, 1, 4.6), { bareLights: true, noEnv: true });
+const lsState = { angle: 50, elev: 55, intensity: 2.4, color: '#ffffff', rough: 0.4, normalOn: false };
+const lsMat = new THREE.MeshStandardMaterial({ color: '#c0742e', metalness: 0.18, roughness: 0.4 });
+const lsSphere = new THREE.Mesh(new THREE.SphereGeometry(1.2, 96, 72), lsMat); lsMini.scene.add(lsSphere);
+const lsFloor = new THREE.Mesh(new THREE.CircleGeometry(3.2, 48), new THREE.MeshStandardMaterial({ color: '#272c34', roughness: 1 })); lsFloor.rotation.x = -Math.PI / 2; lsFloor.position.y = -1.3; lsMini.scene.add(lsFloor);
+const lsLight = new THREE.DirectionalLight('#ffffff', 2.4); lsMini.scene.add(lsLight); lsMini.scene.add(lsLight.target);
+const lsBulb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 12), new THREE.MeshBasicMaterial({ color: '#fff4d6' })); lsMini.scene.add(lsBulb);
+function updateLS() {
+  const az = lsState.angle * Math.PI / 180, el = lsState.elev * Math.PI / 180, r = 4.2;
+  lsLight.position.set(r * Math.cos(el) * Math.cos(az), r * Math.sin(el), r * Math.cos(el) * Math.sin(az));
+  lsBulb.position.copy(lsLight.position); lsLight.intensity = lsState.intensity; lsLight.color.set(lsState.color); lsBulb.material.color.set(lsState.color);
+  lsMat.roughness = lsState.rough;
 }
 const liAngle = document.getElementById('liAngle'), liElev = document.getElementById('liElev'), liInt = document.getElementById('liInt'), liColor = document.getElementById('liColor'), liRough = document.getElementById('liRough'), liIntVal = document.getElementById('liIntVal'), liRoughVal = document.getElementById('liRoughVal');
-liAngle.addEventListener('input', () => { lightState.angle = +liAngle.value; updateLight(); });
-liElev.addEventListener('input', () => { lightState.elev = +liElev.value; updateLight(); });
-liInt.addEventListener('input', () => { lightState.intensity = +liInt.value; liIntVal.textContent = (+liInt.value).toFixed(1); updateLight(); });
-liColor.addEventListener('input', () => { lightState.color = liColor.value; updateLight(); });
-liRough.addEventListener('input', () => { lightState.rough = +liRough.value; liRoughVal.textContent = (+liRough.value).toFixed(2); updateLight(); });
-updateLight();
-(function loopLight() { requestAnimationFrame(loopLight); lightMini.controls.update(); lightMini.renderer.render(lightMini.scene, lightMini.camera); })();
+liAngle.addEventListener('input', () => { lsState.angle = +liAngle.value; updateLS(); });
+liElev.addEventListener('input', () => { lsState.elev = +liElev.value; updateLS(); });
+liInt.addEventListener('input', () => { lsState.intensity = +liInt.value; liIntVal.textContent = (+liInt.value).toFixed(1); updateLS(); });
+liColor.addEventListener('input', () => { lsState.color = liColor.value; updateLS(); });
+liRough.addEventListener('input', () => { lsState.rough = +liRough.value; liRoughVal.textContent = (+liRough.value).toFixed(2); updateLS(); });
+const nmThumb = document.getElementById('nmThumb'); if (nmThumb) nmThumb.getContext('2d').drawImage(normalCanvas, 0, 0, nmThumb.width, nmThumb.height);
+const nmOff = document.getElementById('nmOff'), nmOn = document.getElementById('nmOn'), nmWire = document.getElementById('nmWire');
+function setLSNormal(on) { lsState.normalOn = on; lsMat.normalMap = on ? normalTex : null; lsMat.needsUpdate = true; nmOn.classList.toggle('active', on); nmOff.classList.toggle('active', !on); }
+nmOn.addEventListener('click', () => setLSNormal(true));
+nmOff.addEventListener('click', () => setLSNormal(false));
+nmWire.addEventListener('click', () => { lsMat.wireframe = !lsMat.wireframe; nmWire.classList.toggle('active', lsMat.wireframe); });
+updateLS();
+(function loopLS() { requestAnimationFrame(loopLS); if (!lsMini.isVisible()) return; lsSphere.rotation.y += 0.0035; lsMini.controls.update(); lsMini.renderer.render(lsMini.scene, lsMini.camera); })();
 
 // ==================================================================
-//  AŞAMA 5 — NORMAL MAP
+//  AŞAMA 5 — DÜNYA / SAHNE (hiyerarşik ev + bahçe + yollar + arabalar)
 // ==================================================================
-const normalMini = makeMiniScene(document.getElementById('normalLab'), new THREE.Vector3(0, 0, 3.6));
-const normalState = { on: false };
-const nmMat = new THREE.MeshStandardMaterial({ color: '#b0742e', metalness: 0.15, roughness: 0.55 });
-const nmSphere = new THREE.Mesh(new THREE.SphereGeometry(1.25, 96, 72), nmMat); normalMini.scene.add(nmSphere);
-addShadowDisc(normalMini.scene, -1.45, 1.8);
-const nmThumb = document.getElementById('nmThumb'); if (nmThumb) nmThumb.getContext('2d').drawImage(normalCanvas, 0, 0, 110, 110);
-const nmOff = document.getElementById('nmOff'), nmOn = document.getElementById('nmOn'), nmWire = document.getElementById('nmWire');
-function setNormal(on) { normalState.on = on; nmMat.normalMap = on ? normalTex : null; nmMat.needsUpdate = true; nmOn.classList.toggle('active', on); nmOff.classList.toggle('active', !on); }
-nmOn.addEventListener('click', () => setNormal(true));
-nmOff.addEventListener('click', () => setNormal(false));
-nmWire.addEventListener('click', () => { nmMat.wireframe = !nmMat.wireframe; nmWire.classList.toggle('active', nmMat.wireframe); });
-(function loopNormal() { requestAnimationFrame(loopNormal); nmSphere.rotation.y += 0.006; normalMini.controls.update(); normalMini.renderer.render(normalMini.scene, normalMini.camera); })();
+const worldMini = makeMiniScene(document.getElementById('worldLab'), new THREE.Vector3(0, 9, 14));
+worldMini.scene.background = new THREE.Color('#10131a'); worldMini.scene.fog = new THREE.Fog('#10131a', 16, 32);
+worldMini.controls.target.set(0, 0.5, 0); worldMini.controls.maxPolarAngle = Math.PI * 0.48; worldMini.controls.minDistance = 9; worldMini.controls.maxDistance = 28;
+worldMini.renderer.shadowMap.enabled = true; worldMini.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const sun = new THREE.DirectionalLight('#fff2dc', 1.7); sun.position.set(7, 13, 6); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024); sun.shadow.camera.near = 1; sun.shadow.camera.far = 44; sun.shadow.camera.left = -10; sun.shadow.camera.right = 10; sun.shadow.camera.top = 10; sun.shadow.camera.bottom = -10; sun.shadow.bias = -0.0006; worldMini.scene.add(sun);
+const mapGround = new THREE.Mesh(new THREE.PlaneGeometry(46, 46), new THREE.MeshStandardMaterial({ color: '#33602f', roughness: 1 })); mapGround.rotation.x = -Math.PI / 2; mapGround.receiveShadow = true; worldMini.scene.add(mapGround);
+const gardenPlot = new THREE.Mesh(new THREE.BoxGeometry(7.4, 0.16, 7.4), new THREE.MeshStandardMaterial({ color: '#4f9140', roughness: 1 })); gardenPlot.position.y = 0.08; gardenPlot.receiveShadow = true; worldMini.scene.add(gardenPlot);
+const roadMat = new THREE.MeshStandardMaterial({ color: '#2b2e35', roughness: 0.95 });
+function road(w, l, x, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.05, l), roadMat); m.position.set(x, 0.04, z); m.receiveShadow = true; worldMini.scene.add(m); }
+road(46, 1.7, 0, 4.7); road(1.7, 46, 4.7, 0); road(9.4, 1.5, 0, -4.7); road(1.5, 9.4, -4.7, 0);
+// EV — hiyerarşik GameObject: Garden → House → (Walls, Roof, Door, Windows, Chimney), Tree
+const houseMeshes = [], houseJoints = {};
+function hNode(name, parent, pos, icon) { const g = new THREE.Group(); g.name = name; g.position.set(pos[0], pos[1], pos[2]); g.userData = { isHouse: true, icon }; parent.add(g); houseJoints[name] = g; return g; }
+function hMesh(node, geom, mat, off = [0, 0, 0]) { const m = new THREE.Mesh(geom, mat); m.position.set(off[0], off[1], off[2]); m.castShadow = true; m.userData.owner = node; node.userData.mesh = m; node.add(m); houseMeshes.push(m); return m; }
+const roofMat = new THREE.MeshStandardMaterial({ color: '#9a3b2e', roughness: 0.7 });
+const doorMat = new THREE.MeshStandardMaterial({ color: '#5a3b22', roughness: 0.6 });
+const winMat = new THREE.MeshStandardMaterial({ color: '#bfe3ff', metalness: 0.1, roughness: 0.1, emissive: '#16344d', emissiveIntensity: 0.5 });
+const gardenGroup = hNode('Garden', worldMini.scene, [0, 0, 0], '🌿');
+const houseGO = hNode('House', gardenGroup, [0, 0, 0], '🏠');
+const wallsGO = hNode('Walls', houseGO, [0, 0, 0], '🧱'); hMesh(wallsGO, new THREE.BoxGeometry(2.4, 1.6, 2.4), journey.material.clone(), [0, 0.9, 0]); wallsGO.userData.mesh.material.name = 'M_Custom';
+const roofGO = hNode('Roof', houseGO, [0, 1.7, 0], '🔺'); const rmesh = hMesh(roofGO, new THREE.ConeGeometry(1.95, 1.15, 4), roofMat, [0, 0.55, 0]); rmesh.rotation.y = Math.PI / 4;
+const doorGO = hNode('Door', houseGO, [0, 0, 1.21], '🚪'); hMesh(doorGO, new THREE.BoxGeometry(0.55, 0.95, 0.08), doorMat, [0, 0.5, 0]);
+const winLGO = hNode('Window_L', houseGO, [-0.72, 0.95, 1.21], '🪟'); hMesh(winLGO, new THREE.BoxGeometry(0.5, 0.5, 0.06), winMat);
+const winRGO = hNode('Window_R', houseGO, [0.72, 0.95, 1.21], '🪟'); hMesh(winRGO, new THREE.BoxGeometry(0.5, 0.5, 0.06), winMat);
+const chimGO = hNode('Chimney', houseGO, [0.7, 2.2, -0.55], '🏭'); hMesh(chimGO, new THREE.BoxGeometry(0.32, 0.75, 0.32), roofMat);
+const treeGO = hNode('Tree', gardenGroup, [-2.5, 0, -2.4], '🌳'); hMesh(treeGO, new THREE.CylinderGeometry(0.12, 0.16, 1, 8), new THREE.MeshStandardMaterial({ color: '#6b4a2a', roughness: 0.9 }), [0, 0.5, 0]); const foliage = new THREE.Mesh(new THREE.IcosahedronGeometry(0.7, 0), new THREE.MeshStandardMaterial({ color: '#3f8f3a', roughness: 0.8, flatShading: true })); foliage.position.set(0, 1.3, 0); foliage.castShadow = true; treeGO.add(foliage);
+// seçim + ev hiyerarşi paneli (editördeki gibi)
+const houseSelBox = new THREE.BoxHelper(houseGO, '#c792ea'); houseSelBox.material.depthTest = false; houseSelBox.visible = false; worldMini.scene.add(houseSelBox);
+let houseSelected = null;
+function selectHouse(node) { houseSelected = node; if (node) { houseSelBox.setFromObject(node); houseSelBox.visible = true; } else houseSelBox.visible = false; renderHouseTree(); }
+function renderHouseTree() { const el = document.getElementById('houseTree'); if (!el) return; el.innerHTML = ''; el.appendChild(buildHouseNode(gardenGroup)); }
+function buildHouseNode(node) { const li = document.createElement('li'); const row = document.createElement('div'); row.className = 'node-row' + (houseSelected === node ? ' selected' : ''); const kids = node.children.filter(c => c.userData && c.userData.isHouse); row.innerHTML = `<span class="twisty">${kids.length ? '▾' : ''}</span><span class="ico">${node.userData.icon || '◆'}</span><span class="nm">${node.name}</span>` + (node.userData.mesh ? '<span class="mesh-dot"></span>' : ''); row.addEventListener('click', (e) => { e.stopPropagation(); selectHouse(node); }); li.appendChild(row); if (kids.length) { const ul = document.createElement('ul'); kids.forEach(c => ul.appendChild(buildHouseNode(c))); li.appendChild(ul); } return li; }
+const wRay = new THREE.Raycaster(), wPtr = new THREE.Vector2();
+worldMini.renderer.domElement.addEventListener('pointerdown', (e) => { const r = worldMini.renderer.domElement.getBoundingClientRect(); wPtr.x = ((e.clientX - r.left) / r.width) * 2 - 1; wPtr.y = -((e.clientY - r.top) / r.height) * 2 + 1; wRay.setFromCamera(wPtr, worldMini.camera); const hits = wRay.intersectObjects(houseMeshes, false); if (hits.length) selectHouse(hits[0].object.userData.owner); });
+document.getElementById('applyMatBtn').addEventListener('click', () => { wallsGO.userData.mesh.material = journey.material.clone(); wallsGO.userData.mesh.material.name = 'M_Custom'; showToast('🏠 ' + (LANG === 'tr' ? 'Materyalin evin duvarlarına uygulandı' : 'Your material applied to the house walls')); });
+// ARABALAR — yol boyunca ilerler, harita kenarında kaybolur (fade)
+function makePath(pts, closed) { const segs = []; let total = 0; for (let i = 0; i < pts.length - 1; i++) { const a = pts[i], b = pts[i + 1], len = Math.hypot(b[0] - a[0], b[1] - a[1]); segs.push({ a, b, len, acc: total }); total += len; } return { segs, total, closed }; }
+function samplePath(p, d) { d = ((d % p.total) + p.total) % p.total; for (const s of p.segs) { if (d <= s.acc + s.len || s === p.segs[p.segs.length - 1]) { const t = Math.min(1, (d - s.acc) / s.len); return { x: s.a[0] + (s.b[0] - s.a[0]) * t, z: s.a[1] + (s.b[1] - s.a[1]) * t, dx: s.b[0] - s.a[0], dz: s.b[1] - s.a[1] }; } } return { x: 0, z: 0, dx: 1, dz: 0 }; }
+function makeCar(color) {
+  const g = new THREE.Group();
+  const bodyMat = new THREE.MeshStandardMaterial({ color, metalness: 0.35, roughness: 0.4, transparent: true });
+  const cabinMat = new THREE.MeshStandardMaterial({ color: '#e3ecf5', metalness: 0.1, roughness: 0.2, transparent: true });
+  const body = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.34, 0.62), bodyMat); body.position.y = 0.3; body.castShadow = true; g.add(body);
+  const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.3, 0.52), cabinMat); cabin.position.set(-0.05, 0.57, 0); cabin.castShadow = true; g.add(cabin);
+  const wg = new THREE.CylinderGeometry(0.17, 0.17, 0.12, 12), wm = new THREE.MeshStandardMaterial({ color: '#15171c', roughness: 0.8 });
+  [[0.37, 0.33], [-0.37, 0.33], [0.37, -0.33], [-0.37, -0.33]].forEach(([x, z]) => { const w = new THREE.Mesh(wg, wm); w.rotation.x = Math.PI / 2; w.position.set(x, 0.17, z); g.add(w); });
+  const hlMat = new THREE.MeshBasicMaterial({ color: '#fff7e0' });
+  [0.18, -0.18].forEach(z => { const h = new THREE.Mesh(new THREE.SphereGeometry(0.05, 8, 6), hlMat); h.position.set(0.59, 0.3, z); g.add(h); });
+  g.userData.fadeMats = [bodyMat, cabinMat]; return g;
+}
+const carColors = ['#ff6b6b', '#5aa9ff', '#ffd34e', '#4ec9b0', '#ffffff', '#c792ea'];
+const ringPath = makePath([[-4.7, -4.7], [4.7, -4.7], [4.7, 4.7], [-4.7, 4.7], [-4.7, -4.7]], true);
+const cars = [
+  { path: ringPath, d: 0, speed: 2.2 },
+  { path: ringPath, d: ringPath.total * 0.5, speed: 2.2 },
+  { path: makePath([[-23, 5.05], [23, 5.05]]), d: 0, speed: 6.5 },
+  { path: makePath([[23, 4.35], [-23, 4.35]]), d: 5, speed: 5.5 },
+  { path: makePath([[5.05, -23], [5.05, 23]]), d: 10, speed: 6.0 },
+].map((c, i) => { c.mesh = makeCar(carColors[i % carColors.length]); worldMini.scene.add(c.mesh); return c; });
+const worldClock = new THREE.Clock();
+(function loopWorld() {
+  requestAnimationFrame(loopWorld);
+  if (!worldMini.isVisible()) { worldClock.getDelta(); return; }   // saati tazele, render etme
+  const dt = Math.min(0.05, worldClock.getDelta());
+  cars.forEach(c => {
+    c.d += c.speed * dt; const p = samplePath(c.path, c.d);
+    c.mesh.position.set(p.x, 0, p.z); c.mesh.rotation.y = Math.atan2(-p.dz, p.dx);
+    if (!c.path.closed) { const pr = (c.d % c.path.total) / c.path.total; const f = pr < 0.06 ? pr / 0.06 : pr > 0.94 ? (1 - pr) / 0.06 : 1; c.mesh.userData.fadeMats.forEach(m => m.opacity = Math.max(0, Math.min(1, f))); }
+  });
+  if (houseSelBox.visible) houseSelBox.update();
+  worldMini.controls.update(); worldMini.renderer.render(worldMini.scene, worldMini.camera);
+})();
 
 // ==================================================================
 //  HERO — büyük 3D (oyunsu giriş)
@@ -260,6 +329,7 @@ const heroOrbs = heroColors.map((col, i) => { const m = new THREE.Mesh(heroShape
 const heroClock = new THREE.Clock();
 (function loopHero() {
   requestAnimationFrame(loopHero);
+  if (!heroMini.isVisible()) return;
   const t = heroClock.getElapsedTime();
   heroCore.rotation.set(t * 0.16, t * 0.3, 0);
   heroOrbs.forEach((m, i) => { const u = m.userData, a = u.a + t * u.sp; m.position.set(Math.cos(a) * u.r, Math.sin(t * 0.8 + i) * 0.4 + u.yo, Math.sin(a) * u.r); m.rotation.set(t * 0.6, t * 0.8, 0); });
@@ -400,8 +470,8 @@ const CODE = {
   1: `// A texture is a 2D image wrapped on a surface\nconst tex = new THREE.CanvasTexture(myCanvas);\ntex.colorSpace = THREE.SRGBColorSpace;\ntex.wrapS = THREE.RepeatWrapping;   // tiling\ntex.wrapT = THREE.RepeatWrapping;\ntex.repeat.set(3, 3);               // 3x3 tiles`,
   2: `// A material = texture + surface properties\nconst material = new THREE.MeshStandardMaterial({\n  map: tex,            // Base / Albedo map\n  color: 0xffffff,     // tint\n  metalness: 0.3,      // is it metal?\n  roughness: 0.5       // matte or glossy?\n});`,
   3: `// Mesh = geometry (shape) + material (look)\nconst geometry = new THREE.BoxGeometry(1, 1, 1);\nconst mesh = new THREE.Mesh(geometry, material);\n\n// A GameObject holds a Transform + components\nmesh.position.set(0, 0, 0);   // Transform\nscene.add(mesh);              // now it is visible`,
-  4: `// Without light, a PBR material is invisible\nconst light = new THREE.DirectionalLight(0xffffff, 2);\nlight.position.set(3, 5, 4);   // direction matters\nscene.add(light);\n\n// soft ambient fill so shadows are not pure black\nscene.add(new THREE.HemisphereLight(0xbcd0ff, 0x202028, 0.4));`,
-  5: `// Normal map fakes detail without extra geometry\nconst normalTex = new THREE.CanvasTexture(normalCanvas);\nnormalTex.colorSpace = THREE.NoColorSpace;   // linear\nmaterial.normalMap = normalTex;\nmaterial.normalScale.set(1, 1);   // bump strength\nmaterial.needsUpdate = true;`,
+  4: `// Light decides how a surface looks\nconst light = new THREE.DirectionalLight(0xffffff, 2.4);\nlight.position.set(3, 5, 4);\nscene.add(light);\n\n// Normal map = bumpy detail, no extra geometry\nmaterial.normalMap = normalTexture;   // toggle on/off\nmaterial.roughness = 0.4;             // matte vs glossy`,
+  5: `// A whole scene is a hierarchy of GameObjects too\nconst garden = new THREE.Group();\nconst house  = new THREE.Group();        // parent\nhouse.add(walls);   // walls wear YOUR material\nhouse.add(roof);\nhouse.add(door);\ngarden.add(house);  // house nested in the garden\nscene.add(garden);\n\n// A car drives a path, fading out at the map edge\ncar.position.copy(path.sampleAt(distance));`,
   6: `// Hierarchy: a parent moves all its children\nconst shoulder = new THREE.Group();\nconst elbow = new THREE.Group();\nshoulder.add(elbow);     // elbow is child of shoulder\nchest.add(shoulder);\n\n// Animation: rotate joints over time\nfunction animate(t) {\n  shoulder.rotation.z = Math.sin(t * 4) * 0.5;   // wave\n  requestAnimationFrame(animate);\n}`,
 };
 function hl(src) {
@@ -437,8 +507,8 @@ const CHAL = {
   1: { goal: { tr: '<b>Tuğla</b> dokusunu seç.', en: 'Pick the <b>Brick</b> texture.' }, check: () => journey.texKey === 'brick' },
   2: { goal: { tr: 'Altın gibi parlak metal yap: <b>Metalness ≥ 0.8</b> ve <b>Roughness ≤ 0.2</b>.', en: 'Make shiny gold metal: <b>Metalness ≥ 0.8</b> and <b>Roughness ≤ 0.2</b>.' }, check: () => journey.material.metalness >= 0.8 && journey.material.roughness <= 0.2 },
   3: { goal: { tr: 'Bir <b>Mesh ekle</b> ve üstüne <b>Material uygula</b>.', en: '<b>Add a Mesh</b> and <b>apply a Material</b> to it.' }, check: () => goStep >= 2 },
-  4: { goal: { tr: 'Işık <b>şiddetini (Intensity) 4</b>\'ün üstüne çıkar.', en: 'Push the light <b>Intensity above 4</b>.' }, check: () => lightState.intensity >= 4 },
-  5: { goal: { tr: '<b>Normal Map\'i aç</b> ve pürüzü gör.', en: '<b>Turn on the Normal Map</b> and see the bumps.' }, check: () => normalState.on === true },
+  4: { goal: { tr: '<b>Normal Map\'i aç</b> ve ışığı gezdirip pürüzü gör.', en: '<b>Turn on the Normal Map</b> and move the light to see the bumps.' }, check: () => lsState.normalOn === true },
+  5: { goal: { tr: 'Hiyerarşiden <b>evin bir parçasını seç</b> (örn. Çatı).', en: '<b>Select a house part</b> from the hierarchy (e.g. Roof).' }, check: () => houseSelected !== null && houseSelected !== gardenGroup },
   6: { goal: { tr: '<b>🚶 Yürü</b> animasyonunu oynat.', en: 'Play the <b>🚶 Walk</b> animation.' }, check: () => currentAnim === 'walk' },
 };
 const doneSet = new Set();
@@ -517,7 +587,7 @@ const STR = {
   'hero.title': { tr: 'Bir 2D görselden,<br>yaşayan bir 3D oyun nesnesine', en: 'From a 2D image<br>to a living 3D game object' },
   'hero.lead': { tr: 'Bir karakteri katman katman, kendi ellerinle inşa et: doku, materyal, ışık, iskelet ve animasyon. Okuyarak değil — <b>dokunarak</b>.', en: 'Build a character layer by layer with your own hands: texture, material, light, rig and animation. Not by reading — by <b>doing</b>.' },
   'hero.hint': { tr: '6 aşama · her birinde mini görev · TR/EN', en: '6 stages · a mini task in each · TR/EN' },
-  'rm.texture': { tr: 'Texture', en: 'Texture' }, 'rm.material': { tr: 'Material', en: 'Material' }, 'rm.gameobject': { tr: 'GameObject', en: 'GameObject' }, 'rm.lighting': { tr: 'Işık', en: 'Lighting' }, 'rm.normal': { tr: 'Normal Map', en: 'Normal Map' }, 'rm.avatar': { tr: 'Avatar', en: 'Avatar' },
+  'rm.texture': { tr: 'Texture', en: 'Texture' }, 'rm.material': { tr: 'Material', en: 'Material' }, 'rm.gameobject': { tr: 'GameObject', en: 'GameObject' }, 'rm.surface': { tr: 'Işık & Yüzey', en: 'Light & Surface' }, 'rm.world': { tr: 'Dünya', en: 'World' }, 'rm.avatar': { tr: 'Avatar', en: 'Avatar' },
   'copy': { tr: 'Kopyala', en: 'Copy' }, 'code.show': { tr: 'Kodu Göster', en: 'Show Code' }, 'code.hide': { tr: 'Kodu Gizle', en: 'Hide Code' }, 'code.note': { tr: 'Yukarıdaki kavramın gerçek Three.js karşılığı budur.', en: 'This is the real Three.js code behind the concept above.' },
   's1.title': { tr: 'Her şey bir 2D görselle başlar', en: 'It all starts with a 2D image' },
   's1.p1': { tr: 'Bir <b>Texture (doku)</b>, sıradan bir 2B görüntüdür — tıpkı bir fotoğraf gibi piksellerden oluşur. Tek başına 3 boyutlu bir şey yapmaz; bir yüzeye <b>sarılmayı</b> bekler.', en: 'A <b>Texture</b> is just a 2D image — pixels, like a photo. On its own it does nothing in 3D; it waits to be <b>wrapped</b> onto a surface.' },
@@ -532,10 +602,14 @@ const STR = {
   's3.p1': { tr: 'Bir <b>GameObject</b>, sahnedeki boş bir kutudur — başlangıçta yalnızca bir <b>Transform</b> taşır. Görünür olması için ona <b>bileşenler</b> ekleriz:', en: 'A <b>GameObject</b> is an empty box — at first it only holds a <b>Transform</b>. To make it visible we add <b>components</b>:' },
   's3.p2': { tr: '<b>Mesh</b> nesnenin <i>şeklidir</i> (köşe + üçgen), ama renksizdir. <b>Material</b> ise o şeklin <i>nasıl göründüğüdür</i>. İkisini bir GameObject\'te birleştirince görünen bir nesne elde ederiz.', en: 'A <b>Mesh</b> is the <i>shape</i> (vertices + triangles), but colorless. A <b>Material</b> is <i>how it looks</i>. Combine both in a GameObject and you get a visible object.' },
   's3.instr': { tr: 'Sırayla adımları çalıştır:', en: 'Run the steps in order:' }, 's3.step1': { tr: '+ Mesh (şekil) ekle', en: '+ Add Mesh (shape)' }, 's3.step2': { tr: '+ Material uygula (Aşama 2\'den)', en: '+ Apply Material (from Stage 2)' }, 's3.wire': { tr: 'Wireframe (mesh\'i göster)', en: 'Wireframe (show the mesh)' }, 's3.reset': { tr: 'Sıfırla', en: 'Reset' }, 's3.empty': { tr: 'Boş GameObject (yalnızca Transform)', en: 'Empty GameObject (Transform only)' }, 's3.box': { tr: 'Küp (Cube)', en: 'Cube' }, 's3.sphere': { tr: 'Küre (Sphere)', en: 'Sphere' }, 's3.cylinder': { tr: 'Silindir (Cylinder)', en: 'Cylinder' }, 's3.torus': { tr: 'Simit (Torus)', en: 'Torus Knot' },
-  's4l.title': { tr: 'Işık olmadan materyal görünmez', en: 'Without light, a material is invisible' },
-  's4l.p1': { tr: 'Bir materyalin rengini ve parlaklığını gözümüz, <b>ışığın yüzeyden yansımasıyla</b> görür. Aynı materyal, ışığın <b>yönüne, şiddetine ve rengine</b> göre bambaşka görünebilir.', en: 'We see a material\'s color and shine because <b>light reflects off the surface</b>. The same material can look completely different with the light\'s <b>direction, intensity and color</b>.' },
-  's4l.p2': { tr: 'Aşağıdaki ışığı hareket ettir; parlak noktanın (specular) nasıl kaydığına bak. <b>Roughness</b>\'ı değiştir: pürüzlü yüzey ışığı <i>dağıtır</i> (mat), pürüzsüz yüzey <i>yansıtır</i> (parlak).', en: 'Move the light below; watch the bright spot (specular) slide. Change <b>Roughness</b>: a rough surface <i>scatters</i> light (matte), a smooth one <i>reflects</i> it (glossy).' },
-  's4l.angle': { tr: 'Işık açısı', en: 'Light angle' }, 's4l.height': { tr: 'Işık yüksekliği', en: 'Light height' }, 's4l.intensity': { tr: 'Şiddet (Intensity)', en: 'Intensity' }, 's4l.color': { tr: 'Işık rengi', en: 'Light color' }, 's4l.tag': { tr: 'Işık & Materyal', en: 'Light & Material' },
+  's4l.title': { tr: 'Yüzey ışıkla buluşunca: parlaklık + pürüz', en: 'Where surface meets light: shine + bumps' },
+  's4l.p1': { tr: 'Bir materyalin rengini ve parlaklığını gözümüz, <b>ışığın yüzeyden yansımasıyla</b> görür. Aynı materyal, ışığın <b>yönüne, şiddetine ve rengine</b> göre bambaşka görünebilir. Işığı gezdir; parlak nokta (specular) kayar. <b>Roughness</b>: pürüzlü yüzey ışığı <i>dağıtır</i> (mat), pürüzsüz yüzey <i>yansıtır</i> (parlak).', en: 'We see a material\'s color and shine because <b>light reflects off the surface</b>. The same material can look completely different with the light\'s <b>direction, intensity and color</b>. Move the light; the bright spot (specular) slides. <b>Roughness</b>: a rough surface <i>scatters</i> light (matte), a smooth one <i>reflects</i> it (glossy).' },
+  's4l.p2': { tr: 'Şimdi aynı yüzeye bir <b>Normal Map</b> ekle: motor ışığı hesaplarken sahte bir "yön" bilgisi kullanır, yüzey <b>girintili-çıkıntılı</b> görünür — ama <b>geometri hiç değişmez</b>. Aç/kapat, <b>Wireframe</b> ile kontrol et: tüm pürüz bir ışık aldatmacasıdır.', en: 'Now add a <b>Normal Map</b> to the same surface: the engine uses fake "direction" data when computing light, so it looks <b>bumpy</b> — yet the <b>geometry never changes</b>. Toggle it and check with <b>Wireframe</b>: all the bumpiness is a lighting trick.' },
+  's4l.angle': { tr: 'Işık açısı', en: 'Light angle' }, 's4l.height': { tr: 'Işık yüksekliği', en: 'Light height' }, 's4l.intensity': { tr: 'Şiddet (Intensity)', en: 'Intensity' }, 's4l.color': { tr: 'Işık rengi', en: 'Light color' }, 's4l.tag': { tr: 'Işık & Yüzey', en: 'Light & Surface' },
+  's5w.title': { tr: 'Bir dünya da GameObject hiyerarşisidir', en: 'A world is a GameObject hierarchy too' },
+  's5w.p1': { tr: 'Az önce tek bir GameObject yaptın. Bir <b>sahne (dünya)</b> ise yüzlerce GameObject\'in iç içe geçmiş hâlidir. Şu <b>ev</b>, tıpkı bir karakterin iskeleti gibi hiyerarşiktir: <code>Bahçe → Ev → Çatı, Duvarlar, Kapı, Pencereler…</code>', en: 'You just made a single GameObject. A <b>scene (world)</b> is hundreds of them nested together. This <b>house</b> is hierarchical, just like a character\'s skeleton: <code>Garden → House → Roof, Walls, Door, Windows…</code>' },
+  's5w.p2': { tr: 'Aşağıdaki hiyerarşiden (ya da doğrudan 3D\'de) bir parçaya tıkla → seçili kutuyu gör. <b>Evin duvarları, Aşama 2\'de oluşturduğun materyali giyer.</b> Etrafta arabalar yollarda ilerler ve haritanın kenarında kaybolur.', en: 'Click a part in the hierarchy below (or directly in 3D) → see it highlighted. <b>The house walls wear the material you built in Stage 2.</b> Around it, cars drive the roads and vanish at the map edge.' },
+  's5w.apply': { tr: '🎨 Materyalimi eve uygula', en: '🎨 Apply my material to the house' }, 's5w.hier': { tr: '⛬ Ev Hiyerarşisi', en: '⛬ House Hierarchy' }, 's5w.tag': { tr: 'Bahçe · Yollar · Arabalar', en: 'Garden · Roads · Cars' },
   's5n.title': { tr: 'Geometri değişmeden detay: Normal Map', en: 'Detail without geometry: Normal Map' },
   's5n.p1': { tr: 'Bir <b>Normal Map</b>, her piksele bir <b>yön (yüzey normali)</b> kodlayan özel bir dokudur (o mavimsi görüntü). Motor, ışığı hesaplarken bu yönleri kullanır ve yüzey <b>girintili-çıkıntılıymış gibi</b> görünür.', en: 'A <b>Normal Map</b> is a special texture (that bluish image) encoding a <b>direction (surface normal)</b> per pixel. The engine uses these when computing light, so the surface looks <b>bumpy</b>.' },
   's5n.p2': { tr: 'Ama hile şu: <b>geometri hiç değişmez</b>. Aşağıda aç/kapat ve <b>Wireframe</b> ile kontrol et — tüm o pürüz, sadece bir <b>ışık aldatmacası</b>. Milyonlarca poligon yerine tek bir doku.', en: 'But the trick: <b>geometry never changes</b>. Toggle below and check with <b>Wireframe</b> — all that bumpiness is just a <b>lighting illusion</b>. One texture instead of millions of polygons.' },
@@ -555,7 +629,7 @@ function setLang(lang) {
   document.title = lang === 'tr' ? 'Oyun Motoru Atölyesi · 2D Görselden 3D Oyun Nesnesine' : 'Game Engine Studio · From a 2D Image to a 3D Game Object';
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
   applyI18n();
-  buildSwatches(); fillBaseSelect(); updateMatThumb(); renderGoComponents(); refreshGoStatus(); renderGlossary(); renderInspector(); renderTasks(); updateTracker(); updateFinale();
+  buildSwatches(); fillBaseSelect(); updateMatThumb(); renderGoComponents(); refreshGoStatus(); renderGlossary(); renderInspector(); renderHouseTree(); renderTasks(); updateTracker(); updateFinale();
   if (lessonIdx >= 0) gotoLesson(lessonIdx); else lessonStepEl.textContent = `${lang === 'tr' ? 'Tur' : 'Tour'} 1 / ${lessons.length}`;
 }
 function refreshGoStatus() { goStatusTag.textContent = L(goStep >= 2 ? GO_STATUS.full : goStep >= 1 ? GO_STATUS.mesh : GO_STATUS.empty); }
@@ -569,8 +643,10 @@ const initialLang = (savedLang === 'tr' || savedLang === 'en') ? savedLang : (na
 // ------------------------------------------------------------------
 function resizeEditor() { const w = viewportEl.clientWidth, h = viewportEl.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
 window.addEventListener('resize', resizeEditor); new ResizeObserver(resizeEditor).observe(viewportEl);
+let editorVisible = true;
+new IntersectionObserver(([e]) => { editorVisible = e.isIntersecting; }, { rootMargin: '160px' }).observe(viewportEl);
 const clock = new THREE.Clock();
-function tick() { const t = clock.getElapsedTime(); applyAnimation(t); controls.update(); updateRig(); if (selBox.visible && selected) selBox.update(); renderer.render(scene, camera); requestAnimationFrame(tick); }
+function tick() { requestAnimationFrame(tick); if (!editorVisible) return; const t = clock.getElapsedTime(); applyAnimation(t); controls.update(); updateRig(); if (selBox.visible && selected) selBox.update(); renderer.render(scene, camera); }
 
 // ------------------------------------------------------------------
 //  Başlat
