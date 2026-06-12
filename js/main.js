@@ -109,6 +109,8 @@ journey.material.map = TEXTURES[journey.texKey].tex;
 //  Mini 3D sahne yardımcı
 // ------------------------------------------------------------------
 function makeMiniScene(container, camPos, opts = {}) {
+  // Dayanıklılık: kapsayıcı yoksa (ör. eski/önbellekteki index.html) sayfayı çökertme
+  if (!container) { console.warn('makeMiniScene: kapsayıcı bulunamadı — index.html güncel değil olabilir.'); container = document.createElement('div'); }
   const scene = new THREE.Scene();
   if (!opts.noEnv) scene.environment = ENV;
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100); camera.position.copy(camPos);
@@ -276,7 +278,8 @@ function renderHouseTree() { const el = document.getElementById('houseTree'); if
 function buildHouseNode(node) { const li = document.createElement('li'); const row = document.createElement('div'); row.className = 'node-row' + (houseSelected === node ? ' selected' : ''); const kids = node.children.filter(c => c.userData && c.userData.isHouse); row.innerHTML = `<span class="twisty">${kids.length ? '▾' : ''}</span><span class="ico">${node.userData.icon || '◆'}</span><span class="nm">${node.name}</span>` + (node.userData.mesh ? '<span class="mesh-dot"></span>' : ''); row.addEventListener('click', (e) => { e.stopPropagation(); selectHouse(node); }); li.appendChild(row); if (kids.length) { const ul = document.createElement('ul'); kids.forEach(c => ul.appendChild(buildHouseNode(c))); li.appendChild(ul); } return li; }
 const wRay = new THREE.Raycaster(), wPtr = new THREE.Vector2();
 worldMini.renderer.domElement.addEventListener('pointerdown', (e) => { const r = worldMini.renderer.domElement.getBoundingClientRect(); wPtr.x = ((e.clientX - r.left) / r.width) * 2 - 1; wPtr.y = -((e.clientY - r.top) / r.height) * 2 + 1; wRay.setFromCamera(wPtr, worldMini.camera); const hits = wRay.intersectObjects(houseMeshes, false); if (hits.length) selectHouse(hits[0].object.userData.owner); });
-document.getElementById('applyMatBtn').addEventListener('click', () => { wallsGO.userData.mesh.material = journey.material.clone(); wallsGO.userData.mesh.material.name = 'M_Custom'; showToast('🏠 ' + (LANG === 'tr' ? 'Materyalin evin duvarlarına uygulandı' : 'Your material applied to the house walls')); });
+const applyMatBtn = document.getElementById('applyMatBtn');
+if (applyMatBtn) applyMatBtn.addEventListener('click', () => { wallsGO.userData.mesh.material = journey.material.clone(); wallsGO.userData.mesh.material.name = 'M_Custom'; showToast('🏠 ' + (LANG === 'tr' ? 'Materyalin evin duvarlarına uygulandı' : 'Your material applied to the house walls')); });
 // ARABALAR — yol boyunca ilerler, harita kenarında kaybolur (fade)
 function makePath(pts, closed) { const segs = []; let total = 0; for (let i = 0; i < pts.length - 1; i++) { const a = pts[i], b = pts[i + 1], len = Math.hypot(b[0] - a[0], b[1] - a[1]); segs.push({ a, b, len, acc: total }); total += len; } return { segs, total, closed }; }
 function samplePath(p, d) { d = ((d % p.total) + p.total) % p.total; for (const s of p.segs) { if (d <= s.acc + s.len || s === p.segs[p.segs.length - 1]) { const t = Math.min(1, (d - s.acc) / s.len); return { x: s.a[0] + (s.b[0] - s.a[0]) * t, z: s.a[1] + (s.b[1] - s.a[1]) * t, dx: s.b[0] - s.a[0], dz: s.b[1] - s.a[1] }; } } return { x: 0, z: 0, dx: 1, dz: 0 }; }
