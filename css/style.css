@@ -664,6 +664,17 @@ input[type="color"] {
 .hh-head { padding: 10px 13px; font-size: 12.5px; font-weight: 700; color: var(--sa); background: var(--panel-2); border-bottom: 1px solid var(--line); }
 .house-hier .tree { max-height: 240px; padding: 6px; }
 
+/* Bilgi Notu kutusu (teal "did you know" bilgi kutusu) */
+.info-note {
+  margin-top: 18px; padding: 13px 16px; border-radius: 12px; font-size: 13px; line-height: 1.65;
+  color: var(--text-dim);
+  background: color-mix(in srgb, var(--accent-2) 9%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--accent-2) 32%, var(--line));
+  border-left: 3px solid var(--accent-2);
+}
+.info-note .in-label { font-weight: 800; color: var(--accent-2); margin-right: 6px; letter-spacing: .2px; }
+.info-note b { color: #eafcf6; font-weight: 700; }
+
 /* ---------- Duyarlı (responsive) v2 ---------- */
 @media (max-width: 1000px) {
   .hero2 { grid-template-columns: 1fr; gap: 18px; }

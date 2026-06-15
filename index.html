@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=6" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
   <script type="importmap">
   { "imports": { "three": "./vendor/three.module.min.js", "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js" } }
   </script>
@@ -48,7 +48,7 @@
     <div class="hero-left">
       <div class="hero-eyebrow" data-i18n="hero.eyebrow">🎮 Etkileşimli 3D Atölye</div>
       <h1 class="hero-big" data-i18n="hero.title">Bir 2D görselden,<br>yaşayan bir 3D oyun nesnesine</h1>
-      <p class="hero-sub" data-i18n="hero.lead">Bir karakteri katman katman, kendi ellerinle inşa et: doku, materyal, ışık, iskelet ve animasyon. Okuyarak değil — <b>dokunarak</b>.</p>
+      <p class="hero-sub" data-i18n="hero.lead">Bir karakter aslında tek parça değildir; üst üste binen katmanlardan oluşur. Burada o katmanları kendi ellerinle koyacaksın: doku, materyal, ışık, iskelet, animasyon. Ben anlatmıyorum, sen yapıyorsun.</p>
       <div class="hero-cta">
         <a class="btn-cta" href="#stage-1" data-i18n="brand.start">▶ Yolculuğa Başla</a>
         <span class="hero-hint" data-i18n="hero.hint">6 aşama · her birinde mini görev · TR/EN</span>
@@ -84,6 +84,7 @@
         </div>
       </div>
     </div>
+    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s1.fact">Eski oyunlarda dokular neden hep 256×256, 512×512 gibi 2'nin kuvveti boyutlardaydı? Ekran kartları bu boyutları belleğe daha verimli yerleştirir ve uzaktaki yüzeyler için küçültülmüş kopyalar (<b>mipmap</b>) üretmek kolaylaşır.</span></div>
     <div class="stage-task" id="task-1"></div>
     <button class="code-toggle" data-code="1"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
     <div class="code-panel hidden" id="codePanel-1"><div class="code-wrap"><button class="copy-btn" data-code="1">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-1"></pre></div></div>
@@ -106,6 +107,7 @@
       </div>
       <div class="stage-visual"><div class="preview3d" id="matPreview"><span class="preview-tag" data-i18n="s2.previewtag">Canlı Material Önizleme</span></div></div>
     </div>
+    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s2.fact"><b>metalness</b> ve <b>roughness</b> aslında PBR'den gelir: <b>Physically Based Rendering</b>. Mantık şu: gerçek malzemeler de ya metaldir ya değil, ya pürüzlüdür ya parlak. Bu yüzden iyi bir materyal güneşte de mum ışığında da inandırıcı görünür.</span></div>
     <div class="stage-task" id="task-2"></div>
     <button class="code-toggle" data-code="2"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
     <div class="code-panel hidden" id="codePanel-2"><div class="code-wrap"><button class="copy-btn" data-code="2">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-2"></pre></div></div>
@@ -137,6 +139,7 @@
         <div class="components" id="goComponents"></div>
       </div>
     </div>
+    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s3.fact">Unity'de buna "GameObject", Unreal'de "Actor", Godot'ta "Node" denir. İsim motordan motora değişir ama fikir aynı: sahnedeki her şey, üzerine bileşen ve kod (<b>script</b>) eklenebilen boş bir kaptır.</span></div>
     <div class="stage-task" id="task-3"></div>
     <button class="code-toggle" data-code="3"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
     <div class="code-panel hidden" id="codePanel-3"><div class="code-wrap"><button class="copy-btn" data-code="3">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-3"></pre></div></div>
@@ -166,6 +169,7 @@
       </div>
       <div class="stage-visual"><div class="preview3d" id="lsLab"><span class="preview-tag" data-i18n="s4l.tag">Işık & Yüzey</span></div></div>
     </div>
+    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s4.fact">Normal map'ler neden hep o tuhaf mavi-mor renktedir? Her piksel bir yönü (X, Y, Z) saklar ve bu yön R, G, B'ye çevrilir. Düz bir yüzey "yukarı" bakar; yukarı Z eksenine, Z de maviye denk geldiği için harita ağırlıklı mavi çıkar.</span></div>
     <div class="stage-task" id="task-4"></div>
     <button class="code-toggle" data-code="4"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
     <div class="code-panel hidden" id="codePanel-4"><div class="code-wrap"><button class="copy-btn" data-code="4">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-4"></pre></div></div>
@@ -186,6 +190,7 @@
       </div>
       <div class="stage-visual"><div class="preview3d" id="worldLab" style="height:440px"><span class="preview-tag" data-i18n="s5w.tag">Bahçe · Yollar · Arabalar</span></div></div>
     </div>
+    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s5.fact">Arabaların harita kenarında yok olması tesadüf değil, bir oyun tekniği. Görünmeyen nesneleri çizmemeye <b>culling</b>, silip yeniden yaratmak yerine aynı nesneyi tekrar kullanmaya <b>object pooling</b> denir. Açık dünya oyunları akıcı kalmayı bu hilelere borçlu.</span></div>
     <div class="stage-task" id="task-5"></div>
     <button class="code-toggle" data-code="5"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
     <div class="code-panel hidden" id="codePanel-5"><div class="code-wrap"><button class="copy-btn" data-code="5">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-5"></pre></div></div>
@@ -234,6 +239,7 @@
       </div>
       <div class="lesson-nav"><button class="btn btn-ghost" id="prevLesson" data-i18n="tour.prev">‹ Önceki</button><div class="lesson-dots" id="lessonDots"></div><button class="btn btn-accent" id="nextLesson" data-i18n="tour.next">Sonraki ›</button></div>
     </div>
+    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s6.fact">Gerçek oyunlarda karakter animasyonu çoğunlukla <b>skinning</b> ile yapılır: tek bir mesh görünmez kemiklere "ağırlıklarla" bağlanır, kemik kıpırdayınca yüzey de esner. Biz bunu parçaları iç içe gruplayarak basitleştirdik — mantık aynı: ebeveyni döndür, ona bağlı her şey döner.</span></div>
     <div class="stage-task" id="task-6"></div>
     <button class="code-toggle" data-code="6"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
     <div class="code-panel hidden" id="codePanel-6"><div class="code-wrap"><button class="copy-btn" data-code="6">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-6"></pre></div></div>
@@ -263,6 +269,6 @@
       window.addEventListener('error', function (e) { if (e && e.target && e.target.tagName === 'SCRIPT' && !window.__sceneReady) showError('Bir dosya yüklenemedi: <code ' + code + '>' + (e.target.src || '') + '</code>'); }, true);
     })();
   </script>
-  <script type="module" src="js/main.js?v=6"></script>
+  <script type="module" src="js/main.js?v=7"></script>
 </body>
 </html>
