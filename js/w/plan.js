@@ -48,7 +48,9 @@ export default function mount(root) {
       h('div', { style: { display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '.5rem', alignItems: 'baseline' } },
         h('div', {}, h('span', { style: { fontSize: '.72rem', color: '#737885', fontWeight: 600, letterSpacing: '.08em' } }, `${i + 1}. HAFTA`),
           h('div', { style: { fontFamily: 'Fraunces, serif', fontSize: '1.2rem', fontWeight: 600 } }, w[1])),
-        h('a', { href: link, class: 'btn' }, i === 0 ? 'Bu sayfa' : 'Ders notunu aç →')),
+        h('span', { style: { display: 'flex', gap: '.4rem', flexWrap: 'wrap' } },
+          i === 0 ? null : h('a', { href: link, class: 'btn' }, 'Ders notu'),
+          h('a', { href: `${base}etkinlikler/hafta-${String(i + 1).padStart(2, '0')}.html`, class: 'btn btn-solid' }, 'Etkinlik →'))),
       h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))', gap: '.6rem', marginTop: '.7rem' } },
         h('div', { style: { borderLeft: '3px solid #0d8a7d', paddingLeft: '.7rem', fontSize: '.86rem' } }, h('div', { class: 't2d', style: { fontSize: '.72rem' } }, '2B YOLUNDA'), w[2]),
         h('div', { style: { borderLeft: '3px solid #cf7614', paddingLeft: '.7rem', fontSize: '.86rem' } }, h('div', { class: 't3d', style: { fontSize: '.72rem' } }, '3B YOLUNDA'), w[3])));

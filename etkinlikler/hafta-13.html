@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13. Hafta Etkinliği: Test ve yayın günü · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Oyununuza ses ekleyecek, üç farklı kişiye müdahale etmeden oynatıp gözlem yapacak ve sonunda tarayıcıda çalışan bir sürümünü yayınlayacaksınız.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=8">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
+</head>
+<body>
+<div id="progress"></div>
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="../materyaller/">Haftalık materyaller</a>
+    <a href="./" aria-current="page">Etkinlikler</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#dosya"><span class="n">01</span>Başlangıç dosyaları</a></li>
+    <li><a href="#ses"><span class="n">02</span>Bölüm A · Ses (20 dk)</a></li>
+    <li><a href="#test"><span class="n">03</span>Bölüm B · Kullanıcı testi (40 dk)</a></li>
+    <li><a href="#yayin"><span class="n">04</span>Bölüm C · Web derlemesi (30 dk)</a></li>
+    <li><a href="#teslim"><span class="n">05</span>Teslim ve tamamlanma ölçütleri</a></li>
+    <li><a href="#sorun"><span class="n">06</span>Sık karşılaşılan sorunlar</a></li>
+    <li><a href="#final"><span class="n">07</span>Final projesine taşı</a></li>
+  </ol>
+</nav>
+<main class="page">
+<div class="titleblock">
+  <div class="kicker">13. Hafta · Etkinlik</div>
+  <h1>Test ve yayın günü</h1>
+  <p class="dek">Oyununuza ses ekleyecek, üç farklı kişiye müdahale etmeden oynatıp gözlem yapacak ve sonunda tarayıcıda çalışan bir sürümünü yayınlayacaksınız.</p>
+  <div class="meta"><span>13. hafta</span><span>90 dk</span><span><a href="../materyaller/hafta-13.html">Ders notu</a></span></div>
+</div>
+<div class="col"><div class="act-card"><div><div class="l">Süre</div><div class="v">90 dk</div></div><div><div class="l">Biçim</div><div class="v">Bireysel ve dönüşümlü gruplar</div></div><div><div class="l">Yol</div><div class="v">2B ya da 3B</div></div><div class="wide"><div class="l">Kazanımlar</div><div class="v"><ul><li>Ses ve görsel efektle oyuncuya geri bildirim verir.</li><li>Kullanıcı testi oturumu kurgular ve bulguları raporlar.</li><li>Web için derleme alır.</li></ul></div></div><div class="wide"><div class="l">Teslim edilecek</div><div class="v">Üç gözlem formu, iki düzeltme kararı ve web derlemesinin bağlantısı ya da klasörü.</div></div><div class="wide"><div class="l">Önce</div><div class="v"><a href="../materyaller/hafta-13.html">13. hafta ders notu</a> ve 12. hafta etkinliği</div></div></div></div>
+
+<section class="sec" id="dosya">
+  <div class="sec-head"><span class="sec-no">01</span><h2>Başlangıç dosyaları</h2></div>
+<div class="col">
+<div class="files"><div class="files-head"><span><b>Başlangıç dosyaları</b> · telifsiz, bu ders için üretildi</span><a class="btn btn-solid" href="dosyalar/hafta13.zip" download>Hepsini indir (hafta13.zip)</a></div><div class="files-grid"><div class="file"><div class="thumb snd">♪</div><audio controls preload="none" src="dosyalar/hafta13/dogru.wav"></audio><span class="n">dogru.wav</span><span class="d">Doğru yanıt</span></div><div class="file"><div class="thumb snd">♪</div><audio controls preload="none" src="dosyalar/hafta13/yanlis.wav"></audio><span class="n">yanlis.wav</span><span class="d">Yanlış yanıt</span></div><div class="file"><div class="thumb snd">♪</div><audio controls preload="none" src="dosyalar/hafta13/zipla.wav"></audio><span class="n">zipla.wav</span><span class="d">Zıplama</span></div><div class="file"><div class="thumb snd">♪</div><audio controls preload="none" src="dosyalar/hafta13/topla.wav"></audio><span class="n">topla.wav</span><span class="d">Toplama</span></div><a class="file" href="dosyalar/hafta13/SesGeriBildirimi.cs" download><div class="thumb code">C#</div><span class="n">SesGeriBildirimi.cs</span><span class="d">Perdesi hafifçe rastgele sesler çalar</span></a></div><div style="padding:0 1.1rem 1rem;font-size:.84rem;color:var(--ink-2)">Sesler bu ders için kodla üretildi; telifsizdir.</div></div>
+</div>
+</section>
+<section class="sec" id="ses">
+  <div class="sec-head"><span class="sec-no">02</span><h2>Bölüm A · Ses (20 dk)</h2></div>
+<div class="col">
+<div class="steps-prog" data-for="h13-ses"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 4</b></div><ol class="steps" data-key="h13-ses"><li><div class="st-t"><span>İçe aktarın</span></div><p>Dört sesi <code>_Proje/Audio</code>'ya sürükleyin. Kısa efekt oldukları için <i>Load Type: Decompress On Load</i>.</p></li><li><div class="st-t"><span>Ses nesnesi</span></div><p>Yonetim nesnesine <i>Add Component → Audio Source</i> (<i>Play On Awake</i> kapalı) ve <code>SesGeriBildirimi.cs</code>. <i>Dogru Sesi</i> ve <i>Yanlis Sesi</i> alanlarına sesleri sürükleyin.</p></li><li><div class="st-t"><span>Seçeneklere bağlayın</span></div><p><code>Secenek2D.cs</code> (ya da <code>Secenek3D.cs</code>) içinde SkorYonetici satırının hemen altına şu satırı ekleyin:</p><pre class="code"><span class="k">if</span> (SesGeriBildirimi.Ornek != <span class="k">null</span>) SesGeriBildirimi.Ornek.Cal(dogruMu);</pre><div class="kontrol"><b>Kontrol:</b> Doğru ve yanlış seçenekler farklı ses çıkarıyor; arka arkaya doğru yapınca ses mekanik tekrar gibi duyulmuyor.</div></li><li><div class="st-t"><span>İsteğe bağlı: zıplama sesi</span></div><p>Oyuncuya ayrı bir Audio Source ekleyip hareket script'inde zıplama anında <code>GetComponent&lt;AudioSource&gt;().Play()</code> çağırın.</p></li></ol><div class="code-label">SesGeriBildirimi.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+
+<span class="c">// Doğru ve yanlış yanıtlar için ses çalar. Sahnede bir tane bulunur;</span>
+<span class="c">// Secenek script&#x27;leri SesGeriBildirimi.Ornek.Cal(...) ile çağırır.</span>
+[<span class="t">RequireComponent</span>(typeof(<span class="t">AudioSource</span>))]
+<span class="k">public</span> <span class="k">class</span> SesGeriBildirimi : <span class="t">MonoBehaviour</span>
+{
+    <span class="k">public</span> <span class="k">static</span> SesGeriBildirimi Ornek { <span class="k">get</span>; <span class="k">private</span> <span class="k">set</span>; }
+
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">AudioClip</span> dogruSesi;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">AudioClip</span> yanlisSesi;
+    [<span class="t">SerializeField</span>, Range(<span class="n">0f</span>, <span class="n">0.2f</span>)] <span class="k">private</span> <span class="k">float</span> perdeSapmasi = <span class="n">0.05f</span>;   <span class="c">// ±%5</span>
+
+    <span class="k">private</span> <span class="t">AudioSource</span> kaynak;
+
+    <span class="k">void</span> Awake()
+    {
+        Ornek = <span class="k">this</span>;
+        kaynak = GetComponent&lt;<span class="t">AudioSource</span>&gt;();
+    }
+
+    <span class="k">public</span> <span class="k">void</span> Cal(<span class="k">bool</span> dogruMu)
+    {
+        <span class="c">// Perdeyi hafifçe rastgeleleştir: art arda çalınınca mekanik duyulmaz</span>
+        kaynak.pitch = <span class="n">1f</span> + <span class="t">Random</span>.Range(-perdeSapmasi, perdeSapmasi);
+        kaynak.PlayOneShot(dogruMu ? dogruSesi : yanlisSesi);
+    }
+}</pre>
+</div>
+</section>
+<section class="sec" id="test">
+  <div class="sec-head"><span class="sec-no">03</span><h2>Bölüm B · Kullanıcı testi (40 dk)</h2></div>
+<div class="col">
+<p>Sınıf üçerli gruplara ayrılır; her tur 10 dakika sürer, kişiler dönüşümlü olarak oyuncu ve gözlemci olur. Oyununuzu üç farklı kişiye oynatın. Kurallar: <b>açıklama yapmayın</b>, soru sormayın, tasarımı savunmayın; yalnızca izleyip yazın. Oyun bittikten sonra iki soru sorun: <i>“Ne yapmaya çalışıyordun?”</i> ve <i>“Bu oyun sence ne öğretiyor?”</i></p>
+<div class="sheet" data-key="h13-g1"><div class="sheet-head"><b>Gözlem formu · Oyuncu 1</b><div class="acts"><span class="saved"></span><button type="button" class="btn" data-act="clear">Temizle</button><button type="button" class="btn btn-solid" data-act="print">Yazdır / PDF</button></div></div><div class="sheet-body"><label class="f"><span>İlk 30 saniyede ne yapmaya çalıştı?</span><textarea name="ilk" rows="3"></textarea></label><label class="f"><span>Nerede duraksadı, kaç saniye?</span><textarea name="dur" rows="3"></textarea></label><label class="f"><span>Aynı hatayı tekrarladığı yer var mı?</span><textarea name="hata" rows="3"></textarea></label><label class="f"><span>Kendi kendine söyledikleri</span><textarea name="ses" rows="3"></textarea></label><label class="f"><span>“Bu oyun sence ne öğretiyor?” sorusunun yanıtı</span><textarea name="ogretir" rows="3"></textarea></label><label class="f"><span>Yanıt hedeflediğim kazanımla örtüşüyor mu?</span><select name="ortus"><option>Seçin</option><option>Evet</option><option>Kısmen</option><option>Hayır</option></select></label></div></div><div class="sheet" data-key="h13-g2"><div class="sheet-head"><b>Gözlem formu · Oyuncu 2</b><div class="acts"><span class="saved"></span><button type="button" class="btn" data-act="clear">Temizle</button><button type="button" class="btn btn-solid" data-act="print">Yazdır / PDF</button></div></div><div class="sheet-body"><label class="f"><span>İlk 30 saniyede ne yapmaya çalıştı?</span><textarea name="ilk" rows="3"></textarea></label><label class="f"><span>Nerede duraksadı, kaç saniye?</span><textarea name="dur" rows="3"></textarea></label><label class="f"><span>Aynı hatayı tekrarladığı yer var mı?</span><textarea name="hata" rows="3"></textarea></label><label class="f"><span>Kendi kendine söyledikleri</span><textarea name="ses" rows="3"></textarea></label><label class="f"><span>“Bu oyun sence ne öğretiyor?” sorusunun yanıtı</span><textarea name="ogretir" rows="3"></textarea></label><label class="f"><span>Yanıt hedeflediğim kazanımla örtüşüyor mu?</span><select name="ortus"><option>Seçin</option><option>Evet</option><option>Kısmen</option><option>Hayır</option></select></label></div></div><div class="sheet" data-key="h13-g3"><div class="sheet-head"><b>Gözlem formu · Oyuncu 3</b><div class="acts"><span class="saved"></span><button type="button" class="btn" data-act="clear">Temizle</button><button type="button" class="btn btn-solid" data-act="print">Yazdır / PDF</button></div></div><div class="sheet-body"><label class="f"><span>İlk 30 saniyede ne yapmaya çalıştı?</span><textarea name="ilk" rows="3"></textarea></label><label class="f"><span>Nerede duraksadı, kaç saniye?</span><textarea name="dur" rows="3"></textarea></label><label class="f"><span>Aynı hatayı tekrarladığı yer var mı?</span><textarea name="hata" rows="3"></textarea></label><label class="f"><span>Kendi kendine söyledikleri</span><textarea name="ses" rows="3"></textarea></label><label class="f"><span>“Bu oyun sence ne öğretiyor?” sorusunun yanıtı</span><textarea name="ogretir" rows="3"></textarea></label><label class="f"><span>Yanıt hedeflediğim kazanımla örtüşüyor mu?</span><select name="ortus"><option>Seçin</option><option>Evet</option><option>Kısmen</option><option>Hayır</option></select></label></div></div><div class="sheet" data-key="h13-karar"><div class="sheet-head"><b>Düzeltme kararları</b><div class="acts"><span class="saved"></span><button type="button" class="btn" data-act="clear">Temizle</button><button type="button" class="btn btn-solid" data-act="print">Yazdır / PDF</button></div></div><div class="sheet-body"><label class="f"><span>Düzeltme 1: hangi bulgu → ne değişecek?</span><textarea name="d1" rows="3"></textarea></label><label class="f"><span>Düzeltme 2: hangi bulgu → ne değişecek?</span><textarea name="d2" rows="3"></textarea></label></div></div>
+</div>
+</section>
+<section class="sec" id="yayin">
+  <div class="sec-head"><span class="sec-no">04</span><h2>Bölüm C · Web derlemesi (30 dk)</h2></div>
+<div class="col">
+<div class="steps-prog" data-for="h13-web"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 6</b></div><ol class="steps" data-key="h13-web"><li><div class="st-t"><span>Platform</span></div><p><i>File → Build Profiles → Web → Switch Platform</i>. İlk geçiş birkaç dakika sürebilir.</p></li><li><div class="st-t"><span>Sahneler</span></div><p><i>Scene List</i>'e oyunun sahnesini ekleyin; ilk sırada olsun.</p></li><li><div class="st-t"><span>Sıkıştırma</span></div><p><i>Player Settings → Publishing Settings</i>: <i>Compression Format</i> Gzip; <i>Decompression Fallback</i> işaretli (GitHub Pages ve itch.io gibi sunucu ayarı değiştirilemeyen yerler için).</p></li><li><div class="st-t"><span>Derleyin</span></div><p><i>Build</i>; masaüstünde değil, proje dışında boş bir klasör seçin (ör. <code>Derleme_Web</code>).</p><div class="kontrol"><b>Kontrol:</b> Klasörde index.html, Build ve TemplateData var.</div></li><li><div class="st-t"><span>Yerelde deneyin</span></div><p><code>index.html</code>'ye çift tıklamak çalışmaz. Unity'de <i>Build And Run</i> kullanın ya da klasörde bir terminal açıp şunu çalıştırın, sonra tarayıcıda <code>http://localhost:8000</code>:</p><div class="code-label">Terminal</div>
+<pre class="code">python -m http.server <span class="n">8000</span></pre><div class="kontrol"><b>Kontrol:</b> Oyun tarayıcıda açılıyor ve oynanıyor.</div></li><li><div class="st-t"><span>Paylaşın (isteğe bağlı)</span></div><p>itch.io'da ücretsiz bir hesap açıp <i>Upload new project → Kind of project: HTML</i>, derleme klasörünün zip'ini yükleyin, <i>This file will be played in the browser</i>'ı işaretleyin. Proje ayarlarında sayfayı <i>Draft</i> ya da <i>Restricted</i> bırakıp bağlantıyı yalnızca sınıfla paylaşabilirsiniz.</p></li></ol>
+</div>
+</section>
+<section class="sec" id="teslim">
+  <div class="sec-head"><span class="sec-no">05</span><h2>Teslim ve tamamlanma ölçütleri</h2></div>
+<div class="col">
+<ul class="crit"><li>Doğru ve yanlış yanıtlar farklı seslerle bildiriliyor.</li><li>Üç gözlem formu doldurulmuş; en az birinde “bu oyun ne öğretiyor?” yanıtı kazanımla karşılaştırılmış.</li><li>İki düzeltme kararı, dayandığı bulguyla birlikte yazılmış.</li><li>Web derlemesi yerel sunucuda ya da çevrim içi çalışıyor.</li></ul><div class="note">Bu hafta topladığınız bulgular ve düzeltmeler, final ölçütlerindeki <b>kullanıcı testi</b> maddesinin (6 puan) kanıtıdır. Formları saklayın; final raporuna ekleyeceksiniz.</div>
+</div>
+</section>
+<section class="sec" id="sorun">
+  <div class="sec-head"><span class="sec-no">06</span><h2>Sık karşılaşılan sorunlar</h2></div>
+<div class="col">
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Sorun</th><th>Çözüm</th></tr></thead><tbody><tr><td class="k">Tarayıcıda “Unable to parse Build/…” ya da boş ekran</td><td>Decompression Fallback işaretli değil ya da dosyalar <code>file://</code> ile açılıyor. Yerel sunucu kullanın.</td></tr><tr><td class="k">Ses çalmıyor</td><td>Tarayıcılar kullanıcı etkileşimi olmadan ses çalmaya izin vermez; ilk tıklamadan sonra çalışır. Editörde çalışmıyorsa Audio Source'un Mute'u ya da Game penceresinin <i>Mute Audio</i>'su açık olabilir.</td></tr><tr><td class="k">Derleme çok büyük</td><td>Kullanılmayan paketleri Package Manager'dan kaldırın; büyük dokuları küçültün.</td></tr></tbody></table></div>
+</div>
+</section>
+<section class="sec" id="final">
+  <div class="sec-head"><span class="sec-no">07</span><h2>Final projesine taşı</h2></div>
+<div class="col">
+<p>Final projeniz için aynı testi 14. haftadan önce bir kez daha, bu kez hedef kitlenize yakın birileriyle yapmayı deneyin. Final teslimine web derlemesinin bağlantısını ekleyeceksiniz.</p>
+</div>
+</section>
+
+<div class="col"><div class="pager">
+  <a class="prev" href="hafta-12.html"><small>Önceki etkinlik</small>12. “Ne öğrendim?” paneli</a>
+  <a class="next" href="hafta-14.html"><small>Sonraki etkinlik</small>14. Final sunumu ve akran değerlendirmesi</a>
+</div></div>
+</main>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="../materyaller/">Haftalık materyaller</a> · <a href="./">Etkinlikler</a> · <a href="../atolye/">Atölye</a></footer>
+<script type="module" src="../js/site.js?v=8"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3. Hafta Etkinliği: Toplanabilir yıldız · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Boş bir nesneye bileşenler ekleyerek dönen bir toplanabilir eşya yapacak, onu prefab&#x27;a çevirip çoğaltacak ve bir script&#x27;le otomatik ürettireceksiniz.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=8">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
+</head>
+<body>
+<div id="progress"></div>
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="../materyaller/">Haftalık materyaller</a>
+    <a href="./" aria-current="page">Etkinlikler</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#dosya"><span class="n">01</span>Başlangıç dosyaları</a></li>
+    <li><a href="#kur"><span class="n">02</span>Eşyayı kurun</a></li>
+    <li><a href="#prefab"><span class="n">03</span>Prefab ve override</a></li>
+    <li><a href="#soru"><span class="n">04</span>Yanıtlanacak soru</a></li>
+    <li><a href="#teslim"><span class="n">05</span>Teslim ve tamamlanma ölçütleri</a></li>
+    <li><a href="#ileri"><span class="n">06</span>İleri görev</a></li>
+    <li><a href="#sorun"><span class="n">07</span>Sık karşılaşılan sorunlar</a></li>
+    <li><a href="#final"><span class="n">08</span>Final projesine taşı</a></li>
+  </ol>
+</nav>
+<main class="page">
+<div class="titleblock">
+  <div class="kicker">3. Hafta · Etkinlik</div>
+  <h1>Toplanabilir yıldız</h1>
+  <p class="dek">Boş bir nesneye bileşenler ekleyerek dönen bir toplanabilir eşya yapacak, onu prefab'a çevirip çoğaltacak ve bir script'le otomatik ürettireceksiniz.</p>
+  <div class="meta"><span>3. hafta</span><span>60 dk</span><span><a href="../materyaller/hafta-03.html">Ders notu</a></span></div>
+</div>
+<div class="col"><div class="act-card"><div><div class="l">Süre</div><div class="v">60 dk</div></div><div><div class="l">Biçim</div><div class="v">Bireysel</div></div><div><div class="l">Yol</div><div class="v">2B ya da 3B (seçtiğiniz yol)</div></div><div class="wide"><div class="l">Kazanımlar</div><div class="v"><ul><li>GameObject, Component ve Prefab kavramlarını ayırt eder.</li><li>Bir nesneyi prefab'a çevirip sahnede yeniden kullanır.</li><li>Override davranışını açıklar.</li></ul></div></div><div class="wide"><div class="l">Teslim edilecek</div><div class="v">Beş kopyalı sahnenin Hierarchy ekran görüntüsü ve override sorusunun yanıtı.</div></div><div class="wide"><div class="l">Önce</div><div class="v"><a href="../materyaller/hafta-03.html">3. hafta ders notu</a> ve 2. hafta projeleri</div></div></div></div>
+
+<section class="sec" id="dosya">
+  <div class="sec-head"><span class="sec-no">01</span><h2>Başlangıç dosyaları</h2></div>
+<div class="col">
+<div class="files"><div class="files-head"><span><b>Başlangıç dosyaları</b> · telifsiz, bu ders için üretildi</span><a class="btn btn-solid" href="dosyalar/hafta03.zip" download>Hepsini indir (hafta03.zip)</a></div><div class="files-grid"><a class="file" href="dosyalar/hafta03/yildiz.png" download><div class="thumb"><img src="dosyalar/onizleme/yildiz.png" alt="yildiz.png" loading="lazy"></div><span class="n">yildiz.png</span><span class="d">32 × 32 yıldız sprite'ı</span></a><a class="file" href="dosyalar/hafta03/para.png" download><div class="thumb"><img src="dosyalar/onizleme/para.png" alt="para.png" loading="lazy"></div><span class="n">para.png</span><span class="d">32 × 32 para sprite'ı</span></a><a class="file" href="dosyalar/hafta03/Donme.cs" download><div class="thumb code">C#</div><span class="n">Donme.cs</span><span class="d">Nesneyi bir eksen çevresinde döndürür</span></a><a class="file" href="dosyalar/hafta03/Uretici.cs" download><div class="thumb code">C#</div><span class="n">Uretici.cs</span><span class="d">Belirli aralıklarla prefab kopyası üretir</span></a></div><div style="padding:0 1.1rem 1rem;font-size:.84rem;color:var(--ink-2)">Script'leri <code>_Proje/Scripts</code>, görselleri <code>_Proje/Sprites</code> klasörüne koyun.</div></div>
+</div>
+</section>
+<section class="sec" id="kur">
+  <div class="sec-head"><span class="sec-no">02</span><h2>Eşyayı kurun</h2></div>
+<div class="col">
+<div class="tabs" data-tabs="yol"><div class="tab-bar"><button type="button" data-tab="2B">2B yolu</button><button type="button" data-tab="3B">3B yolu</button></div><span class="tab-hint">Kendi yolunuzu seçin; seçiminiz bütün etkinlik sayfalarında hatırlanır.</span><div class="tab-panel" data-tab="2B"><div class="steps-prog" data-for="h03-2b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 5</b></div><ol class="steps" data-key="h03-2b"><li><div class="st-t"><span>Sprite'ı içe aktarın</span></div><p><code>yildiz.png</code>'yi seçin. Inspector'da <i>Pixels Per Unit</i> = 32, <i>Filter Mode</i> = Point (no filter), <i>Compression</i> = None. <i>Apply</i>.</p><div class="kontrol"><b>Kontrol:</b> Sprite sahnede keskin ve 1 × 1 birim görünüyor.</div></li><li><div class="st-t"><span>Boş nesneden başlayın</span></div><p><i>GameObject → Create Empty</i>. Adı <code>Yildiz</code>. Inspector'da yalnızca Transform olduğuna dikkat edin: nesne sahnede var ama görünmüyor.</p></li><li><div class="st-t"><span>Görünür yapın</span></div><p><i>Add Component → Sprite Renderer</i>. <i>Sprite</i> alanına <code>yildiz</code>'ı sürükleyin.</p></li><li><div class="st-t"><span>Temas sınırı ekleyin</span></div><p><i>Add Component → Circle Collider 2D</i>. <i>Is Trigger</i>'ı işaretleyin (9. haftada toplanabilir olacak).</p><div class="kontrol"><b>Kontrol:</b> Scene penceresinde yıldızın çevresinde yeşil bir daire görünüyor.</div></li><li><div class="st-t"><span>Döndürün</span></div><p><code>Donme.cs</code>'yi nesnenin Inspector'ına sürükleyin. <i>Eksen</i> alanı (0, 0, 1) kalsın. ▶ ile deneyin.</p><div class="kontrol"><b>Kontrol:</b> Yıldız kendi çevresinde dönüyor.</div></li></ol></div><div class="tab-panel" data-tab="3B"><div class="steps-prog" data-for="h03-3b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 5</b></div><ol class="steps" data-key="h03-3b"><li><div class="st-t"><span>Boş nesneden başlayın</span></div><p><i>GameObject → Create Empty</i>. Adı <code>Para</code>. Inspector'da yalnızca Transform var.</p></li><li><div class="st-t"><span>Şekil ve çizim bileşenleri</span></div><p><i>Add Component → Mesh Filter</i>; <i>Mesh</i> alanından <code>Cylinder</code>'ı seçin. Ardından <i>Add Component → Mesh Renderer</i>. İki bileşen eklenene kadar nesnenin görünmediğine dikkat edin. Scale'i (1, 0.08, 1), Rotation X'i 90 yapın.</p></li><li><div class="st-t"><span>Materyal</span></div><p><code>_Proje/Materials → Create → Material</code>, adı <code>Altin</code>. <i>Base Map</i> rengi sarı, <i>Metallic</i> 1, <i>Smoothness</i> 0,7. Materyali paraya sürükleyin.</p><div class="kontrol"><b>Kontrol:</b> Para parlak, metalik sarı görünüyor.</div></li><li><div class="st-t"><span>Temas sınırı</span></div><p><i>Add Component → Capsule Collider</i> (ya da Sphere Collider), <i>Is Trigger</i>'ı işaretleyin.</p></li><li><div class="st-t"><span>Döndürün</span></div><p><code>Donme.cs</code>'yi ekleyin. <i>Eksen</i> alanını (0, 1, 0) yapın. ▶ ile deneyin.</p><div class="kontrol"><b>Kontrol:</b> Para dik ekseni çevresinde dönüyor.</div></li></ol></div></div><div class="code-label">Donme.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+
+<span class="c">// Nesneyi belirtilen eksen çevresinde döndürür.</span>
+<span class="c">// 2B&#x27;de eksen (0, 0, 1), 3B&#x27;de genellikle (0, 1, 0) seçilir.</span>
+<span class="k">public</span> <span class="k">class</span> Donme : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> derecePerSaniye = <span class="n">90f</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">Vector3</span> eksen = <span class="k">new</span> <span class="t">Vector3</span>(<span class="n">0f</span>, <span class="n">0f</span>, <span class="n">1f</span>);
+
+    <span class="k">void</span> Update()
+    {
+        transform.Rotate(eksen * derecePerSaniye * <span class="t">Time</span>.deltaTime);
+    }
+}</pre>
+</div>
+</section>
+<section class="sec" id="prefab">
+  <div class="sec-head"><span class="sec-no">03</span><h2>Prefab ve override</h2></div>
+<div class="col">
+<div class="steps-prog" data-for="h03-pre"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 6</b></div><ol class="steps" data-key="h03-pre"><li><div class="st-t"><span>Prefab'a çevirin</span></div><p>Nesneyi Hierarchy'den Project penceresindeki <code>_Proje/Prefabs</code> klasörüne sürükleyin. Hierarchy'de adı maviye döner.</p><div class="kontrol"><b>Kontrol:</b> <code>Prefabs</code> klasöründe mavi küp simgeli bir dosya var.</div></li><li><div class="st-t"><span>Beş kopya</span></div><p>Prefab'ı sahneye dört kez daha sürükleyin; kopyaları farklı yerlere koyun.</p></li><li><div class="st-t"><span>Kalıbı değiştirin</span></div><p>Project penceresinde prefab'a çift tıklayın (prefab düzenleme kipi açılır). <i>Derece Per Saniye</i>'yi 360 yapın, sol üstteki ‹ okuyla sahneye dönün.</p><div class="kontrol"><b>Kontrol:</b> Beş kopyanın hepsi daha hızlı dönüyor.</div></li><li><div class="st-t"><span>Override oluşturun</span></div><p>Sahnede tek bir kopyayı seçin, onun hızını 30 yapın. Alanın kalın yazıyla işaretlendiğine dikkat edin. Şimdi kalıbın hızını tekrar değiştirin.</p><div class="kontrol"><b>Kontrol:</b> Kalıp değişince dört kopya değişti, override'lı kopya değişmedi.</div></li><li><div class="st-t"><span>Geri alın</span></div><p>Override'lı kopyayı seçin; Inspector'ın üstündeki <i>Overrides</i> menüsünden <i>Revert All</i>.</p></li><li><div class="st-t"><span>Otomatik üretim</span></div><p>Boş bir nesne oluşturun (<code>Uretici</code>), <code>Uretici.cs</code>'yi ekleyin, <i>Kalip</i> alanına prefab'ı sürükleyin. ▶ ile deneyin.</p><div class="kontrol"><b>Kontrol:</b> İki saniyede bir yeni kopya beliriyor, en fazla on tane.</div></li></ol><div class="code-label">Uretici.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+
+<span class="c">// Belirli aralıklarla bir prefab&#x27;dan yeni kopya üretir.</span>
+<span class="k">public</span> <span class="k">class</span> Uretici : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">GameObject</span> kalip;        <span class="c">// Inspector&#x27;dan prefab atanır</span>
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> aralik = <span class="n">2f</span>;       <span class="c">// saniye</span>
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">int</span> enFazla = <span class="n">10</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> yayilma = <span class="n">3f</span>;      <span class="c">// üretim noktası çevresinde yatay rastgele sapma</span>
+
+    <span class="k">private</span> <span class="k">int</span> uretilen;
+
+    <span class="k">void</span> Start()
+    {
+        InvokeRepeating(nameof(Uret), <span class="n">0f</span>, aralik);
+    }
+
+    <span class="k">void</span> Uret()
+    {
+        <span class="k">if</span> (uretilen &gt;= enFazla)
+        {
+            CancelInvoke(nameof(Uret));
+            <span class="k">return</span>;
+        }
+        <span class="t">Vector3</span> konum = transform.position + <span class="k">new</span> <span class="t">Vector3</span>(<span class="t">Random</span>.Range(-yayilma, yayilma), <span class="n">0f</span>, <span class="n">0f</span>);
+        Instantiate(kalip, konum, <span class="t">Quaternion</span>.identity);
+        uretilen++;
+    }
+}</pre>
+</div>
+</section>
+<section class="sec" id="soru">
+  <div class="sec-head"><span class="sec-no">04</span><h2>Yanıtlanacak soru</h2></div>
+<div class="col">
+<div class="sheet" data-key="h03-soru"><div class="sheet-head"><b>Override</b><div class="acts"><span class="saved"></span><button type="button" class="btn" data-act="clear">Temizle</button><button type="button" class="btn btn-solid" data-act="print">Yazdır / PDF</button></div></div><div class="sheet-body"><label class="f"><span>Kalıbı değiştirdiğinizde bir kopya neden değişmedi?</span><textarea name="s1" rows="3"></textarea></label><label class="f"><span>Bir eğitsel oyunda override'ı bilerek kullanmak hangi durumda işe yarar?</span><small>Örnek: aynı soru kartı prefab'ının her kopyasında farklı bir “doğru mu?” değeri</small><textarea name="s2" rows="3"></textarea></label></div></div>
+</div>
+</section>
+<section class="sec" id="teslim">
+  <div class="sec-head"><span class="sec-no">05</span><h2>Teslim ve tamamlanma ölçütleri</h2></div>
+<div class="col">
+<ul class="crit"><li>Eşya boş bir nesneden bileşen eklenerek kurulmuş (hazır Sprite/3D Object menüsüyle değil).</li><li>Eşya prefab olarak kaydedilmiş, sahnede en az beş kopyası var.</li><li>Kalıp değişikliğinin kopyalara yayıldığı ve override'ın bunu nasıl engellediği gösterilebiliyor.</li><li>Uretici script'i prefab'dan kopya üretiyor.</li></ul>
+</div>
+</section>
+<section class="sec" id="ileri">
+  <div class="sec-head"><span class="sec-no">06</span><h2>İleri görev</h2></div>
+<div class="col">
+<p><code>Uretici.cs</code>'ye, her üretilen kopyanın rengini rastgele değiştiren bir satır ekleyin. İpucu: 2B'de <code>GetComponent&lt;SpriteRenderer&gt;().color</code>, 3B'de <code>GetComponent&lt;Renderer&gt;().material.color</code>; rastgele renk için <code>Random.ColorHSV()</code>.</p>
+</div>
+</section>
+<section class="sec" id="sorun">
+  <div class="sec-head"><span class="sec-no">07</span><h2>Sık karşılaşılan sorunlar</h2></div>
+<div class="col">
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Sorun</th><th>Çözüm</th></tr></thead><tbody><tr><td class="k">Script nesneye eklenmiyor: “The script class cannot be found”</td><td>Dosya adı ile içindeki sınıf adı aynı olmalı: <code>Donme.cs</code> içinde <code>public class Donme</code>. Console'da kırmızı hata varsa önce onu düzeltin.</td></tr><tr><td class="k">Yıldız bulanık</td><td>Filter Mode = Point, Compression = None.</td></tr><tr><td class="k">Kopyalar üretilmiyor</td><td>Uretici'nin <i>Kalip</i> alanı boş olabilir ya da oraya sahnedeki bir kopya değil, Project'teki prefab sürüklenmeli.</td></tr></tbody></table></div>
+</div>
+</section>
+<section class="sec" id="final">
+  <div class="sec-head"><span class="sec-no">08</span><h2>Final projesine taşı</h2></div>
+<div class="col">
+<p>Final projenizde tekrar eden nesneleri (soru kartı, engel, toplanabilir) şimdiden listeleyin ve tasarım belgesine not edin. Bunların her biri bir prefab olacak.</p>
+</div>
+</section>
+
+<div class="col"><div class="pager">
+  <a class="prev" href="hafta-02.html"><small>Önceki etkinlik</small>2. İki proje, bir tasarım belgesi</a>
+  <a class="next" href="hafta-04.html"><small>Sonraki etkinlik</small>4. İçe aktarma ve materyal laboratuvarı</a>
+</div></div>
+</main>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="../materyaller/">Haftalık materyaller</a> · <a href="./">Etkinlikler</a> · <a href="../atolye/">Atölye</a></footer>
+<script type="module" src="../js/site.js?v=8"></script>
+</body>
+</html>
