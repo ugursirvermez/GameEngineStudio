@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>9. Hafta: Fizik ve çarpışma · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="Eşya toplamak, kapı açmak, doğru seçeneği işaretlemek: eğitsel oyunlardaki etkileşimlerin çoğu iki nesnenin temas etmesine dayanır. Bu hafta Unity&#x27;nin bu temasları nasıl algıladığını ve bildirdiğini ele alıyoruz.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=6">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
-
+<div id="progress"></div>
 <header class="masthead">
   <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
   <nav class="mast-nav">
@@ -21,32 +23,30 @@
   </nav>
 </header>
 
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#collider"><span class="n">01</span>Collider ve trigger</a></li>
+    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
+    <li><a href="#secenek"><span class="n">03</span>Seçenek toplama örneği</a></li>
+    <li><a href="#raycast"><span class="n">04</span>Raycast ile seçim</a></li>
+    <li><a href="#teshis"><span class="n">05</span>Fizik çalışmadığında</a></li>
+    <li><a href="#uygulama"><span class="n">06</span>Ders içi uygulama</a></li>
+    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
+    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+  </ol>
+</nav>
+
+<main class="page">
 <div class="titleblock">
   <div class="kicker">9. Hafta · Ders notu</div>
   <h1>Fizik ve çarpışma</h1>
   <p class="dek">Eşya toplamak, kapı açmak, doğru seçeneği işaretlemek: eğitsel oyunlardaki etkileşimlerin çoğu iki nesnenin temas etmesine dayanır. Bu hafta Unity'nin bu temasları nasıl algıladığını ve bildirdiğini ele alıyoruz.</p>
-  <div class="meta"><span>9. hafta</span><span>Okuma süresi yaklaşık 16 dk</span></div>
+  <div class="meta"><span>9. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>1 etkileşim</span></div>
 </div>
 
-<div class="doc">
-  <nav class="toc" aria-label="İçindekiler">
-    <div class="toc-h">İçindekiler</div>
-    <ol>
-      <li><a href="#collider"><span class="n">1</span>Collider ve trigger</a></li>
-      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
-      <li><a href="#secenek"><span class="n">3</span>Seçenek toplama örneği</a></li>
-      <li><a href="#raycast"><span class="n">4</span>Raycast ile seçim</a></li>
-      <li><a href="#teshis"><span class="n">5</span>Fizik çalışmadığında</a></li>
-      <li><a href="#uygulama"><span class="n">6</span>Ders içi uygulama</a></li>
-      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
-      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
-    </ol>
-  </nav>
-
-<main class="body">
-
 <section class="sec" id="collider">
-  <h2><span class="no">1</span>Collider ve trigger</h2>
+  <div class="sec-head"><span class="sec-no">01</span><h2>Collider ve trigger</h2></div>
+<div class="col">
 <p><i>Collider</i> bileşeni nesneye görünmeyen bir fiziksel sınır ekler. Bu sınır iki farklı biçimde davranabilir; hangisinin geçerli olduğunu bileşendeki <i>Is Trigger</i> ayarı belirler.</p>
 <ul>
   <li><b>Is Trigger kapalı:</b> Sınır katıdır. Nesneler birbirinin içinden geçemez. Duvar, zemin, sandık.</li>
@@ -66,9 +66,20 @@
     </tbody>
   </table>
 </div>
+</div>
+<figure class="fig">
+  <div class="fig-card">
+    <div class="fig-head"><span class="fig-no">Etkileşim 1</span><span class="fig-title">Collider ve trigger</span></div>
+    <div data-widget="carpisma" data-base="../"></div>
+  </div>
+  <figcaption>Katı kutu topu durdurur ve OnCollisionEnter2D çağrılır. Trigger kutu topu durdurmaz; giriş ve çıkışı bildirir.</figcaption>
+</figure>
+<div class="col">
+</div>
 </section>
 <section class="sec" id="kavramlar">
-  <h2><span class="no">2</span>Kavramlar</h2>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 2. Bu haftanın kavramları</caption>
@@ -83,9 +94,11 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="secenek">
-  <h2><span class="no">3</span>Seçenek toplama örneği</h2>
+  <div class="sec-head"><span class="sec-no">03</span><h2>Seçenek toplama örneği</h2></div>
+<div class="col">
 <p>Eğitsel oyunlarda sık kullanılan bir yapı şudur: ortamda birkaç seçenek bulunur, öğrenci doğru olana ulaşır ve geri bildirim alır. Aşağıdaki script bir seçenek nesnesine eklenir. Nesnenin collider'ında <i>Is Trigger</i> açık olmalı, oyuncu karakterinin etiketi <i>Player</i> olmalıdır.</p>
 <div class="code-label">Secenek2D.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -114,9 +127,11 @@
 }</pre>
 <p>3B karşılığında <code>OnTriggerEnter2D</code> yerine <code>OnTriggerEnter</code>, <code>Collider2D</code> yerine <code>Collider</code> yazılır; geri kalan kod aynıdır.</p>
 <p>Koddaki küçük bir karar, öğretim açısından önemlidir: yanlış seçenek kaldırılmıyor. Yanlış seçenek yok edilseydi öğrencinin hatası geri alınamaz bir sonuca dönüşür ve deneme isteği azalırdı. Seçeneğin yerinde kalması öğrenciye yeniden deneme olanağı verir. 12. haftada bu yapıya puan ve geri bildirim göstergeleri eklenecek.</p>
+</div>
 </section>
 <section class="sec" id="raycast">
-  <h2><span class="no">4</span>Raycast ile seçim</h2>
+  <div class="sec-head"><span class="sec-no">04</span><h2>Raycast ile seçim</h2></div>
+<div class="col">
 <p>Bazı etkileşimler temas gerektirmez: fareyle bir nesneye tıklamak, bir nesneye bakmak, uzaktan nişan almak. Bunlar için raycast kullanılır. Aşağıdaki örnek, 3B sahnede fareyle tıklanan nesneyi bulur:</p>
 <div class="code-label">TiklaSec.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -142,9 +157,11 @@
     }
 }</pre>
 <p><code>secilebilir</code> katman maskesi önemlidir. Maske verilmezse ışın, aradaki herhangi bir nesneye, örneğin oyuncunun kendi collider'ına çarpabilir. 2B'de aynı iş <code>Physics2D.Raycast</code> ya da tıklanan noktadaki collider'ı bulan <code>Physics2D.OverlapPoint</code> ile yapılır.</p>
+</div>
 </section>
 <section class="sec" id="teshis">
-  <h2><span class="no">5</span>Fizik çalışmadığında</h2>
+  <div class="sec-head"><span class="sec-no">05</span><h2>Fizik çalışmadığında</h2></div>
+<div class="col">
 <p>Çarpışmaların algılanmaması en sık karşılaşılan sorundur ve genellikle aşağıdaki nedenlerden birine bağlıdır. Sırayla kontrol edilmesi önerilir:</p>
 <ol>
   <li>2B ve 3B bileşenler karışmış mı? 2B sahnede 3B collider ya da tersi kullanılmışsa temas hiç algılanmaz.</li>
@@ -156,17 +173,21 @@
   <li>Nesne çok mu hızlı? Hızlı bir nesne tek adımda ince bir duvarın öbür tarafına geçebilir. Rigidbody'nin <i>Collision Detection</i> ayarı <i>Continuous</i> yapılır.</li>
   <li>Script ve nesne etkin mi? Bileşenin yanındaki onay kutusu ve nesnenin etkinliği kontrol edilir.</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="uygulama">
-  <h2><span class="no">6</span>Ders içi uygulama</h2>
+  <div class="sec-head"><span class="sec-no">06</span><h2>Ders içi uygulama</h2></div>
+<div class="col">
 <ol>
   <li>2B projede üç seçenekli bir soru alanı kurun: biri doğru, ikisi yanlış. Secenek2D script'ini kullanın.</li>
   <li>Aynı yapıyı 3B projede kurun ve seçimi TiklaSec script'iyle fareyle yapın.</li>
   <li>Yanlış seçenekte öğrenciyi geri iten bir tepki ekleyin (2B'de oyuncunun Rigidbody2D'sine ters yönde hız vermek yeterli).</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="sorular">
-  <h2>Tekrar soruları</h2>
+  <div class="sec-head"><h2>Tekrar soruları</h2></div>
+<div class="col">
 <ol class="qs">
   <li>İki hareketsiz collider birbirine değiyor ama hiçbir geri çağrı çalışmıyor. Neden?
     <details><summary>Yanıtı göster</summary><p>Taraflardan hiçbirinde Rigidbody yok. Fizik motoru bir teması bildirmek için en az bir tarafın Rigidbody taşımasını gerektirir.</p></details>
@@ -181,25 +202,28 @@
     <details><summary>Yanıtı göster</summary><p>Öğrencinin yanlış yanıtın ardından yeniden deneyebilmesi için. Yanlışı geri alınamaz bir sonuca dönüştürmek deneme isteğini azaltır.</p></details>
   </li>
 </ol>
+</div>
 </section>
 <section class="sec" id="kaynaklar">
-  <h2>Kaynaklar</h2>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+<div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Scripting API: Collider2D.OnTriggerEnter2D</i>. <a href="https://docs.unity3d.com/ScriptReference/Collider2D.OnTriggerEnter2D.html">https://docs.unity3d.com/ScriptReference/Collider2D.OnTriggerEnter2D.html</a></li>
   <li>Unity Technologies. <i>Scripting API: Collider.OnTriggerEnter</i>. <a href="https://docs.unity3d.com/ScriptReference/Collider.OnTriggerEnter.html">https://docs.unity3d.com/ScriptReference/Collider.OnTriggerEnter.html</a></li>
   <li>Unity Technologies. <i>Scripting API: Physics.Raycast</i>. <a href="https://docs.unity3d.com/ScriptReference/Physics.Raycast.html">https://docs.unity3d.com/ScriptReference/Physics.Raycast.html</a></li>
 </ol>
+</div>
 </section>
 
+<div class="col">
 <div class="pager">
   <a class="prev" href="hafta-08.html"><small>Önceki hafta</small>8. Vize: uygulamalı sınav</a>
   <a class="next" href="hafta-10.html"><small>Sonraki hafta</small>10. Işıklandırma</a>
 </div>
-
-</main>
 </div>
+</main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
-<script src="../js/site.js?v=2"></script>
+<script type="module" src="../js/site.js?v=6"></script>
 </body>
 </html>

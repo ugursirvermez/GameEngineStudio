@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>10. Hafta: Işıklandırma · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="Işık, sahneyi görünür kılmanın yanında oyuncunun dikkatini de yönlendirir. Bu hafta 3B&#x27;de ışık türlerini ve gölgelerin maliyetini, 2B&#x27;de ise URP&#x27;nin 2B ışık sistemini ele alıyoruz.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=6">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
-
+<div id="progress"></div>
 <header class="masthead">
   <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
   <nav class="mast-nav">
@@ -21,36 +23,36 @@
   </nav>
 </header>
 
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#dikkat"><span class="n">01</span>Işık ve dikkat</a></li>
+    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
+    <li><a href="#uc-boyut"><span class="n">03</span>3B'de ışık türleri ve gölgeler</a></li>
+    <li><a href="#iki-boyut"><span class="n">04</span>2B'de ışık</a></li>
+    <li><a href="#uygulama"><span class="n">05</span>Ders içi uygulama</a></li>
+    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
+    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+  </ol>
+</nav>
+
+<main class="page">
 <div class="titleblock">
   <div class="kicker">10. Hafta · Ders notu</div>
   <h1>Işıklandırma</h1>
   <p class="dek">Işık, sahneyi görünür kılmanın yanında oyuncunun dikkatini de yönlendirir. Bu hafta 3B'de ışık türlerini ve gölgelerin maliyetini, 2B'de ise URP'nin 2B ışık sistemini ele alıyoruz.</p>
-  <div class="meta"><span>10. hafta</span><span>Okuma süresi yaklaşık 14 dk</span><span>İlgili atölye aşaması: <a href="../atolye/#stage-4">4. Işık ve yüzey</a></span></div>
+  <div class="meta"><span>10. hafta</span><span>Okuma süresi yaklaşık 14 dk</span><span>1 etkileşim</span><span>Atölye: <a href="../atolye/#stage-4">4. Işık ve yüzey</a></span></div>
 </div>
 
-<div class="doc">
-  <nav class="toc" aria-label="İçindekiler">
-    <div class="toc-h">İçindekiler</div>
-    <ol>
-      <li><a href="#dikkat"><span class="n">1</span>Işık ve dikkat</a></li>
-      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
-      <li><a href="#uc-boyut"><span class="n">3</span>3B'de ışık türleri ve gölgeler</a></li>
-      <li><a href="#iki-boyut"><span class="n">4</span>2B'de ışık</a></li>
-      <li><a href="#uygulama"><span class="n">5</span>Ders içi uygulama</a></li>
-      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
-      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
-    </ol>
-  </nav>
-
-<main class="body">
-
 <section class="sec" id="dikkat">
-  <h2><span class="no">1</span>Işık ve dikkat</h2>
+  <div class="sec-head"><span class="sec-no">01</span><h2>Işık ve dikkat</h2></div>
+<div class="col">
 <p>Bir görüntüye bakan göz önce en aydınlık ve en karşıt bölgeye yönelir. Seviye tasarımında bu, oyuncuyu yazılı yönergeye gerek kalmadan belirli bir yere yönlendirmek için kullanılır. Oyuncu genellikle karanlık bir koridorda aydınlık kapıya doğru yürür.</p>
 <p>Eğitsel oyunlarda bu ilke ayrıca önemlidir. Öğrencinin dikkatinin bir bölümü zaten öğrenilen konuya ayrılmıştır; mekânı anlamak için harcanan her ek çaba konuya kalan dikkati azaltır. Öğretilmek istenen etkileşimin sahnenin en belirgin noktasında olması bu yükü hafifletir.</p>
+</div>
 </section>
 <section class="sec" id="kavramlar">
-  <h2><span class="no">2</span>Kavramlar</h2>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 1. Bu haftanın kavramları</caption>
@@ -65,9 +67,11 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="uc-boyut">
-  <h2><span class="no">3</span>3B'de ışık türleri ve gölgeler</h2>
+  <div class="sec-head"><span class="sec-no">03</span><h2>3B'de ışık türleri ve gölgeler</h2></div>
+<div class="col">
 <p>Universal 3D şablonunda sahne bir <i>Directional Light</i> ile gelir. Genellikle bu ışık temel aydınlatmayı sağlar; birkaç nokta ya da spot ışık belirli yerleri vurgulamak için eklenir.</p>
 <h3>Gölgelerin maliyeti</h3>
 <p>Gölge oluşturmak için motor sahneyi ışığın bulunduğu yerden bir kez daha çizer. Gölge üreten her ışık, çizim işini belirgin biçimde artırır. Birkaç gölgeli ışık, özellikle web tarayıcısında ya da zayıf bilgisayarlarda kare hızını düşürür. Uygulamada gölgeyi yalnızca ana ışık üretir; öteki ışıkların <i>Shadow Type</i> ayarı <i>No Shadows</i> yapılır. Görsel fark çoğu zaman fark edilmeyecek kadar küçüktür.</p>
@@ -87,9 +91,21 @@
 </div>
 <p>Önceden hesaplanmış ışık için sabit nesneler Inspector'ın sağ üstündeki <i>Static</i> kutusu işaretlenerek belirtilir, ışığın <i>Mode</i> ayarı <i>Baked</i> yapılır ve <i>Window → Rendering → Lighting</i> penceresinden <i>Generate Lighting</i> düğmesine basılır. <i>Mixed</i> kip, sabit nesneler için önceden hesaplanmış, hareketli nesneler için gerçek zamanlı ışığı birleştirir.</p>
 <p>Sahnenin genel aydınlığını yalnızca ışıklar belirlemez. Gökyüzü de ortama yumuşak bir ışık verir. Bu ayar Lighting penceresinin <i>Environment</i> bölümündedir.</p>
+
+</div>
+<figure class="fig">
+  <div class="fig-card">
+    <div class="fig-head"><span class="fig-no">Etkileşim 1</span><span class="fig-title">Işık türleri ve gölge maliyeti</span></div>
+    <div data-widget="isik" data-base="../"></div>
+  </div>
+  <figcaption>Çizim sayısı yaklaşık bir değerdir: yönlü ve spot ışığın gölgesi bir, noktasal ışığınki altı ek çizim gerektirir.</figcaption>
+</figure>
+<div class="col">
+</div>
 </section>
 <section class="sec" id="iki-boyut">
-  <h2><span class="no">4</span>2B'de ışık</h2>
+  <div class="sec-head"><span class="sec-no">04</span><h2>2B'de ışık</h2></div>
+<div class="col">
 <p>Universal 2D şablonu URP'nin 2B renderer'ını kullanır. Sahnede varsayılan olarak bir <i>Global Light 2D</i> bulunur ve sprite'lar ışığa tepki veren <i>Sprite-Lit-Default</i> materyaliyle gelir. Global ışık silinirse ya da yoğunluğu düşürülürse sahne kararır. Başka 2B ışık türleri şunlardır:</p>
 <div class="tbl-wrap">
   <table class="tbl">
@@ -105,17 +121,21 @@
 </div>
 <p>Sprite'lara normal haritası eklenirse 2B ışık yüzeyde hacim izlenimi oluşturur: düz bir taş sprite'ı, ışık hareket ettikçe kabartmalı görünür. Normal haritası, Sprite Editor'ün <i>Secondary Textures</i> bölümünde <code>_NormalMap</code> adıyla sprite'a bağlanır.</p>
 <p>Işık kullanmayan bir 2B oyunda da yönlendirme mümkündür. Önemli nesnelerin doygun, dekorun soluk renklerde olması; etkileşilebilir nesnelerin arka planla karşıtlığının yüksek tutulması; hareketsiz bir sahnede küçük bir salınım gibi yöntemler aynı işi görür.</p>
+</div>
 </section>
 <section class="sec" id="uygulama">
-  <h2><span class="no">5</span>Ders içi uygulama</h2>
+  <div class="sec-head"><span class="sec-no">05</span><h2>Ders içi uygulama</h2></div>
+<div class="col">
 <ol>
   <li>Atölyenin <a href="../atolye/#stage-4">Işık ve yüzey aşamasında</a> ışığı kürenin çevresinde gezdirin; pürüzlülüğü düşük ve yüksek değerlerde karşılaştırın.</li>
   <li>3B projede aynı sahneyi bir kez gerçek zamanlı, bir kez önceden hesaplanmış ışıkla kurun ve Game penceresindeki <i>Stats</i> panelinden kare hızını karşılaştırın.</li>
   <li>2B projede global ışığı kısıp oyuncunun etrafına bir Spot Light 2D ekleyin. Hedef noktaya ikinci bir ışık koyup oyuncunun dikkatinin nasıl yönlendiğini deneyin.</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="sorular">
-  <h2>Tekrar soruları</h2>
+  <div class="sec-head"><h2>Tekrar soruları</h2></div>
+<div class="col">
 <ol class="qs">
   <li>Sahnede dört gölgeli ışık var ve kare hızı düştü. En etkili çözüm nedir?
     <details><summary>Yanıtı göster</summary><p>Gölgeyi yalnızca ana ışıkta bırakıp diğerlerinin Shadow Type ayarını No Shadows yapmak. Gölge üreten her ışık sahnenin bir kez daha çizilmesini gerektirir.</p></details>
@@ -127,25 +147,28 @@
     <details><summary>Yanıtı göster</summary><p>Sabit nesneler için önceden hesaplanmış (Baked) ışık. Çalışma sırasındaki maliyeti çok düşüktür.</p></details>
   </li>
 </ol>
+</div>
 </section>
 <section class="sec" id="kaynaklar">
-  <h2>Kaynaklar</h2>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+<div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Unity Manual: Lighting</i>. <a href="https://docs.unity3d.com/Manual/LightingOverview.html">https://docs.unity3d.com/Manual/LightingOverview.html</a></li>
   <li>Unity Technologies. <i>URP: 2D lights</i>. <a href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/manual/Lights-2D-intro.html">https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/manual/Lights-2D-intro.html</a></li>
   <li>Mayer, R. E. (2009). <i>Multimedia learning</i> (2nd ed.). Cambridge University Press. (İşaretleme ilkesi.)</li>
 </ol>
+</div>
 </section>
 
+<div class="col">
 <div class="pager">
   <a class="prev" href="hafta-09.html"><small>Önceki hafta</small>9. Fizik ve çarpışma</a>
   <a class="next" href="hafta-11.html"><small>Sonraki hafta</small>11. Animasyon ve karakter</a>
 </div>
-
-</main>
 </div>
+</main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
-<script src="../js/site.js?v=2"></script>
+<script type="module" src="../js/site.js?v=6"></script>
 </body>
 </html>

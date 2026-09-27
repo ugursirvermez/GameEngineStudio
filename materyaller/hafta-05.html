@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>5. Hafta: Sahne tasarımı: Tilemap, arazi ve modüler yapılar · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="Boş bir sahneden dolaşılabilir bir alana geçiş. 2B&#x27;de karolarla, 3B&#x27;de basit bloklar ve tekrar kullanılabilir parçalarla mekân kurulur. Önce mekânın oyuncuya ne anlattığına bakıyoruz.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=6">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
-
+<div id="progress"></div>
 <header class="masthead">
   <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
   <nav class="mast-nav">
@@ -21,32 +23,30 @@
   </nav>
 </header>
 
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#ilkeler"><span class="n">01</span>Seviye tasarımının temel ilkeleri</a></li>
+    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
+    <li><a href="#tilemap"><span class="n">03</span>2B: Tilemap</a></li>
+    <li><a href="#uc-boyut"><span class="n">04</span>3B: blok taslak, arazi ve modüler parçalar</a></li>
+    <li><a href="#kagittan"><span class="n">05</span>Kâğıttan motora</a></li>
+    <li><a href="#uygulama"><span class="n">06</span>Ders içi uygulama</a></li>
+    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
+    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+  </ol>
+</nav>
+
+<main class="page">
 <div class="titleblock">
   <div class="kicker">5. Hafta · Ders notu</div>
   <h1>Sahne tasarımı: Tilemap, arazi ve modüler yapılar</h1>
   <p class="dek">Boş bir sahneden dolaşılabilir bir alana geçiş. 2B'de karolarla, 3B'de basit bloklar ve tekrar kullanılabilir parçalarla mekân kurulur. Önce mekânın oyuncuya ne anlattığına bakıyoruz.</p>
-  <div class="meta"><span>5. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>İlgili atölye aşaması: <a href="../atolye/#stage-5">5. Dünya</a></span></div>
+  <div class="meta"><span>5. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>1 etkileşim</span><span>Atölye: <a href="../atolye/#stage-5">5. Dünya</a></span></div>
 </div>
 
-<div class="doc">
-  <nav class="toc" aria-label="İçindekiler">
-    <div class="toc-h">İçindekiler</div>
-    <ol>
-      <li><a href="#ilkeler"><span class="n">1</span>Seviye tasarımının temel ilkeleri</a></li>
-      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
-      <li><a href="#tilemap"><span class="n">3</span>2B: Tilemap</a></li>
-      <li><a href="#uc-boyut"><span class="n">4</span>3B: blok taslak, arazi ve modüler parçalar</a></li>
-      <li><a href="#kagittan"><span class="n">5</span>Kâğıttan motora</a></li>
-      <li><a href="#uygulama"><span class="n">6</span>Ders içi uygulama</a></li>
-      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
-      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
-    </ol>
-  </nav>
-
-<main class="body">
-
 <section class="sec" id="ilkeler">
-  <h2><span class="no">1</span>Seviye tasarımının temel ilkeleri</h2>
+  <div class="sec-head"><span class="sec-no">01</span><h2>Seviye tasarımının temel ilkeleri</h2></div>
+<div class="col">
 <p>Oyuncu bir mekâna girdiğinde, hiçbir açıklama okumadan nereye gidebileceğini, neyle etkileşebileceğini ve neyin tehlikeli olduğunu anlamaya çalışır. Bu soruların yanıtını büyük ölçüde mekânın kendisi verir. Bu nedenle seviye tasarımı yalnızca bir görsel düzenleme işi sayılmaz.</p>
 <ul>
   <li><b>Okunabilirlik.</b> Üzerine basılabilen zemin ile dekor bir bakışta ayırt edilebilmelidir. Aynı görselin hem arka plan duvarında hem platformda kullanılması, yeni başlayanların en sık yaptığı hatalardandır.</li>
@@ -54,9 +54,11 @@
   <li><b>Aşamalı zorluk.</b> Yeni bir kural önce güvenli bir ortamda tanıtılır, ardından tekrar ettirilir, daha sonra başka öğelerle birleştirilir ve en son zorlaştırılır.</li>
 </ul>
 <p>Son ilke eğitsel oyunlarda bilişsel yükle doğrudan ilgilidir. Öğrenci yeni bir kavramı öğrenirken aynı anda zor bir engelle de uğraşmak zorunda kalırsa, dikkatinin büyük bölümü engele gider. Kavramın tanıtıldığı bölümün kolay olması bu yüzden önemlidir.</p>
+</div>
 </section>
 <section class="sec" id="kavramlar">
-  <h2><span class="no">2</span>Kavramlar</h2>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 1. Bu haftanın kavramları</caption>
@@ -72,9 +74,11 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="tilemap">
-  <h2><span class="no">3</span>2B: Tilemap</h2>
+  <div class="sec-head"><span class="sec-no">03</span><h2>2B: Tilemap</h2></div>
+<div class="col">
 <p>Tilemap üç parçadan oluşur: bir <b>Grid</b> nesnesi (ızgara), onun altındaki bir ya da daha fazla <b>Tilemap</b> nesnesi (karoların durduğu katman) ve karoların seçildiği <b>Tile Palette</b> penceresi.</p>
 <h3>Kurulum</h3>
 <ol>
@@ -99,9 +103,21 @@
 <p>Zemin katmanına <i>Tilemap Collider 2D</i> eklenir. Bu bileşen her karo için ayrı bir sınır oluşturur ve karakter bazen karoların birleşim noktalarına takılır. Bunu önlemek için katmana ayrıca <i>Composite Collider 2D</i> eklenir; Unity bununla birlikte bir <code>Rigidbody2D</code> da ekler, bunun <i>Body Type</i> ayarı <i>Static</i> yapılır. Son olarak Tilemap Collider 2D'deki <i>Composite Operation</i> ayarı <i>Merge</i> seçilir. Böylece bütün karo sınırları tek bir kesintisiz sınırda birleşir.</p>
 <h3>Rule Tile</h3>
 <p>Bir platformun sol ucu, ortası ve sağ ucu için ayrı görseller kullanılır. Bunları elle seçmek zaman alır. <i>Rule Tile</i>, komşu karoların durumuna göre hangi görseli göstereceğini kurallarla belirler. Bir kez tanımlandıktan sonra platform boyandıkça uçlar ve köşeler kendiliğinden doğru görünür.</p>
+
+</div>
+<figure class="fig">
+  <div class="fig-card">
+    <div class="fig-head"><span class="fig-no">Etkileşim 1</span><span class="fig-title">Karo boyama, Rule Tile ve collider birleştirme</span></div>
+    <div data-widget="tilemap" data-base="../"></div>
+  </div>
+  <figcaption>Tilemap Collider 2D her karo için ayrı bir sınır oluşturur; Composite Collider 2D bunları bitişik bölgeler başına tek bir sınıra indirir.</figcaption>
+</figure>
+<div class="col">
+</div>
 </section>
 <section class="sec" id="uc-boyut">
-  <h2><span class="no">4</span>3B: blok taslak, arazi ve modüler parçalar</h2>
+  <div class="sec-head"><span class="sec-no">04</span><h2>3B: blok taslak, arazi ve modüler parçalar</h2></div>
+<div class="col">
 <p>3B'de sık yapılan hata, sahneye önce hazır modeller yerleştirmeye başlamaktır. Önerilen sıra tersidir: mekân önce basit bloklarla kurulur, oynanabilirliği denenir, ardından görsellerle giydirilir.</p>
 <h3>Blok taslak</h3>
 <p>Yalnızca küp ve düzlemler kullanılarak mekânın taslağı çıkarılır. Bu aşamada sorulan soru, mekânda dolaşmanın rahat olup olmadığıdır: kapılar karakterden yeterince yüksek mi, platformlar zıplanabilecek uzaklıkta mı, oyuncu nereye gideceğini anlıyor mu? Unity'nin <i>ProBuilder</i> paketi, editör içinde basit geometriler oluşturup yüzlerini düzenlemeye olanak verir; ayrı bir modelleme programına gerek kalmaz. Paket <i>Window → Package Manager</i> üzerinden kurulur.</p>
@@ -121,9 +137,11 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="kagittan">
-  <h2><span class="no">5</span>Kâğıttan motora</h2>
+  <div class="sec-head"><span class="sec-no">05</span><h2>Kâğıttan motora</h2></div>
+<div class="col">
 <p>Bu haftanın uygulaması iki yolda da aynı kâğıt taslağından başlar.</p>
 <ol>
   <li><b>Kâğıda çizin.</b> Başlangıç noktası, hedef ve aradaki üç durak. Her durakta öğrencinin ne yapacağını tek cümleyle yazın.</li>
@@ -133,18 +151,22 @@
   <li><b>Sonra giydirin.</b> Görseller en son eklenir.</li>
 </ol>
 <p>Dördüncü adım en ucuz kullanıcı testidir. 13. haftada projeler başkalarıyla denenecek; ama o teste önce geliştiricinin kendi denemesinden geçmiş bir seviyeyle gitmek gerekir.</p>
+</div>
 </section>
 <section class="sec" id="uygulama">
-  <h2><span class="no">6</span>Ders içi uygulama</h2>
+  <div class="sec-head"><span class="sec-no">06</span><h2>Ders içi uygulama</h2></div>
+<div class="col">
 <ol>
   <li>Atölyenin <a href="../atolye/#stage-5">Dünya aşamasında</a> evin parçalarını hiyerarşiden seçerek bir mekânın iç içe nesnelerden nasıl kurulduğuna bakın.</li>
   <li>Aynı kâğıt taslağını 2B projede Tilemap ile, 3B projede blok taslak olarak kurun.</li>
   <li>İki sürümü yan yana açıp seçtiğiniz konu için hangisinin daha anlaşılır olduğunu not edin.</li>
   <li>Tasarım belgesinin kalan üç başlığını tamamlayın.</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="sorular">
-  <h2>Tekrar soruları</h2>
+  <div class="sec-head"><h2>Tekrar soruları</h2></div>
+<div class="col">
 <ol class="qs">
   <li>2B bir seviyede karakter karoların birleşim yerlerine takılıyor. Nasıl çözülür?
     <details><summary>Yanıtı göster</summary><p>Zemin katmanına Composite Collider 2D eklenir, Rigidbody2D Static yapılır ve Tilemap Collider 2D'nin Composite Operation ayarı Merge seçilir. Böylece karo sınırları tek bir kesintisiz sınıra dönüşür.</p></details>
@@ -156,26 +178,29 @@
     <details><summary>Yanıtı göster</summary><p>Öğrencinin dikkatinin büyük bölümü zor engele gider ve kavrama yeterince kaynak kalmaz. Kavram önce güvenli ortamda tanıtılıp tekrar ettirilmeli, zorluk daha sonra artırılmalıdır.</p></details>
   </li>
 </ol>
+</div>
 </section>
 <section class="sec" id="kaynaklar">
-  <h2>Kaynaklar</h2>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+<div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Unity Manual: Tilemaps</i>. <a href="https://docs.unity3d.com/Manual/class-Tilemap.html">https://docs.unity3d.com/Manual/class-Tilemap.html</a></li>
   <li>Unity Technologies. <i>Unity Manual: Terrain</i>. <a href="https://docs.unity3d.com/Manual/script-Terrain.html">https://docs.unity3d.com/Manual/script-Terrain.html</a></li>
   <li>Totten, C. W. (2019). <i>An architectural approach to level design</i> (2nd ed.). CRC Press.</li>
   <li>Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <i>Cognitive Science, 12</i>(2), 257–285.</li>
 </ol>
+</div>
 </section>
 
+<div class="col">
 <div class="pager">
   <a class="prev" href="hafta-04.html"><small>Önceki hafta</small>4. Görsel varlıklar: sprite, doku ve materyal</a>
   <a class="next" href="hafta-06.html"><small>Sonraki hafta</small>6. Transform, koordinat sistemleri ve kamera</a>
 </div>
-
-</main>
 </div>
+</main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
-<script src="../js/site.js?v=2"></script>
+<script type="module" src="../js/site.js?v=6"></script>
 </body>
 </html>

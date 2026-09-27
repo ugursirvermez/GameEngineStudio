@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2. Hafta: Unity arayüzü, proje yapısı ve şablonlar · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="Unity&#x27;nin kurulumu, proje şablonları arasındaki farklar, editörün pencereleri ve dönem boyunca kullanılacak klasör düzeni. Haftanın sonunda projeye ait kısa bir tasarım belgesi yazılmaya başlanır.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=6">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
-
+<div id="progress"></div>
 <header class="masthead">
   <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
   <nav class="mast-nav">
@@ -21,38 +23,38 @@
   </nav>
 </header>
 
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#kurulum"><span class="n">01</span>Unity Hub ve kurulum</a></li>
+    <li><a href="#sablon"><span class="n">02</span>Proje şablonları</a></li>
+    <li><a href="#pencereler"><span class="n">03</span>Editör pencereleri</a></li>
+    <li><a href="#klasor"><span class="n">04</span>Klasör düzeni ve adlandırma</a></li>
+    <li><a href="#gdd"><span class="n">05</span>Kısa tasarım belgesi</a></li>
+    <li><a href="#uygulama"><span class="n">06</span>Ders içi uygulama</a></li>
+    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
+    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+  </ol>
+</nav>
+
+<main class="page">
 <div class="titleblock">
   <div class="kicker">2. Hafta · Ders notu</div>
   <h1>Unity arayüzü, proje yapısı ve şablonlar</h1>
   <p class="dek">Unity'nin kurulumu, proje şablonları arasındaki farklar, editörün pencereleri ve dönem boyunca kullanılacak klasör düzeni. Haftanın sonunda projeye ait kısa bir tasarım belgesi yazılmaya başlanır.</p>
-  <div class="meta"><span>2. hafta</span><span>Okuma süresi yaklaşık 15 dk</span></div>
+  <div class="meta"><span>2. hafta</span><span>Okuma süresi yaklaşık 15 dk</span><span>1 etkileşim</span></div>
 </div>
 
-<div class="doc">
-  <nav class="toc" aria-label="İçindekiler">
-    <div class="toc-h">İçindekiler</div>
-    <ol>
-      <li><a href="#kurulum"><span class="n">1</span>Unity Hub ve kurulum</a></li>
-      <li><a href="#sablon"><span class="n">2</span>Proje şablonları</a></li>
-      <li><a href="#pencereler"><span class="n">3</span>Editör pencereleri</a></li>
-      <li><a href="#klasor"><span class="n">4</span>Klasör düzeni ve adlandırma</a></li>
-      <li><a href="#gdd"><span class="n">5</span>Kısa tasarım belgesi</a></li>
-      <li><a href="#uygulama"><span class="n">6</span>Ders içi uygulama</a></li>
-      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
-      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
-    </ol>
-  </nav>
-
-<main class="body">
-
 <section class="sec" id="kurulum">
-  <h2><span class="no">1</span>Unity Hub ve kurulum</h2>
+  <div class="sec-head"><span class="sec-no">01</span><h2>Unity Hub ve kurulum</h2></div>
+<div class="col">
 <p>Unity iki parçadan oluşur. <b>Unity Hub</b>, bilgisayardaki Unity sürümlerini ve projeleri yöneten küçük bir uygulamadır. <b>Unity Editor</b> ise asıl geliştirme ortamıdır. Bir bilgisayarda birden fazla Editor sürümü kurulu olabilir; Hub hangi projenin hangi sürümle açılacağını tutar.</p>
 <p>Bu derste Unity 6'nın LTS (<i>Long Term Support</i>) etiketli sürümü kullanılır. LTS sürümler uzun süre hata düzeltmesi alır ve yeni özellik eklenmediği için dönem boyunca değişmeden kalır. Dönemin ortasında sürüm yükseltmek, özellikle paket sürümleri değiştiğinde projede hatalara yol açabilir. Bu nedenle ders boyunca tek bir sürümde kalınacak.</p>
 <p>Kurulum sırasında Hub, sürümle birlikte hangi <i>modüllerin</i> kurulacağını sorar. Modüller, projenin hangi platformlar için derlenebileceğini belirler. Bu derste <i>Web Build Support</i> gereklidir; 13. haftada projeler web tarayıcısında çalışacak biçimde derlenecek. Windows'ta <i>Microsoft Visual Studio</i> seçeneği kod yazmak için gereken düzenleyiciyi kurar. macOS'ta Visual Studio Code ayrıca kurulabilir.</p>
+</div>
 </section>
 <section class="sec" id="sablon">
-  <h2><span class="no">2</span>Proje şablonları</h2>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Proje şablonları</h2></div>
+<div class="col">
 <p>Hub'da yeni proje açılırken bir şablon seçilir. Şablon, projeye hazır ayarlar ve paketler getirir. Unity'nin sahnesi her iki durumda da üç boyutludur; 2B şablonu seçmek motoru iki boyutlu hâle getirmez, yalnızca 2B çalışmaya uygun varsayılanları ayarlar. Bu derste iki şablon kullanılır: <i>Universal 2D</i> ve <i>Universal 3D</i>. İkisi de Universal Render Pipeline (URP) adlı görüntü oluşturma sistemini kullanır.</p>
 <div class="tbl-wrap">
   <table class="tbl">
@@ -69,9 +71,11 @@
 </div>
 <p>Dersin iki yolu için iki ayrı proje açılacak. Tek projede hem 2B hem 3B çalışmak mümkündür, ancak öğrenme aşamasında hangi bileşenin hangi dünyaya ait olduğunu karıştırmaya yol açar.</p>
 <div class="note"><b>Pembe görünen nesneler.</b> URP kullanan bir projede başka bir görüntü oluşturma sistemi için hazırlanmış bir materyal kullanılırsa nesne pembe görünür. Bu, Unity'nin o materyalin gölgelendiricisini (shader) çizemediğini gösterir. İnternetten indirilen eski varlık paketlerinde sık karşılaşılır. Çözüm, materyalin shader'ını <code>Universal Render Pipeline/Lit</code> olarak değiştirmektir.</div>
+</div>
 </section>
 <section class="sec" id="pencereler">
-  <h2><span class="no">3</span>Editör pencereleri</h2>
+  <div class="sec-head"><span class="sec-no">03</span><h2>Editör pencereleri</h2></div>
+<div class="col">
 <p>Unity Editor açıldığında ekran birkaç pencereye bölünür. Başlangıçta en çok kullanılacak altı pencere şunlardır:</p>
 <div class="tbl-wrap">
   <table class="tbl">
@@ -88,9 +92,21 @@
   </table>
 </div>
 <p>Üst ortadaki oynat düğmesi oyunu editör içinde çalıştırır (<i>Play Mode</i>). Oyun çalışırken Inspector'da yapılan değişiklikler, oyun durdurulduğunda geri alınır. Bu, denemeler için kullanışlıdır ama yeni başlayanların sık yaşadığı bir sorunun da kaynağıdır: çalışırken yapılan ayarlar kaybolur. Kalıcı değişiklikler oyun durdurulduktan sonra yapılmalıdır.</p>
+
+</div>
+<figure class="fig">
+  <div class="fig-card">
+    <div class="fig-head"><span class="fig-no">Etkileşim 1</span><span class="fig-title">Unity editörü ve Play Mode</span></div>
+    <div data-widget="editor" data-base="../"></div>
+  </div>
+  <figcaption>Unity’nin varsayılan düzenine benzeyen bir maket. Oyun çalışırken editörün rengi değişir; bu, yapılan değişikliklerin geçici olduğunu hatırlatır.</figcaption>
+</figure>
+<div class="col">
+</div>
 </section>
 <section class="sec" id="klasor">
-  <h2><span class="no">4</span>Klasör düzeni ve adlandırma</h2>
+  <div class="sec-head"><span class="sec-no">04</span><h2>Klasör düzeni ve adlandırma</h2></div>
+<div class="col">
 <p>Bir dönemlik projede birkaç yüz dosya birikir. İlk haftalarda düzen önemsiz görünür; ancak ilerleyen haftalarda bir dosyayı bulamamak, onu değiştirmekten vazgeçmeye yol açar. Bu derste bütün projelerde aşağıdaki düzen kullanılacak:</p>
 <div class="code-label">Klasör yapısı</div>
 <pre class="code">Assets/
@@ -113,9 +129,11 @@
 </ul>
 <h3>Projeyi nerede tutmalı?</h3>
 <p>Unity projesi OneDrive, iCloud ya da Dropbox gibi eşitleme klasörlerine konmamalıdır. Unity, proje içindeki <code>Library</code> klasörüne sürekli yazar; eşitleme servisleri bu dosyalara aynı anda erişmeye çalıştığında proje bozulabilir. Proje yerel diskte tutulmalı, yedek Git ile alınmalıdır. <code>Library</code>, <code>Temp</code> ve <code>Logs</code> klasörleri yedeklenmez; Unity bunları yeniden oluşturur.</p>
+</div>
 </section>
 <section class="sec" id="gdd">
-  <h2><span class="no">5</span>Kısa tasarım belgesi</h2>
+  <div class="sec-head"><span class="sec-no">05</span><h2>Kısa tasarım belgesi</h2></div>
+<div class="col">
 <p>Oyun geliştirmede tasarım belgesi (<i>Game Design Document</i>, GDD) oyunun ne olduğunu, kime yönelik olduğunu ve nasıl oynandığını anlatır. Bu derste bir sayfayı geçmeyen kısa bir sürümü kullanılır. Amaç, kod yazmaya başlamadan önce neyin yapılacağına karar vermektir. Belge altı başlıktan oluşur:</p>
 <ol>
   <li><b>Konu ve öğrenme çıktısı.</b> Hangi ders, hangi sınıf düzeyi, hangi kazanım. Örnek: 6. sınıf matematik, "kesirleri sayı doğrusunda gösterir".</li>
@@ -126,9 +144,11 @@
   <li><b>Öğrenmenin kanıtı.</b> Öğrencinin öğrendiği nasıl görülecek? Doğru yanıt oranı, deneme sayısı, süre gibi.</li>
 </ol>
 <p>Dördüncü başlık en zor ve en önemli olanıdır. Bu başlığı yazamayan bir proje, genellikle konuyla bağı zayıf bir oyuna dönüşür.</p>
+</div>
 </section>
 <section class="sec" id="uygulama">
-  <h2><span class="no">6</span>Ders içi uygulama</h2>
+  <div class="sec-head"><span class="sec-no">06</span><h2>Ders içi uygulama</h2></div>
+<div class="col">
 <ol>
   <li>Unity Hub'da iki proje açın: biri <i>Universal 2D</i>, diğeri <i>Universal 3D</i> şablonuyla.</li>
   <li>Her iki projede yukarıdaki klasör düzenini kurun.</li>
@@ -136,9 +156,11 @@
   <li>Sahneyi <code>_Proje/Scenes</code> altına kaydedin.</li>
   <li>Tasarım belgesinin ilk üç başlığını yazın. Kalan başlıklar 5. haftaya kadar tamamlanır.</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="sorular">
-  <h2>Tekrar soruları</h2>
+  <div class="sec-head"><h2>Tekrar soruları</h2></div>
+<div class="col">
 <ol class="qs">
   <li>Oyun çalışırken Inspector'da bir değeri değiştirdiniz; oyunu durdurduğunuzda değer eski hâline döndü. Neden?
     <details><summary>Yanıtı göster</summary><p>Play Mode sırasında yapılan değişiklikler geçicidir ve oyun durdurulduğunda geri alınır. Kalıcı değişiklik için oyunun durdurulmuş olması gerekir.</p></details>
@@ -153,25 +175,28 @@
     <details><summary>Yanıtı göster</summary><p>Oyuncunun temel eyleminin öğrenme çıktısıyla bağını kurar. Bu bağ kurulamazsa oyun oynanabilir olsa bile hedeflenen kazanımı desteklemez.</p></details>
   </li>
 </ol>
+</div>
 </section>
 <section class="sec" id="kaynaklar">
-  <h2>Kaynaklar</h2>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+<div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Unity Hub documentation</i>. <a href="https://docs.unity3d.com/hub/manual/index.html">https://docs.unity3d.com/hub/manual/index.html</a></li>
   <li>Unity Technologies. <i>Unity Manual: Unity's interface</i>. <a href="https://docs.unity3d.com/Manual/UsingTheEditor.html">https://docs.unity3d.com/Manual/UsingTheEditor.html</a></li>
   <li>GitHub. <i>Unity.gitignore</i>. <a href="https://github.com/github/gitignore/blob/main/Unity.gitignore">https://github.com/github/gitignore/blob/main/Unity.gitignore</a></li>
 </ol>
+</div>
 </section>
 
+<div class="col">
 <div class="pager">
   <a class="prev" href="../"><small>Önceki hafta</small>1. Derse giriş: model, modelleme ve oyun motorları</a>
   <a class="next" href="hafta-03.html"><small>Sonraki hafta</small>3. GameObject, bileşen ve prefab</a>
 </div>
-
-</main>
 </div>
+</main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
-<script src="../js/site.js?v=2"></script>
+<script type="module" src="../js/site.js?v=6"></script>
 </body>
 </html>

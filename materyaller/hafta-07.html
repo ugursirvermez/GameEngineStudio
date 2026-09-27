@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>7. Hafta: C# ile hareket ve girdi · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="İlk kapsamlı script: oyuncudan gelen girdiyi okuyup karakteri hareket ettirmek. Kodun mantığı iki yolda aynıdır; farklı olan, hareketi uygulayan bileşendir. Vize kapsamı bu haftayla tamamlanır.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=6">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
-
+<div id="progress"></div>
 <header class="masthead">
   <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
   <nav class="mast-nav">
@@ -21,33 +23,31 @@
   </nav>
 </header>
 
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#dongu"><span class="n">01</span>MonoBehaviour yaşam döngüsü</a></li>
+    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
+    <li><a href="#girdi"><span class="n">03</span>Girdiyi okumak</a></li>
+    <li><a href="#iki-boyut"><span class="n">04</span>2B hareket: Rigidbody2D</a></li>
+    <li><a href="#uc-boyut"><span class="n">05</span>3B hareket: CharacterController</a></li>
+    <li><a href="#karsilastirma"><span class="n">06</span>İki yolu karşılaştırma</a></li>
+    <li><a href="#uygulama"><span class="n">07</span>Ders içi uygulama</a></li>
+    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
+    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+  </ol>
+</nav>
+
+<main class="page">
 <div class="titleblock">
   <div class="kicker">7. Hafta · Ders notu</div>
   <h1>C# ile hareket ve girdi</h1>
   <p class="dek">İlk kapsamlı script: oyuncudan gelen girdiyi okuyup karakteri hareket ettirmek. Kodun mantığı iki yolda aynıdır; farklı olan, hareketi uygulayan bileşendir. Vize kapsamı bu haftayla tamamlanır.</p>
-  <div class="meta"><span>7. hafta</span><span>Okuma süresi yaklaşık 20 dk</span></div>
+  <div class="meta"><span>7. hafta</span><span>Okuma süresi yaklaşık 20 dk</span><span>1 etkileşim</span></div>
 </div>
 
-<div class="doc">
-  <nav class="toc" aria-label="İçindekiler">
-    <div class="toc-h">İçindekiler</div>
-    <ol>
-      <li><a href="#dongu"><span class="n">1</span>MonoBehaviour yaşam döngüsü</a></li>
-      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
-      <li><a href="#girdi"><span class="n">3</span>Girdiyi okumak</a></li>
-      <li><a href="#iki-boyut"><span class="n">4</span>2B hareket: Rigidbody2D</a></li>
-      <li><a href="#uc-boyut"><span class="n">5</span>3B hareket: CharacterController</a></li>
-      <li><a href="#karsilastirma"><span class="n">6</span>İki yolu karşılaştırma</a></li>
-      <li><a href="#uygulama"><span class="n">7</span>Ders içi uygulama</a></li>
-      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
-      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
-    </ol>
-  </nav>
-
-<main class="body">
-
 <section class="sec" id="dongu">
-  <h2><span class="no">1</span>MonoBehaviour yaşam döngüsü</h2>
+  <div class="sec-head"><span class="sec-no">01</span><h2>MonoBehaviour yaşam döngüsü</h2></div>
+<div class="col">
 <p>Bir script nesneye eklendiğinde Unity, script'teki belirli adlara sahip metotları belirli anlarda kendisi çağırır. Bu metotlar yazılır ama koddan çağrılmaz. Başlangıçta bilinmesi gereken dört metot şunlardır:</p>
 <div class="tbl-wrap">
   <table class="tbl">
@@ -62,9 +62,21 @@
   </table>
 </div>
 <p><code>Update</code> kare hızına bağlı olduğu için çağrılma sıklığı bilgisayardan bilgisayara değişir. Fizik motoru ise güvenilir sonuç için düzenli zaman adımlarına ihtiyaç duyar. <code>Rigidbody</code>'ye <code>Update</code> içinden kuvvet uygulanırsa hareket titreyebilir ve farklı bilgisayarlarda farklı davranabilir. Genel kural şudur: girdi <code>Update</code> içinde okunup bir değişkende tutulur, fizik <code>FixedUpdate</code> içinde uygulanır. Böylece hiçbir tuş basışı kaçırılmaz ve fizik düzenli çalışır.</p>
+
+</div>
+<figure class="fig">
+  <div class="fig-card">
+    <div class="fig-head"><span class="fig-no">Etkileşim 1</span><span class="fig-title">Update, kare hızı ve Time.deltaTime</span></div>
+    <div data-widget="dongu" data-base="../"></div>
+  </div>
+  <figcaption>Üstteki top kare başına, alttaki saniye başına ilerliyor. Yavaş çekimde her karenin adımları görülüyor.</figcaption>
+</figure>
+<div class="col">
+</div>
 </section>
 <section class="sec" id="kavramlar">
-  <h2><span class="no">2</span>Kavramlar</h2>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 2. Bu haftanın kavramları</caption>
@@ -79,9 +91,11 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="girdi">
-  <h2><span class="no">3</span>Girdiyi okumak</h2>
+  <div class="sec-head"><span class="sec-no">03</span><h2>Girdiyi okumak</h2></div>
+<div class="col">
 <p>Unity 6 ile açılan yeni projelerde girdi, <i>Input System</i> paketiyle okunur. Şablonlar <code>InputSystem_Actions</code> adlı hazır bir eylem dosyasıyla gelir. Bu dosyada <i>Move</i>, <i>Jump</i>, <i>Look</i>, <i>Attack</i> gibi eylemler tanımlıdır ve her biri hem klavyeye hem oyun kumandasına bağlıdır. Kod, tuşları değil bu eylemleri okur:</p>
 <div class="code-label">GirdiOrnegi.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -112,9 +126,11 @@
 <p>Eylemlerle çalışmanın avantajı, aynı kodun klavye, oyun kumandası ve dokunmatik ekranla değişiklik yapılmadan çalışmasıdır. Hangi tuşun hangi eyleme bağlı olduğu eylem dosyasından değiştirilir.</p>
 <div class="note"><b>Eski girdi sistemi.</b> İnternetteki birçok örnekte <code>Input.GetAxis("Horizontal")</code> gibi eski girdi sistemine ait kodlar bulunur. Bu kodlar, <i>Project Settings → Player → Active Input Handling</i> ayarı <i>Input Manager (Old)</i> ya da <i>Both</i> değilse hata verir. Bu derste yeni sistem kullanılacak.</div>
 <p><code>WasPressedThisFrame()</code> tuşa basıldığı karede bir kez <code>true</code> döner. Tuş basılı tutulduğu sürece <code>true</code> dönmesi istenirse <code>IsPressed()</code> kullanılır. Zıplama gibi tek seferlik eylemler için ilki kullanılmalıdır; aksi hâlde karakter tuş basılı tutulduğu sürece zıplamayı yeniden dener.</p>
+</div>
 </section>
 <section class="sec" id="iki-boyut">
-  <h2><span class="no">4</span>2B hareket: Rigidbody2D</h2>
+  <div class="sec-head"><span class="sec-no">04</span><h2>2B hareket: Rigidbody2D</h2></div>
+<div class="col">
 <p>2B karakterde bir <code>Rigidbody2D</code>, bir collider (örneğin <code>CapsuleCollider2D</code>) ve aşağıdaki script bulunur. Karakterin ayak hizasına boş bir çocuk nesne yerleştirilir; zemin kontrolü bu noktadan yapılır. Zemin karolarının bulunduğu katman <i>Ground</i> gibi ayrı bir katmana alınır ve script'teki <code>zeminKatmani</code> alanında seçilir.</p>
 <div class="code-label">Hareket2D.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -163,9 +179,11 @@
 }</pre>
 <p>Hız atanırken dikey bileşenin <code>rb.linearVelocity.y</code> olarak korunduğuna dikkat edin. Dikey hız da her adımda yeniden atansaydı yerçekimi etkisi silinir, karakter düşmez ve zıplayamazdı.</p>
 <p><code>OverlapCircle</code>, ayak noktasında küçük bir daire içinde zemin katmanına ait bir collider olup olmadığını sorar. Karakter havadayken zıplamanın engellenmesi buna dayanır.</p>
+</div>
 </section>
 <section class="sec" id="uc-boyut">
-  <h2><span class="no">5</span>3B hareket: CharacterController</h2>
+  <div class="sec-head"><span class="sec-no">05</span><h2>3B hareket: CharacterController</h2></div>
+<div class="col">
 <p>3B karakterde <code>CharacterController</code> bileşeni kullanılır. Bu bileşen tam bir fizik nesnesi değildir: kuvvetlerden etkilenmez, başka nesnelerce itilmez; ancak eğimleri tırmanmayı ve basamak çıkmayı kendisi çözer. Yerçekimi bu yüzden kodda uygulanır.</p>
 <div class="code-label">Hareket3D.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -212,9 +230,11 @@
     }
 }</pre>
 <p>İki noktaya dikkat edin. Birincisi, çapraz giderken iki eksen toplandığı için yön vektörünün uzunluğu 1'i aşar ve karakter çaprazda daha hızlı gider. Uzunluk 1'den büyükse vektörü normalleştirmek bunu önler; bu koşul, oyun kumandasıyla yapılan yavaş hareketleri de korur. İkincisi, <code>isGrounded</code> değeri son <code>Move</code> çağrısına göre belirlenir. Karede birden fazla <code>Move</code> çağrısı yapmak bu değerin kararsız olmasına yol açabilir.</p>
+</div>
 </section>
 <section class="sec" id="karsilastirma">
-  <h2><span class="no">6</span>İki yolu karşılaştırma</h2>
+  <div class="sec-head"><span class="sec-no">06</span><h2>İki yolu karşılaştırma</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 3. Hareket kodunun iki yolda karşılaştırması</caption>
@@ -231,18 +251,22 @@
 <p>Kodun yapısı iki yolda aynıdır: girdiyi oku, yön vektörünü oluştur, hareketi bileşene ver. Değişen, hangi bileşenle çalışıldığı ve vektörün boyut sayısıdır. Yuvarlanan bir top ya da itilebilen bir kutu gibi gerçekten fiziksel davranması gereken 3B nesneler için <code>CharacterController</code> yerine <code>Rigidbody</code> kullanılır.</p>
 <div class="note"><b>Vize kapsamı.</b> 8. haftadaki uygulamalı sınav 1–7. haftaları kapsar. Bu haftanın hareket kodu, vize ölçütlerinde en yüksek puanlı maddedir (12 puan). Ayrıntılar <a href="hafta-08.html">8. hafta notunda</a>.</div>
 <p>Bu notlardaki kodlarda değişken adları Türkçe, sınıf adları ise Unity'nin kurallarına uygun biçimde yazıldı. Değişken adları Inspector'da göründüğü için Türkçe adlar, projeyi kendi öğrencilerine gösterecek bir öğretmen için okunaklılık sağlar.</p>
+</div>
 </section>
 <section class="sec" id="uygulama">
-  <h2><span class="no">7</span>Ders içi uygulama</h2>
+  <div class="sec-head"><span class="sec-no">07</span><h2>Ders içi uygulama</h2></div>
+<div class="col">
 <ol>
   <li>2B projede Hareket2D script'ini sıfırdan yazın. Zemin katmanını oluşturup Tilemap zeminini bu katmana alın.</li>
   <li>3B projede bir kapsül karaktere Hareket3D script'ini ekleyin.</li>
   <li>İki kodu yan yana açıp aynı işi yapan satırları eşleştirin.</li>
   <li>Hız ve zıplama değerlerini değiştirerek karakterin nasıl hissettirdiğini deneyin.</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="sorular">
-  <h2>Tekrar soruları</h2>
+  <div class="sec-head"><h2>Tekrar soruları</h2></div>
+<div class="col">
 <ol class="qs">
   <li>Fizik kodu neden <code>FixedUpdate</code> içine yazılır?
     <details><summary>Yanıtı göster</summary><p>Fizik motoru düzenli zaman adımlarına ihtiyaç duyar. <code>Update</code> kare hızına bağlıdır ve bilgisayardan bilgisayara değişir.</p></details>
@@ -257,25 +281,28 @@
     <details><summary>Yanıtı göster</summary><p>Zıplama tek seferlik bir eylemdir. <code>IsPressed()</code> tuş basılı tutulduğu sürece <code>true</code> döner ve karakter zıplamayı her karede yeniden dener.</p></details>
   </li>
 </ol>
+</div>
 </section>
 <section class="sec" id="kaynaklar">
-  <h2>Kaynaklar</h2>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+<div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Unity Manual: Order of execution for event functions</i>. <a href="https://docs.unity3d.com/Manual/execution-order.html">https://docs.unity3d.com/Manual/execution-order.html</a></li>
   <li>Unity Technologies. <i>Input System documentation</i>. <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@latest">https://docs.unity3d.com/Packages/com.unity.inputsystem@latest</a></li>
   <li>Unity Technologies. <i>Unity Manual: Character Controller component</i>. <a href="https://docs.unity3d.com/Manual/class-CharacterController.html">https://docs.unity3d.com/Manual/class-CharacterController.html</a></li>
 </ol>
+</div>
 </section>
 
+<div class="col">
 <div class="pager">
   <a class="prev" href="hafta-06.html"><small>Önceki hafta</small>6. Transform, koordinat sistemleri ve kamera</a>
   <a class="next" href="hafta-08.html"><small>Sonraki hafta</small>8. Vize: uygulamalı sınav</a>
 </div>
-
-</main>
 </div>
+</main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
-<script src="../js/site.js?v=2"></script>
+<script type="module" src="../js/site.js?v=6"></script>
 </body>
 </html>

@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>4. Hafta: Görsel varlıklar: sprite, doku ve materyal · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="Aynı görüntü dosyası 2B projede sprite olarak kullanılır, 3B projede bir materyalin parçası olur. Bu hafta görüntülerin içe aktarılmasını, doku ile materyal arasındaki farkı ve normal haritalarının nasıl çalıştığını ele alıyoruz.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=6">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
-
+<div id="progress"></div>
 <header class="masthead">
   <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
   <nav class="mast-nav">
@@ -21,39 +23,39 @@
   </nav>
 </header>
 
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#ayrim"><span class="n">01</span>Doku, sprite ve materyal</a></li>
+    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
+    <li><a href="#sprite"><span class="n">03</span>2B: sprite içe aktarma</a></li>
+    <li><a href="#materyal"><span class="n">04</span>3B: materyal</a></li>
+    <li><a href="#normal"><span class="n">05</span>Normal haritası</a></li>
+    <li><a href="#karsilastirma"><span class="n">06</span>İki yolda görsel varlıklar</a></li>
+    <li><a href="#uygulama"><span class="n">07</span>Ders içi uygulama</a></li>
+    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
+    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+  </ol>
+</nav>
+
+<main class="page">
 <div class="titleblock">
   <div class="kicker">4. Hafta · Ders notu</div>
   <h1>Görsel varlıklar: sprite, doku ve materyal</h1>
   <p class="dek">Aynı görüntü dosyası 2B projede sprite olarak kullanılır, 3B projede bir materyalin parçası olur. Bu hafta görüntülerin içe aktarılmasını, doku ile materyal arasındaki farkı ve normal haritalarının nasıl çalıştığını ele alıyoruz.</p>
-  <div class="meta"><span>4. hafta</span><span>Okuma süresi yaklaşık 18 dk</span><span>İlgili atölye aşaması: <a href="../atolye/#stage-1">1, 2 ve 4. aşamalar</a></span></div>
+  <div class="meta"><span>4. hafta</span><span>Okuma süresi yaklaşık 18 dk</span><span>1 etkileşim</span><span>Atölye: <a href="../atolye/#stage-1">1, 2 ve 4. aşamalar</a></span></div>
 </div>
 
-<div class="doc">
-  <nav class="toc" aria-label="İçindekiler">
-    <div class="toc-h">İçindekiler</div>
-    <ol>
-      <li><a href="#ayrim"><span class="n">1</span>Doku, sprite ve materyal</a></li>
-      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
-      <li><a href="#sprite"><span class="n">3</span>2B: sprite içe aktarma</a></li>
-      <li><a href="#materyal"><span class="n">4</span>3B: materyal</a></li>
-      <li><a href="#normal"><span class="n">5</span>Normal haritası</a></li>
-      <li><a href="#karsilastirma"><span class="n">6</span>İki yolda görsel varlıklar</a></li>
-      <li><a href="#uygulama"><span class="n">7</span>Ders içi uygulama</a></li>
-      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
-      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
-    </ol>
-  </nav>
-
-<main class="body">
-
 <section class="sec" id="ayrim">
-  <h2><span class="no">1</span>Doku, sprite ve materyal</h2>
+  <div class="sec-head"><span class="sec-no">01</span><h2>Doku, sprite ve materyal</h2></div>
+<div class="col">
 <p>Bir PNG dosyası piksellerden oluşan bir ızgaradır. Unity bu dosyayı ekran kartına bir <b>doku</b> (<i>texture</i>) olarak yükler. Buraya kadar iki yol aynıdır; ayrım dokunun nasıl kullanıldığında başlar.</p>
 <p>2B'de doku, <b>sprite</b> olarak doğrudan bir dikdörtgenin üzerine basılır. Bu durumda ilgilenilen konular görüntünün sahnedeki ölçeği, piksellerin keskin kalıp kalmadığı ve dosyanın ne kadar yer kapladığıdır.</p>
 <p>3B'de doku tek başına kullanılmaz; bir <b>materyalin</b> içine yerleştirilir. Materyal, bir yüzeyin ışığa nasıl tepki vereceğini tanımlayan ayarların bütünüdür. Hangi dokunun kullanılacağı bu ayarlardan yalnızca biridir; yüzeyin ne kadar parlak, ne kadar pürüzlü ve metal olup olmadığı da materyalde belirlenir. Aynı doku, farklı materyal ayarlarıyla tamamen farklı bir malzeme gibi görünebilir.</p>
+</div>
 </section>
 <section class="sec" id="kavramlar">
-  <h2><span class="no">2</span>Kavramlar</h2>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 1. Bu haftanın kavramları</caption>
@@ -70,9 +72,11 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="sprite">
-  <h2><span class="no">3</span>2B: sprite içe aktarma</h2>
+  <div class="sec-head"><span class="sec-no">03</span><h2>2B: sprite içe aktarma</h2></div>
+<div class="col">
 <p>Görüntü dosyası projeye eklendikten sonra Project penceresinde seçilir ve ayarları Inspector'da düzenlenir. Varsayılan ayarlar her görsel için uygun değildir. Dört ayar özellikle önemlidir.</p>
 <h3>Pixels Per Unit</h3>
 <p>Unity'de uzunluk birimle ölçülür ve fizik değerleri bu birime göre çalışır. <i>Pixels Per Unit</i> (PPU), bir birimin kaç piksele karşılık geldiğini belirtir. 32 × 32 piksellik bir karo için PPU 32 yapılırsa karo sahnede 1 × 1 birim yer kaplar; bu da 5. haftada kullanılacak Tilemap ızgarasıyla uyumludur. Projedeki bütün sprite'lar için aynı PPU kullanılmalıdır. Aksi hâlde aynı boyutta çizilmiş iki görsel sahnede farklı büyüklükte görünür.</p>
@@ -85,9 +89,21 @@
 <div class="note"><b>Bulanık görünen piksel sanatı.</b> Sırasıyla şunlar kontrol edilir: Filter Mode <i>Point</i> mi, Compression kapalı mı, nesnenin ölçeği 1 mi? Sahne kamerasına <i>Pixel Perfect Camera</i> bileşeni eklemek, piksellerin ekran piksellerine tam oturmasını sağlar.</div>
 <h3>Sprite Atlas</h3>
 <p>Ekran kartı her farklı doku için ayrı bir çizim komutu alır. Elli ayrı sprite kullanan bir sahnede bu sayı yükselir ve özellikle mobil cihazlarda performansı düşürür. <i>Sprite Atlas</i>, sprite'ları tek bir büyük dokuda toplayarak çizim komutu sayısını azaltır.</p>
+
+</div>
+<figure class="fig">
+  <div class="fig-card">
+    <div class="fig-head"><span class="fig-no">Etkileşim 1</span><span class="fig-title">Pixels Per Unit ve Filter Mode</span></div>
+    <div data-widget="sprite" data-base="../"></div>
+  </div>
+  <figcaption>Arkadaki ızgaranın her karesi bir Unity birimi. Karo 16 piksel ve PPU 16 ile içe aktarıldığı için tam bir birim kaplıyor.</figcaption>
+</figure>
+<div class="col">
+</div>
 </section>
 <section class="sec" id="materyal">
-  <h2><span class="no">4</span>3B: materyal</h2>
+  <div class="sec-head"><span class="sec-no">04</span><h2>3B: materyal</h2></div>
+<div class="col">
 <p>Universal 3D şablonunda materyaller varsayılan olarak <code>Universal Render Pipeline/Lit</code> shader'ını kullanır. Yeni materyal Project penceresinde sağ tıklanarak (<i>Create → Material</i>) oluşturulur ve sahnedeki nesnenin üzerine sürüklenerek uygulanır. Başlıca ayarlar:</p>
 <div class="tbl-wrap">
   <table class="tbl">
@@ -127,16 +143,20 @@
     }
 }</pre>
 <p>Shader alan adı yanlış yazılırsa (<code>_Color</code> gibi) hata iletisi görülmez; renk yalnızca değişmez. Bir materyalin kullandığı alan adları, shader seçilip Inspector'da incelenerek bulunabilir.</p>
+</div>
 </section>
 <section class="sec" id="normal">
-  <h2><span class="no">5</span>Normal haritası</h2>
+  <div class="sec-head"><span class="sec-no">05</span><h2>Normal haritası</h2></div>
+<div class="col">
 <p>Bir tuğla duvarın bütün tuğlalarını ve derzlerini modellemek yüz binlerce üçgen gerektirir. Oysa duvarın pürüzlü görünmesi için geometriyi değiştirmek gerekmez; ışığın yüzeye farklı açılardan çarptığı izlenimini vermek yeterlidir.</p>
 <p>Normal haritası bu izlenimi oluşturur. Yüzeyin her noktası için "bu noktada yüzey şu yöne bakıyor" bilgisini taşır. Motor ışık hesabını bu yönlere göre yapar; gölgeler ve parlamalar, yüzeyde çıkıntılar varmış gibi oluşur. Ancak nesnenin kenar çizgisi düz kalır. Yanılsamanın sınırı, nesneye yandan bakıldığında görülür.</p>
 <p>Normal haritaları genellikle açık mavi-mor renkte görünür. Bunun nedeni, görüntünün renk kanallarının renk değil yön bilgisi taşımasıdır: kırmızı kanal yatay, yeşil kanal dikey eğimi, mavi kanal ise yüzeyden dışarı doğru bileşeni temsil eder. Hiç eğimi olmayan bir yüzey mavi kanalda en yüksek değeri aldığı için bu renk baskın çıkar.</p>
 <p>Normal haritası, giriş dersinde tartışılan model kavramına iyi bir örnektir: model gerçekte içermediği bir özelliği, yalnızca belirli bir amaç için yeterli olacak ölçüde taklit eder.</p>
+</div>
 </section>
 <section class="sec" id="karsilastirma">
-  <h2><span class="no">6</span>İki yolda görsel varlıklar</h2>
+  <div class="sec-head"><span class="sec-no">06</span><h2>İki yolda görsel varlıklar</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 3. Görsel varlıkların iki yolda karşılaştırması</caption>
@@ -150,17 +170,21 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="uygulama">
-  <h2><span class="no">7</span>Ders içi uygulama</h2>
+  <div class="sec-head"><span class="sec-no">07</span><h2>Ders içi uygulama</h2></div>
+<div class="col">
 <ol>
   <li>Atölyede sırasıyla <a href="../atolye/#stage-1">Doku</a>, <a href="../atolye/#stage-2">Materyal</a> ve <a href="../atolye/#stage-4">Işık ve yüzey</a> aşamalarını çalışın. 4. aşamada normal haritasını açtıktan sonra tel kafes görünümünü açıp geometrinin değişmediğini doğrulayın.</li>
   <li>2B projede bir piksel sanatı sprite'ını içe aktarın. Önce varsayılan ayarlarla, sonra Point filtre ve doğru PPU ile sahneye koyup farkı karşılaştırın.</li>
   <li>3B projede iki materyal oluşturun: aynı dokuyu kullanan, biri düşük diğeri yüksek Smoothness değerine sahip. İki küpe uygulayıp ışığı döndürün.</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="sorular">
-  <h2>Tekrar soruları</h2>
+  <div class="sec-head"><h2>Tekrar soruları</h2></div>
+<div class="col">
 <ol class="qs">
   <li>Doku ile materyal arasındaki fark nedir?
     <details><summary>Yanıtı göster</summary><p>Doku bir görüntüdür. Materyal ise hangi dokunun kullanılacağını ve yüzeyin parlaklık, pürüzsüzlük, metaliklik gibi ışığa tepkisini birlikte tanımlar.</p></details>
@@ -175,25 +199,28 @@
     <details><summary>Yanıtı göster</summary><p>URP Lit shader'ında temel renk alanının adı <code>_BaseColor</code>'dır. Var olmayan bir alana değer atamak hata üretmez, etkisi de olmaz.</p></details>
   </li>
 </ol>
+</div>
 </section>
 <section class="sec" id="kaynaklar">
-  <h2>Kaynaklar</h2>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+<div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Unity Manual: Texture Import Settings</i>. <a href="https://docs.unity3d.com/Manual/class-TextureImporter.html">https://docs.unity3d.com/Manual/class-TextureImporter.html</a></li>
   <li>Unity Technologies. <i>URP: Lit shader</i>. <a href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/manual/lit-shader.html">https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/manual/lit-shader.html</a></li>
   <li>Akenine-Möller, T., Haines, E., Hoffman, N., Pesce, A., Iwanicki, M., &amp; Hillaire, S. (2018). <i>Real-time rendering</i> (4th ed.). CRC Press.</li>
 </ol>
+</div>
 </section>
 
+<div class="col">
 <div class="pager">
   <a class="prev" href="hafta-03.html"><small>Önceki hafta</small>3. GameObject, bileşen ve prefab</a>
   <a class="next" href="hafta-05.html"><small>Sonraki hafta</small>5. Sahne tasarımı: Tilemap, arazi ve modüler yapılar</a>
 </div>
-
-</main>
 </div>
+</main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
-<script src="../js/site.js?v=2"></script>
+<script type="module" src="../js/site.js?v=6"></script>
 </body>
 </html>

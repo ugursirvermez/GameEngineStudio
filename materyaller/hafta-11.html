@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>11. Hafta: Animasyon ve karakter · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="2B&#x27;de animasyon, görüntülerin sırayla değiştirilmesidir. 3B&#x27;de ise bir yüzeyin içindeki kemiklere bağlanıp bu kemiklerle birlikte hareket ettirilmesidir. İki yolda da animasyonlar arasındaki geçişleri Animator yönetir.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=6">
+<script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
-
+<div id="progress"></div>
 <header class="masthead">
   <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
   <nav class="mast-nav">
@@ -21,39 +23,39 @@
   </nav>
 </header>
 
+<nav class="rail" aria-label="İçindekiler">
+  <ol>
+    <li><a href="#iki-yol"><span class="n">01</span>İki animasyon tekniği</a></li>
+    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
+    <li><a href="#iki-boyut"><span class="n">03</span>2B: kare kare animasyon</a></li>
+    <li><a href="#uc-boyut"><span class="n">04</span>3B: iskelet, deri giydirme ve Avatar</a></li>
+    <li><a href="#his"><span class="n">05</span>Hareketin hissi</a></li>
+    <li><a href="#uygulama"><span class="n">06</span>Ders içi uygulama</a></li>
+    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
+    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+  </ol>
+</nav>
+
+<main class="page">
 <div class="titleblock">
   <div class="kicker">11. Hafta · Ders notu</div>
   <h1>Animasyon ve karakter</h1>
   <p class="dek">2B'de animasyon, görüntülerin sırayla değiştirilmesidir. 3B'de ise bir yüzeyin içindeki kemiklere bağlanıp bu kemiklerle birlikte hareket ettirilmesidir. İki yolda da animasyonlar arasındaki geçişleri Animator yönetir.</p>
-  <div class="meta"><span>11. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>İlgili atölye aşaması: <a href="../atolye/#stage-6">6. Avatar</a></span></div>
+  <div class="meta"><span>11. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>1 etkileşim</span><span>Atölye: <a href="../atolye/#stage-6">6. Avatar</a></span></div>
 </div>
 
-<div class="doc">
-  <nav class="toc" aria-label="İçindekiler">
-    <div class="toc-h">İçindekiler</div>
-    <ol>
-      <li><a href="#iki-yol"><span class="n">1</span>İki animasyon tekniği</a></li>
-      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
-      <li><a href="#iki-boyut"><span class="n">3</span>2B: kare kare animasyon</a></li>
-      <li><a href="#uc-boyut"><span class="n">4</span>3B: iskelet, deri giydirme ve Avatar</a></li>
-      <li><a href="#his"><span class="n">5</span>Hareketin hissi</a></li>
-      <li><a href="#uygulama"><span class="n">6</span>Ders içi uygulama</a></li>
-      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
-      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
-    </ol>
-  </nav>
-
-<main class="body">
-
 <section class="sec" id="iki-yol">
-  <h2><span class="no">1</span>İki animasyon tekniği</h2>
+  <div class="sec-head"><span class="sec-no">01</span><h2>İki animasyon tekniği</h2></div>
+<div class="col">
 <p>2B ve 3B animasyon arasındaki temel fark, hareket bilgisinin nerede saklandığıdır.</p>
 <p><b>Kare kare animasyonda</b> (2B) hareket görüntülerin içindedir. Bir yürüme döngüsü, sırayla gösterilen altı ya da sekiz ayrı çizimden oluşur. Her yeni hareket, yeni çizimler gerektirir.</p>
 <p><b>İskelet animasyonunda</b> (3B) karakterin yüzeyi (mesh), içine yerleştirilmiş görünmeyen kemiklere bağlanır. Animasyon, kemiklerin zaman içindeki dönüşlerinden oluşur. Hareket bilgisi görselden bağımsız olduğu için aynı yürüme animasyonu, iskeleti aynı yapıda olan farklı karakterlerde kullanılabilir.</p>
 <p>Bu ayrım bir maliyet farkı da doğurur. Az sayıda karakterin az sayıda hareketi olacaksa kare kare animasyon daha ucuzdur. Çok sayıda karakter aynı hareketleri paylaşacaksa iskelet animasyonu daha verimlidir. Unity'nin <i>2D Animation</i> paketi 2B sprite'lara da iskelet eklemeye olanak verir, ancak bu derste 2B yolunda kare kare animasyon kullanılacak.</p>
+</div>
 </section>
 <section class="sec" id="kavramlar">
-  <h2><span class="no">2</span>Kavramlar</h2>
+  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
+<div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 1. Bu haftanın kavramları</caption>
@@ -71,9 +73,11 @@
     </tbody>
   </table>
 </div>
+</div>
 </section>
 <section class="sec" id="iki-boyut">
-  <h2><span class="no">3</span>2B: kare kare animasyon</h2>
+  <div class="sec-head"><span class="sec-no">03</span><h2>2B: kare kare animasyon</h2></div>
+<div class="col">
 <ol>
   <li><b>Dilimleme.</b> Sprite sheet'in <i>Sprite Mode</i> ayarı <i>Multiple</i> yapılır ve Sprite Editor'de kareler ayrılır. Kareler eşit boyutlu bir ızgaradaysa <i>Slice → Grid By Cell Size</i> en hızlı yoldur.</li>
   <li><b>Klip oluşturma.</b> Bir hareketin kareleri Project penceresinde seçilip sahnedeki karakterin üzerine sürüklenir. Unity klibi kaydetmek için bir dosya adı ister ve karaktere bir Animator ekler.</li>
@@ -111,18 +115,22 @@
     }
 }</pre>
 <p>Script'in klip seçmediğine, yalnızca parametre güncellediğine dikkat edin. Bu ayrım sayesinde yeni bir animasyon eklendiğinde ya da geçişler değiştirildiğinde kodu değiştirmek gerekmez.</p>
+</div>
 </section>
 <section class="sec" id="uc-boyut">
-  <h2><span class="no">4</span>3B: iskelet, deri giydirme ve Avatar</h2>
+  <div class="sec-head"><span class="sec-no">04</span><h2>3B: iskelet, deri giydirme ve Avatar</h2></div>
+<div class="col">
 <p>3B bir karakter iki parçadan oluşur: görünen yüzey (mesh) ve bu yüzeyin içindeki iskelet. İskelet bir kemik hiyerarşisidir: kalça, omurga, göğüs, omuz, üst kol, ön kol, el. Bu hiyerarşi 3. ve 6. haftada ele alınan ebeveyn-çocuk ilişkisinin aynısıdır. Omuz döndürüldüğünde kol ve el onunla birlikte döner, çünkü omzun koordinat sisteminde dururlar.</p>
 <p><b>Deri giydirmede</b> yüzeyin her noktası bir ya da birkaç kemiğe belirli ağırlıklarla bağlanır. Örneğin dirsek bölgesindeki bir nokta üst kola ve ön kola yarı yarıya bağlıysa dirsek büküldüğünde yumuşak bir kıvrım oluşur. Ağırlıklar hatalıysa büküm noktalarında yüzey yırtılmış ya da ezilmiş görünür.</p>
 <h3>Avatar ve animasyon paylaşımı</h3>
 <p>Her modelleme programı ve modelci kemiklere farklı adlar verir. Unity, insan biçimli bir modelin kemiklerini kendi standart iskeletine eşleyerek bu sorunu çözer; bu eşlemeye <i>Avatar</i> denir. Model içe aktarılırken <i>Rig</i> sekmesinde <i>Animation Type</i> ayarı <i>Humanoid</i> seçildiğinde Unity eşlemeyi kendisi yapmaya çalışır. Eşleme yapıldıktan sonra başka bir humanoid karakter için hazırlanmış animasyonlar bu karakterde de çalışır. Adobe'nin ücretsiz Mixamo hizmeti, hazır karakterler ve animasyonlar için sık kullanılan bir kaynaktır.</p>
 <h3>Blend Tree</h3>
 <p>Karakter yürürken hızlandıkça koşmaya geçer. Bunu iki ayrı durum arasında keskin bir geçişle yapmak yapay görünür. <i>Blend Tree</i>, bir parametreye (örneğin hız) göre yürüme ve koşma animasyonlarını karıştırır; karakter hızlandıkça hareket kademeli olarak koşuya dönüşür.</p>
+</div>
 </section>
 <section class="sec" id="his">
-  <h2><span class="no">5</span>Hareketin hissi</h2>
+  <div class="sec-head"><span class="sec-no">05</span><h2>Hareketin hissi</h2></div>
+<div class="col">
 <p>Teknik olarak doğru kurulmuş bir animasyon yine de iyi hissettirmeyebilir. Üç ayar bunu belirgin biçimde etkiler:</p>
 <ul>
   <li><b>Kare hızı.</b> Çok yavaş oynatılan bir animasyon ağır, çok hızlısı telaşlı görünür. 2B'de düşük kare sayısı bir kusur olmayıp bir biçem tercihi olabilir.</li>
@@ -130,17 +138,31 @@
   <li><b>Has Exit Time.</b> Bir geçişte bu ayar açıksa, koşul sağlansa bile mevcut klip bitmeden geçiş yapılmaz. Karakterin tuşa geç tepki vermesinin en yaygın nedeni budur. Anında tepki istenen geçişlerde kapatılır.</li>
 </ul>
 <p>İnsan hareketi, eklem sistemi ya da canlıların hareketi gibi konular için 3B iskelet animasyonu doğrudan bir öğretim malzemesidir. Omuz döndürüldüğünde kolun neden geldiği, Unity'nin iskelet görünümünde bir şemadan daha açık biçimde gösterilebilir.</p>
+
+</div>
+<figure class="fig">
+  <div class="fig-card">
+    <div class="fig-head"><span class="fig-no">Etkileşim 1</span><span class="fig-title">Kare sayısı, kare hızı ve Has Exit Time</span></div>
+    <div data-widget="animasyon" data-base="../"></div>
+  </div>
+  <figcaption>Sağdaki şerit, animasyonun oluştuğu sprite sheet’i gösterir; o an gösterilen kare işaretli.</figcaption>
+</figure>
+<div class="col">
+</div>
 </section>
 <section class="sec" id="uygulama">
-  <h2><span class="no">6</span>Ders içi uygulama</h2>
+  <div class="sec-head"><span class="sec-no">06</span><h2>Ders içi uygulama</h2></div>
+<div class="col">
 <ol>
   <li>Atölyenin <a href="../atolye/#stage-6">Avatar aşamasında</a> kalçayı (Hips) döndürün, iskeleti görünür yapın, el sallama ve yürüme animasyonlarını oynatın.</li>
   <li>2B projede bir sprite sheet'ten bekleme ve yürüme animasyonları oluşturun; 7. haftadaki karaktere KarakterAnimasyonu2D script'ini ekleyin.</li>
   <li>3B projede Mixamo'dan indirilen bir humanoid karakteri içe aktarın, Avatar'ını oluşturun ve yürüme ile koşma arasında bir Blend Tree kurun.</li>
 </ol>
+</div>
 </section>
 <section class="sec" id="sorular">
-  <h2>Tekrar soruları</h2>
+  <div class="sec-head"><h2>Tekrar soruları</h2></div>
+<div class="col">
 <ol class="qs">
   <li>3B bir karakterde omuz döndürüldüğünde kol ve el neden birlikte hareket eder?
     <details><summary>Yanıtı göster</summary><p>Kol ve el omzun çocuklarıdır ve omzun koordinat sisteminde dururlar. Ebeveynin dönüşü çocuklarını da döndürür.</p></details>
@@ -155,26 +177,29 @@
     <details><summary>Yanıtı göster</summary><p>Klip seçimi Animator Controller'daki geçiş kurallarına bırakılır. Böylece animasyonlar ya da geçişler değiştiğinde kodun değişmesi gerekmez.</p></details>
   </li>
 </ol>
+</div>
 </section>
 <section class="sec" id="kaynaklar">
-  <h2>Kaynaklar</h2>
+  <div class="sec-head"><h2>Kaynaklar</h2></div>
+<div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Unity Manual: Animation</i>. <a href="https://docs.unity3d.com/Manual/AnimationSection.html">https://docs.unity3d.com/Manual/AnimationSection.html</a></li>
   <li>Unity Technologies. <i>Scripting API: Animator</i>. <a href="https://docs.unity3d.com/ScriptReference/Animator.html">https://docs.unity3d.com/ScriptReference/Animator.html</a></li>
   <li>Williams, R. (2009). <i>The animator's survival kit</i> (Expanded ed.). Faber &amp; Faber.</li>
   <li>Adobe. <i>Mixamo</i>. <a href="https://www.mixamo.com/">https://www.mixamo.com/</a></li>
 </ol>
+</div>
 </section>
 
+<div class="col">
 <div class="pager">
   <a class="prev" href="hafta-10.html"><small>Önceki hafta</small>10. Işıklandırma</a>
   <a class="next" href="hafta-12.html"><small>Sonraki hafta</small>12. Kullanıcı arayüzü, oyun döngüsü ve kayıt</a>
 </div>
-
-</main>
 </div>
+</main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
-<script src="../js/site.js?v=2"></script>
+<script type="module" src="../js/site.js?v=6"></script>
 </body>
 </html>
