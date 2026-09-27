@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8. Hafta: Vize: uygulamalı sınav · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Vize, bilgisayar başında yapılan 90 dakikalık bir uygulamadır ve notun %40&#x27;ını oluşturur. Bu not sınavın nasıl işleyeceğini, neyin puanlanacağını ve sınava nasıl hazırlanılacağını açıklar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=2">
+</head>
+<body>
+
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="./" aria-current="page">Haftalık materyaller</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<div class="titleblock">
+  <div class="kicker">8. Hafta · Ders notu</div>
+  <h1>Vize: uygulamalı sınav</h1>
+  <p class="dek">Vize, bilgisayar başında yapılan 90 dakikalık bir uygulamadır ve notun %40'ını oluşturur. Bu not sınavın nasıl işleyeceğini, neyin puanlanacağını ve sınava nasıl hazırlanılacağını açıklar.</p>
+  <div class="meta"><span>8. hafta</span><span>Okuma süresi yaklaşık 10 dk</span></div>
+</div>
+
+<div class="doc">
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="toc-h">İçindekiler</div>
+    <ol>
+      <li><a href="#bicim"><span class="n">1</span>Sınavın biçimi</a></li>
+      <li><a href="#olcutler"><span class="n">2</span>Ölçütler</a></li>
+      <li><a href="#sure"><span class="n">3</span>Süre planı</a></li>
+      <li><a href="#gerekce"><span class="n">4</span>Gerekçe metni</a></li>
+      <li><a href="#hazirlik"><span class="n">5</span>Hazırlık listesi</a></li>
+      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
+      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
+    </ol>
+  </nav>
+
+<main class="body">
+
+<section class="sec" id="bicim">
+  <h2><span class="no">1</span>Sınavın biçimi</h2>
+<p>Sınav sınıfta, bilgisayar başında yapılır ve 90 dakika sürer. Oturumun başında kısa bir öğretim senaryosu dağıtılır: bir konu, bir hedef kitle ve hazırlanması beklenen sahnenin tarifi. Öğrenci bu senaryoya göre Unity'de çalışan bir sahne hazırlar.</p>
+<ul>
+  <li>2B ya da 3B yolundan biri seçilir. İki yol aynı ölçütlerle değerlendirilir.</li>
+  <li>Boş bir projeyle başlanır; şablonu öğrenci seçer.</li>
+  <li>Gerekli görseller ve sesler sınav sırasında verilir.</li>
+  <li>Teslim edilenler: proje klasörü, kaydedilmiş sahne ve yarım sayfalık gerekçe metni.</li>
+  <li>Kapsam 1–7. haftalardır. Fizik geri çağrıları, ışıklandırma, animasyon ve arayüz sınavda yer almaz.</li>
+</ul>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 1. Sınav sırasında kaynak kullanımı</caption>
+    <thead><tr><th>Kullanılabilir</th><th>Kullanılamaz</th></tr></thead>
+    <tbody>
+      <tr><td>Unity belgeleri (docs.unity3d.com)</td><td>Önceden hazırlanmış proje ya da sahne</td></tr>
+      <tr><td>Bu sitedeki ders notları</td><td>Asset Store'dan hazır paket indirmek</td></tr>
+      <tr><td>Kendi ders notlarınız</td><td>Başka bir öğrenciyle iletişim</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="olcutler">
+  <h2><span class="no">2</span>Ölçütler</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 2. Vize ölçütleri</caption>
+    <thead><tr><th>Ölçüt</th><th>Aranan</th><th>Puan</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Proje kurulumu ve düzeni</td><td>Doğru şablon; <code>_Proje</code> altında anlamlı klasörler; Türkçe karakter ve boşluk içermeyen dosya adları; kaydedilmiş sahne</td><td>5</td></tr>
+      <tr><td class="k">Varlıklar ve materyal</td><td>2B: sprite'ların doğru PPU ve Filter Mode ile içe aktarılması. 3B: bir materyalin kurulup nesneye uygulanması</td><td>8</td></tr>
+      <tr><td class="k">Sahne</td><td>Tilemap ya da 3B yapılarla kurulmuş, dolaşılabilir bir alan; üzerine basılan zemin ile dekorun ayırt edilebilmesi; düzenli hiyerarşi</td><td>9</td></tr>
+      <tr><td class="k">Hareket kodu</td><td>Girdiyi okuyan, hatasız derlenen ve oynanabilir bir hareket; <code>Time.deltaTime</code> kullanımı; fiziğin doğru metotta uygulanması</td><td>12</td></tr>
+      <tr><td class="k">Öğretimsel gerekçe</td><td>Sahnenin hangi öğrenme çıktısını nasıl hedeflediğinin ve yol seçiminin açıklanması</td><td>6</td></tr>
+    </tbody>
+    <tfoot><tr><td>Toplam</td><td></td><td>40</td></tr></tfoot>
+  </table>
+</div>
+<p>Derlenmeyen, yani Console penceresinde kırmızı hata veren bir kod, hareket kodu maddesinden puan alamaz. Bu yüzden sınavın son dakikalarında yeni bir özellik eklemeye başlamak yerine çalışan sürümü korumak daha doğrudur.</p>
+</section>
+<section class="sec" id="sure">
+  <h2><span class="no">3</span>Süre planı</h2>
+<p>Aşağıdaki bölüşüm bir öneridir. Amaç, puanın büyük bölümünü getiren işlerin zamanında bitmesini sağlamaktır.</p>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 3. Önerilen süre planı</caption>
+    <thead><tr><th>Dakika</th><th>İş</th><th>Karşılık gelen ölçüt</th></tr></thead>
+    <tbody>
+      <tr><td>0–10</td><td>Senaryoyu iki kez okumak, yolu seçmek, kâğıda başlangıç, hedef ve etkileşim noktasını çizmek</td><td>—</td></tr>
+      <tr><td>10–20</td><td>Projeyi açmak, klasörleri kurmak, sahneyi kaydetmek, varlıkları içe aktarıp ayarlamak</td><td>Kurulum, varlıklar (13 puan)</td></tr>
+      <tr><td>20–45</td><td>Sahneyi kurmak. Görsel ayrıntıya girmeden okunaklı bir alan yeterli</td><td>Sahne (9 puan)</td></tr>
+      <tr><td>45–70</td><td>Hareket kodu. Önce en basit hâli çalıştırılır, sonra zıplama eklenir</td><td>Hareket kodu (12 puan)</td></tr>
+      <tr><td>70–80</td><td>Gerekçe metni</td><td>Öğretimsel gerekçe (6 puan)</td></tr>
+      <tr><td>80–90</td><td>Console'da hata olmadığını, sahnenin kaydedildiğini ve oyunun baştan sona oynandığını kontrol etmek</td><td>—</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="gerekce">
+  <h2><span class="no">4</span>Gerekçe metni</h2>
+<p>Gerekçe metni dört soruyu kısa paragraflarla yanıtlar:</p>
+<ol>
+  <li>Bu sahne hangi öğrenme çıktısını hedefliyor? Kazanım somut yazılmalıdır, örneğin "kesirleri sayı doğrusunda gösterir".</li>
+  <li>Öğrenci hangi eylemi yaparken öğreniyor? Öğrenme çıktısı sahnedeki etkileşimin neresinde?</li>
+  <li>Neden bu yol (2B ya da 3B) seçildi? Diğer yol seçilseydi ne kazanılır, ne kaybedilirdi?</li>
+  <li>Süre daha uzun olsaydı ilk olarak ne eklenirdi ve neden?</li>
+</ol>
+<p>Son soru sahnenin eksiklerinin farkında olup olmadığınızı ölçer. "Eksik kalan bir şey yok" yanıtı düşük puan alır. "Öğrenci doğru noktaya ulaştığında şu an hiçbir geri bildirim almıyor; ilk olarak bunu eklerdim" gibi bir yanıt, tasarımın zayıf noktasının görüldüğünü gösterir.</p>
+</section>
+<section class="sec" id="hazirlik">
+  <h2><span class="no">5</span>Hazırlık listesi</h2>
+<p>Aşağıdakileri notlara bakmadan yapabiliyorsanız sınava hazırsınız:</p>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 4. Sınav öncesi kontrol listesi</caption>
+    <thead><tr><th>İş</th><th>İlgili hafta</th></tr></thead>
+    <tbody>
+      <tr><td>Doğru şablonla proje açıp klasör düzenini kurmak</td><td><a href="hafta-02.html">2. hafta</a></td></tr>
+      <tr><td>Bir nesneye bileşen ekleyip prefab'a çevirmek</td><td><a href="hafta-03.html">3. hafta</a></td></tr>
+      <tr><td>Sprite'ı doğru PPU ve Point filtre ile içe aktarmak</td><td><a href="hafta-04.html">4. hafta</a></td></tr>
+      <tr><td>Materyal kurup nesneye uygulamak</td><td><a href="hafta-04.html">4. hafta</a></td></tr>
+      <tr><td>Tilemap döşeyip Composite Collider 2D kurmak</td><td><a href="hafta-05.html">5. hafta</a></td></tr>
+      <tr><td>Blok taslak kurup parçaları ızgaraya oturtmak</td><td><a href="hafta-05.html">5. hafta</a></td></tr>
+      <tr><td>Kamerayı doğru türde ve makul ayarlarla yerleştirmek</td><td><a href="hafta-06.html">6. hafta</a></td></tr>
+      <tr><td>Hareket kodunu sıfırdan yazmak</td><td><a href="hafta-07.html">7. hafta</a></td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="sorular">
+  <h2>Tekrar soruları</h2>
+<ol class="qs">
+  <li>Sınavın son on dakikasındasınız ve çalışan bir sahneniz var. Yeni bir özellik eklemeli misiniz?
+    <details><summary>Yanıtı göster</summary><p>Hayır. Derlenmeyen kod hareket kodu maddesinden puan alamaz. Çalışan sürümü korumak, küçük bir eklemenin getireceği puandan daha değerlidir.</p></details>
+  </li>
+  <li>Hangi konu vize kapsamında değildir: sprite içe aktarma, Tilemap, trigger ile eşya toplama, hareket kodu?
+    <details><summary>Yanıtı göster</summary><p>Trigger ile eşya toplama. Fizik geri çağrıları 9. haftanın konusudur.</p></details>
+  </li>
+  <li>Gerekçe metninde en çok ne aranır?
+    <details><summary>Yanıtı göster</summary><p>Öğrenme çıktısının sahnedeki etkileşimle bağının gösterilmesi. Kullanılan teknik özelliklerin listesi sahneden zaten görülür.</p></details>
+  </li>
+</ol>
+</section>
+<section class="sec" id="kaynaklar">
+  <h2>Kaynaklar</h2>
+<ol class="refs">
+  <li><a href="../#degerlendirme">Giriş dersi, Bölüm 7: Değerlendirme</a></li>
+  <li><a href="hafta-07.html">7. hafta: C# ile hareket ve girdi</a></li>
+</ol>
+</section>
+
+<div class="pager">
+  <a class="prev" href="hafta-07.html"><small>Önceki hafta</small>7. C# ile hareket ve girdi</a>
+  <a class="next" href="hafta-09.html"><small>Sonraki hafta</small>9. Fizik ve çarpışma</a>
+</div>
+
+</main>
+</div>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
+<script src="../js/site.js?v=2"></script>
+</body>
+</html>

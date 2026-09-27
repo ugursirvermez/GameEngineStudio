@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7. Hafta: C# ile hareket ve girdi · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="İlk kapsamlı script: oyuncudan gelen girdiyi okuyup karakteri hareket ettirmek. Kodun mantığı iki yolda aynıdır; farklı olan, hareketi uygulayan bileşendir. Vize kapsamı bu haftayla tamamlanır.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=2">
+</head>
+<body>
+
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="./" aria-current="page">Haftalık materyaller</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<div class="titleblock">
+  <div class="kicker">7. Hafta · Ders notu</div>
+  <h1>C# ile hareket ve girdi</h1>
+  <p class="dek">İlk kapsamlı script: oyuncudan gelen girdiyi okuyup karakteri hareket ettirmek. Kodun mantığı iki yolda aynıdır; farklı olan, hareketi uygulayan bileşendir. Vize kapsamı bu haftayla tamamlanır.</p>
+  <div class="meta"><span>7. hafta</span><span>Okuma süresi yaklaşık 20 dk</span></div>
+</div>
+
+<div class="doc">
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="toc-h">İçindekiler</div>
+    <ol>
+      <li><a href="#dongu"><span class="n">1</span>MonoBehaviour yaşam döngüsü</a></li>
+      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
+      <li><a href="#girdi"><span class="n">3</span>Girdiyi okumak</a></li>
+      <li><a href="#iki-boyut"><span class="n">4</span>2B hareket: Rigidbody2D</a></li>
+      <li><a href="#uc-boyut"><span class="n">5</span>3B hareket: CharacterController</a></li>
+      <li><a href="#karsilastirma"><span class="n">6</span>İki yolu karşılaştırma</a></li>
+      <li><a href="#uygulama"><span class="n">7</span>Ders içi uygulama</a></li>
+      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
+      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
+    </ol>
+  </nav>
+
+<main class="body">
+
+<section class="sec" id="dongu">
+  <h2><span class="no">1</span>MonoBehaviour yaşam döngüsü</h2>
+<p>Bir script nesneye eklendiğinde Unity, script'teki belirli adlara sahip metotları belirli anlarda kendisi çağırır. Bu metotlar yazılır ama koddan çağrılmaz. Başlangıçta bilinmesi gereken dört metot şunlardır:</p>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 1. Temel yaşam döngüsü metotları</caption>
+    <thead><tr><th>Metot</th><th>Ne zaman çağrılır</th><th>Ne için kullanılır</th></tr></thead>
+    <tbody>
+      <tr><td><code>Awake()</code></td><td>Nesne oluşturulduğunda, bir kez</td><td>Nesnenin kendi bileşenlerine erişmek</td></tr>
+      <tr><td><code>Start()</code></td><td>İlk kareden hemen önce, bir kez</td><td>Başka nesnelere bağlı hazırlıklar</td></tr>
+      <tr><td><code>Update()</code></td><td>Her karede</td><td>Girdiyi okumak, fizik dışı hareketler</td></tr>
+      <tr><td><code>FixedUpdate()</code></td><td>Sabit aralıklarla (varsayılan saniyede 50 kez)</td><td>Fizik bileşenlerine kuvvet ya da hız uygulamak</td></tr>
+    </tbody>
+  </table>
+</div>
+<p><code>Update</code> kare hızına bağlı olduğu için çağrılma sıklığı bilgisayardan bilgisayara değişir. Fizik motoru ise güvenilir sonuç için düzenli zaman adımlarına ihtiyaç duyar. <code>Rigidbody</code>'ye <code>Update</code> içinden kuvvet uygulanırsa hareket titreyebilir ve farklı bilgisayarlarda farklı davranabilir. Genel kural şudur: girdi <code>Update</code> içinde okunup bir değişkende tutulur, fizik <code>FixedUpdate</code> içinde uygulanır. Böylece hiçbir tuş basışı kaçırılmaz ve fizik düzenli çalışır.</p>
+</section>
+<section class="sec" id="kavramlar">
+  <h2><span class="no">2</span>Kavramlar</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 2. Bu haftanın kavramları</caption>
+    <thead><tr><th>Kavram</th><th>Unity / İngilizce</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Kare</td><td class="en">Frame</td><td>Ekranın bir kez yeniden çizilmesi. <code>Update</code> her karede bir kez çalışır.</td></tr>
+      <tr><td class="k">Katı cisim</td><td class="en">Rigidbody / Rigidbody2D</td><td>Nesneyi fizik motorunun denetimine veren bileşen.</td></tr>
+      <tr><td class="k">Hız</td><td class="en">Velocity</td><td>Nesnenin saniyedeki yer değiştirmesi; yönü ve büyüklüğü olan bir vektör.</td></tr>
+      <tr><td class="k">Karakter denetleyici</td><td class="en">CharacterController</td><td>3B'de eğim ve basamakları kendisi çözen, kuvvetlerden etkilenmeyen hareket bileşeni.</td></tr>
+      <tr><td class="k">Girdi eylemi</td><td class="en">Input Action</td><td>"Hareket", "Zıpla" gibi bir oyun eylemi; klavye, kumanda ve dokunmatiğe aynı anda bağlanabilir.</td></tr>
+      <tr><td class="k">Katman maskesi</td><td class="en">LayerMask</td><td>Bir sorguda hangi katmanların dikkate alınacağını belirten süzgeç.</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="girdi">
+  <h2><span class="no">3</span>Girdiyi okumak</h2>
+<p>Unity 6 ile açılan yeni projelerde girdi, <i>Input System</i> paketiyle okunur. Şablonlar <code>InputSystem_Actions</code> adlı hazır bir eylem dosyasıyla gelir. Bu dosyada <i>Move</i>, <i>Jump</i>, <i>Look</i>, <i>Attack</i> gibi eylemler tanımlıdır ve her biri hem klavyeye hem oyun kumandasına bağlıdır. Kod, tuşları değil bu eylemleri okur:</p>
+<div class="code-label">GirdiOrnegi.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+<span class="k">using</span> UnityEngine.<span class="t">InputSystem</span>;
+
+<span class="k">public</span> <span class="k">class</span> GirdiOrnegi : <span class="t">MonoBehaviour</span>
+{
+    <span class="k">private</span> <span class="t">InputAction</span> hareket;
+    <span class="k">private</span> <span class="t">InputAction</span> zipla;
+
+    <span class="k">void</span> Start()
+    {
+        <span class="c">// Projedeki hazır eylemleri adlarıyla bul</span>
+        hareket = <span class="t">InputSystem</span>.actions.FindAction(<span class="s">&quot;Move&quot;</span>);
+        zipla = <span class="t">InputSystem</span>.actions.FindAction(<span class="s">&quot;Jump&quot;</span>);
+    }
+
+    <span class="k">void</span> Update()
+    {
+        <span class="c">// Move eylemi iki boyutlu bir değer verir: x yatay, y dikey (-1 ile 1 arası)</span>
+        <span class="t">Vector2</span> deger = hareket.ReadValue&lt;<span class="t">Vector2</span>&gt;();
+
+        <span class="c">// Tuşa yalnızca basıldığı karede true olur</span>
+        <span class="k">if</span> (zipla.WasPressedThisFrame())
+            <span class="t">Debug</span>.Log(<span class="s">&quot;Zıpla&quot;</span>);
+    }
+}</pre>
+<p>Eylemlerle çalışmanın avantajı, aynı kodun klavye, oyun kumandası ve dokunmatik ekranla değişiklik yapılmadan çalışmasıdır. Hangi tuşun hangi eyleme bağlı olduğu eylem dosyasından değiştirilir.</p>
+<div class="note"><b>Eski girdi sistemi.</b> İnternetteki birçok örnekte <code>Input.GetAxis("Horizontal")</code> gibi eski girdi sistemine ait kodlar bulunur. Bu kodlar, <i>Project Settings → Player → Active Input Handling</i> ayarı <i>Input Manager (Old)</i> ya da <i>Both</i> değilse hata verir. Bu derste yeni sistem kullanılacak.</div>
+<p><code>WasPressedThisFrame()</code> tuşa basıldığı karede bir kez <code>true</code> döner. Tuş basılı tutulduğu sürece <code>true</code> dönmesi istenirse <code>IsPressed()</code> kullanılır. Zıplama gibi tek seferlik eylemler için ilki kullanılmalıdır; aksi hâlde karakter tuş basılı tutulduğu sürece zıplamayı yeniden dener.</p>
+</section>
+<section class="sec" id="iki-boyut">
+  <h2><span class="no">4</span>2B hareket: Rigidbody2D</h2>
+<p>2B karakterde bir <code>Rigidbody2D</code>, bir collider (örneğin <code>CapsuleCollider2D</code>) ve aşağıdaki script bulunur. Karakterin ayak hizasına boş bir çocuk nesne yerleştirilir; zemin kontrolü bu noktadan yapılır. Zemin karolarının bulunduğu katman <i>Ground</i> gibi ayrı bir katmana alınır ve script'teki <code>zeminKatmani</code> alanında seçilir.</p>
+<div class="code-label">Hareket2D.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+<span class="k">using</span> UnityEngine.<span class="t">InputSystem</span>;
+
+[<span class="t">RequireComponent</span>(typeof(<span class="t">Rigidbody2D</span>))]
+<span class="k">public</span> <span class="k">class</span> Hareket2D : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> hiz = <span class="n">6f</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> ziplamaHizi = <span class="n">12f</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">Transform</span> ayak;          <span class="c">// ayak hizasındaki boş nesne</span>
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">LayerMask</span> zeminKatmani;
+
+    <span class="k">private</span> <span class="t">Rigidbody2D</span> rb;
+    <span class="k">private</span> <span class="t">InputAction</span> hareket;
+    <span class="k">private</span> <span class="t">InputAction</span> zipla;
+    <span class="k">private</span> <span class="k">float</span> yatay;
+    <span class="k">private</span> <span class="k">bool</span> ziplamaIstendi;
+
+    <span class="k">void</span> Awake()
+    {
+        rb = GetComponent&lt;<span class="t">Rigidbody2D</span>&gt;();
+        hareket = <span class="t">InputSystem</span>.actions.FindAction(<span class="s">&quot;Move&quot;</span>);
+        zipla = <span class="t">InputSystem</span>.actions.FindAction(<span class="s">&quot;Jump&quot;</span>);
+    }
+
+    <span class="k">void</span> Update()
+    {
+        <span class="c">// Girdi her karede okunur ve saklanır</span>
+        yatay = hareket.ReadValue&lt;<span class="t">Vector2</span>&gt;().x;
+        <span class="k">if</span> (zipla.WasPressedThisFrame())
+            ziplamaIstendi = <span class="k">true</span>;
+    }
+
+    <span class="k">void</span> FixedUpdate()
+    {
+        <span class="c">// Yatay hız ayarlanır, dikey hız (yerçekimi) korunur</span>
+        rb.linearVelocity = <span class="k">new</span> <span class="t">Vector2</span>(yatay * hiz, rb.linearVelocity.y);
+
+        <span class="k">bool</span> zeminde = <span class="t">Physics2D</span>.OverlapCircle(ayak.position, <span class="n">0.1f</span>, zeminKatmani);
+        <span class="k">if</span> (ziplamaIstendi &amp;&amp; zeminde)
+            rb.linearVelocity = <span class="k">new</span> <span class="t">Vector2</span>(rb.linearVelocity.x, ziplamaHizi);
+
+        ziplamaIstendi = <span class="k">false</span>;
+    }
+}</pre>
+<p>Hız atanırken dikey bileşenin <code>rb.linearVelocity.y</code> olarak korunduğuna dikkat edin. Dikey hız da her adımda yeniden atansaydı yerçekimi etkisi silinir, karakter düşmez ve zıplayamazdı.</p>
+<p><code>OverlapCircle</code>, ayak noktasında küçük bir daire içinde zemin katmanına ait bir collider olup olmadığını sorar. Karakter havadayken zıplamanın engellenmesi buna dayanır.</p>
+</section>
+<section class="sec" id="uc-boyut">
+  <h2><span class="no">5</span>3B hareket: CharacterController</h2>
+<p>3B karakterde <code>CharacterController</code> bileşeni kullanılır. Bu bileşen tam bir fizik nesnesi değildir: kuvvetlerden etkilenmez, başka nesnelerce itilmez; ancak eğimleri tırmanmayı ve basamak çıkmayı kendisi çözer. Yerçekimi bu yüzden kodda uygulanır.</p>
+<div class="code-label">Hareket3D.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+<span class="k">using</span> UnityEngine.<span class="t">InputSystem</span>;
+
+[<span class="t">RequireComponent</span>(typeof(<span class="t">CharacterController</span>))]
+<span class="k">public</span> <span class="k">class</span> Hareket3D : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> hiz = <span class="n">5f</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> ziplamaHizi = <span class="n">6f</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> yercekimi = -<span class="n">20f</span>;
+
+    <span class="k">private</span> <span class="t">CharacterController</span> cc;
+    <span class="k">private</span> <span class="t">InputAction</span> hareket;
+    <span class="k">private</span> <span class="t">InputAction</span> zipla;
+    <span class="k">private</span> <span class="k">float</span> dikeyHiz;
+
+    <span class="k">void</span> Awake()
+    {
+        cc = GetComponent&lt;<span class="t">CharacterController</span>&gt;();
+        hareket = <span class="t">InputSystem</span>.actions.FindAction(<span class="s">&quot;Move&quot;</span>);
+        zipla = <span class="t">InputSystem</span>.actions.FindAction(<span class="s">&quot;Jump&quot;</span>);
+    }
+
+    <span class="k">void</span> Update()
+    {
+        <span class="t">Vector2</span> girdi = hareket.ReadValue&lt;<span class="t">Vector2</span>&gt;();
+
+        <span class="c">// Yön, karakterin baktığı yöne göre hesaplanır</span>
+        <span class="t">Vector3</span> yon = transform.right * girdi.x + transform.forward * girdi.y;
+        <span class="k">if</span> (yon.sqrMagnitude &gt; <span class="n">1f</span>)
+            yon.Normalize();
+
+        <span class="k">if</span> (cc.isGrounded)
+        {
+            dikeyHiz = -<span class="n">1f</span>;                        <span class="c">// karakteri zemine bastırır</span>
+            <span class="k">if</span> (zipla.WasPressedThisFrame())
+                dikeyHiz = ziplamaHizi;
+        }
+        dikeyHiz += yercekimi * <span class="t">Time</span>.deltaTime;
+
+        <span class="t">Vector3</span> hizVektoru = yon * hiz + <span class="t">Vector3</span>.up * dikeyHiz;
+        cc.Move(hizVektoru * <span class="t">Time</span>.deltaTime);      <span class="c">// karede tek Move çağrısı</span>
+    }
+}</pre>
+<p>İki noktaya dikkat edin. Birincisi, çapraz giderken iki eksen toplandığı için yön vektörünün uzunluğu 1'i aşar ve karakter çaprazda daha hızlı gider. Uzunluk 1'den büyükse vektörü normalleştirmek bunu önler; bu koşul, oyun kumandasıyla yapılan yavaş hareketleri de korur. İkincisi, <code>isGrounded</code> değeri son <code>Move</code> çağrısına göre belirlenir. Karede birden fazla <code>Move</code> çağrısı yapmak bu değerin kararsız olmasına yol açabilir.</p>
+</section>
+<section class="sec" id="karsilastirma">
+  <h2><span class="no">6</span>İki yolu karşılaştırma</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 3. Hareket kodunun iki yolda karşılaştırması</caption>
+    <thead><tr><th></th><th><span class="t2d">2B</span></th><th><span class="t3d">3B</span></th></tr></thead>
+    <tbody>
+      <tr><td class="k">Bileşen</td><td><code>Rigidbody2D</code></td><td><code>CharacterController</code></td></tr>
+      <tr><td class="k">Vektör</td><td><code>Vector2</code> (x, y)</td><td><code>Vector3</code> (x, y, z)</td></tr>
+      <tr><td class="k">Hareketin uygulandığı yer</td><td><code>FixedUpdate</code></td><td><code>Update</code></td></tr>
+      <tr><td class="k">Yerçekimi</td><td>Fizik motoru uygular</td><td>Kodda uygulanır</td></tr>
+      <tr><td class="k">Zemin kontrolü</td><td><code>Physics2D.OverlapCircle</code></td><td><code>cc.isGrounded</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<p>Kodun yapısı iki yolda aynıdır: girdiyi oku, yön vektörünü oluştur, hareketi bileşene ver. Değişen, hangi bileşenle çalışıldığı ve vektörün boyut sayısıdır. Yuvarlanan bir top ya da itilebilen bir kutu gibi gerçekten fiziksel davranması gereken 3B nesneler için <code>CharacterController</code> yerine <code>Rigidbody</code> kullanılır.</p>
+<div class="note"><b>Vize kapsamı.</b> 8. haftadaki uygulamalı sınav 1–7. haftaları kapsar. Bu haftanın hareket kodu, vize ölçütlerinde en yüksek puanlı maddedir (12 puan). Ayrıntılar <a href="hafta-08.html">8. hafta notunda</a>.</div>
+<p>Bu notlardaki kodlarda değişken adları Türkçe, sınıf adları ise Unity'nin kurallarına uygun biçimde yazıldı. Değişken adları Inspector'da göründüğü için Türkçe adlar, projeyi kendi öğrencilerine gösterecek bir öğretmen için okunaklılık sağlar.</p>
+</section>
+<section class="sec" id="uygulama">
+  <h2><span class="no">7</span>Ders içi uygulama</h2>
+<ol>
+  <li>2B projede Hareket2D script'ini sıfırdan yazın. Zemin katmanını oluşturup Tilemap zeminini bu katmana alın.</li>
+  <li>3B projede bir kapsül karaktere Hareket3D script'ini ekleyin.</li>
+  <li>İki kodu yan yana açıp aynı işi yapan satırları eşleştirin.</li>
+  <li>Hız ve zıplama değerlerini değiştirerek karakterin nasıl hissettirdiğini deneyin.</li>
+</ol>
+</section>
+<section class="sec" id="sorular">
+  <h2>Tekrar soruları</h2>
+<ol class="qs">
+  <li>Fizik kodu neden <code>FixedUpdate</code> içine yazılır?
+    <details><summary>Yanıtı göster</summary><p>Fizik motoru düzenli zaman adımlarına ihtiyaç duyar. <code>Update</code> kare hızına bağlıdır ve bilgisayardan bilgisayara değişir.</p></details>
+  </li>
+  <li>2B kodda dikey hız neden <code>rb.linearVelocity.y</code> olarak korunuyor?
+    <details><summary>Yanıtı göster</summary><p>Dikey hız her adımda yeniden atansaydı yerçekiminin etkisi silinirdi; karakter düşmez ve zıplayamazdı.</p></details>
+  </li>
+  <li>3B karakter çapraz giderken daha hızlı gidiyor. Neden, nasıl düzeltilir?
+    <details><summary>Yanıtı göster</summary><p>Yatay ve ileri bileşenler toplandığında vektörün uzunluğu yaklaşık 1,41 olur. Uzunluk 1'i aştığında vektör normalleştirilir.</p></details>
+  </li>
+  <li>Zıplama için neden <code>IsPressed()</code> yerine <code>WasPressedThisFrame()</code> kullanılır?
+    <details><summary>Yanıtı göster</summary><p>Zıplama tek seferlik bir eylemdir. <code>IsPressed()</code> tuş basılı tutulduğu sürece <code>true</code> döner ve karakter zıplamayı her karede yeniden dener.</p></details>
+  </li>
+</ol>
+</section>
+<section class="sec" id="kaynaklar">
+  <h2>Kaynaklar</h2>
+<ol class="refs">
+  <li>Unity Technologies. <i>Unity Manual: Order of execution for event functions</i>. <a href="https://docs.unity3d.com/Manual/execution-order.html">https://docs.unity3d.com/Manual/execution-order.html</a></li>
+  <li>Unity Technologies. <i>Input System documentation</i>. <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@latest">https://docs.unity3d.com/Packages/com.unity.inputsystem@latest</a></li>
+  <li>Unity Technologies. <i>Unity Manual: Character Controller component</i>. <a href="https://docs.unity3d.com/Manual/class-CharacterController.html">https://docs.unity3d.com/Manual/class-CharacterController.html</a></li>
+</ol>
+</section>
+
+<div class="pager">
+  <a class="prev" href="hafta-06.html"><small>Önceki hafta</small>6. Transform, koordinat sistemleri ve kamera</a>
+  <a class="next" href="hafta-08.html"><small>Sonraki hafta</small>8. Vize: uygulamalı sınav</a>
+</div>
+
+</main>
+</div>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
+<script src="../js/site.js?v=2"></script>
+</body>
+</html>

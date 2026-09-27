@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6. Hafta: Transform, koordinat sistemleri ve kamera · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Sahnedeki her nesnenin konumu, dönüşü ve ölçeği vardır. Bu hafta bu değerlerin hangi koordinat sistemine göre okunduğunu, 3B dönüşlerin neden ayrı bir gösterim gerektirdiğini ve kamera ayarlarını ele alıyoruz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=2">
+</head>
+<body>
+
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="./" aria-current="page">Haftalık materyaller</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<div class="titleblock">
+  <div class="kicker">6. Hafta · Ders notu</div>
+  <h1>Transform, koordinat sistemleri ve kamera</h1>
+  <p class="dek">Sahnedeki her nesnenin konumu, dönüşü ve ölçeği vardır. Bu hafta bu değerlerin hangi koordinat sistemine göre okunduğunu, 3B dönüşlerin neden ayrı bir gösterim gerektirdiğini ve kamera ayarlarını ele alıyoruz.</p>
+  <div class="meta"><span>6. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>İlgili atölye aşaması: <a href="../atolye/#stage-5">5. Dünya</a></span></div>
+</div>
+
+<div class="doc">
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="toc-h">İçindekiler</div>
+    <ol>
+      <li><a href="#transform"><span class="n">1</span>Transform</a></li>
+      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
+      <li><a href="#yerel"><span class="n">3</span>Yerel ve dünya koordinatları</a></li>
+      <li><a href="#donus"><span class="n">4</span>Dönüş</a></li>
+      <li><a href="#kamera"><span class="n">5</span>Kamera</a></li>
+      <li><a href="#uygulama"><span class="n">6</span>Ders içi uygulama</a></li>
+      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
+      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
+    </ol>
+  </nav>
+
+<main class="body">
+
+<section class="sec" id="transform">
+  <h2><span class="no">1</span>Transform</h2>
+<p>Transform bileşeninin üç alanı vardır: <i>Position</i> (konum), <i>Rotation</i> (dönüş) ve <i>Scale</i> (ölçek). Unity'de X ekseni sağa, Y ekseni yukarı, Z ekseni ise ileriye, ekranın içine doğru bakar. 3B projelerde bir birim genellikle bir metre kabul edilir; fizik ayarları da bu varsayımla yapılmıştır.</p>
+<p>2B projelerde nesneler X-Y düzleminde durur. Z değeri konum için kullanılmaz; hangi nesnenin önde görüneceği <i>Sorting Layer</i> ve <i>Order in Layer</i> ile belirlenir.</p>
+<h3>Ölçek</h3>
+<p>Bir nesneyi büyütmenin iki yolu vardır: <i>Scale</i> değerini artırmak ya da görseli veya modeli baştan doğru boyutta içe aktarmak. İkincisi tercih edilmelidir. Ölçeği 1'den farklı olan nesneler fizik hesaplarında beklenmedik sonuçlar verebilir, çocuk nesneleri orantısız biçimde gerer; negatif ölçekte ise yüzeyler ters dönebilir. Tamamlanmış bir nesnenin ölçeği <code>(1, 1, 1)</code> olmalı, boyut ayarı sprite'ın PPU değeriyle ya da modelin içe aktarma ölçeğiyle yapılmalıdır.</p>
+</section>
+<section class="sec" id="kavramlar">
+  <h2><span class="no">2</span>Kavramlar</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 1. Bu haftanın kavramları</caption>
+    <thead><tr><th>Kavram</th><th>Unity / İngilizce</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Dünya koordinatları</td><td class="en">World space</td><td>Sahnenin mutlak koordinat sistemi.</td></tr>
+      <tr><td class="k">Yerel koordinatlar</td><td class="en">Local space</td><td>Bir nesnenin konumunun ebeveynine göre ölçülmesi.</td></tr>
+      <tr><td class="k">Euler açıları</td><td class="en">Euler angles</td><td>Dönüşün üç eksen etrafındaki açılarla ifade edilmesi. Inspector'da görülen değerler.</td></tr>
+      <tr><td class="k">Kuaterniyon</td><td class="en">Quaternion</td><td>Dönüşü dört sayıyla ifade eden gösterim. Unity dönüşleri içeride bu biçimde saklar.</td></tr>
+      <tr><td class="k">Gimbal kilidi</td><td class="en">Gimbal lock</td><td>İki dönüş ekseninin çakışmasıyla bir serbestlik derecesinin kaybolması.</td></tr>
+      <tr><td class="k">Dik izdüşüm</td><td class="en">Orthographic</td><td>Uzaklığın nesne boyutunu etkilemediği kamera türü.</td></tr>
+      <tr><td class="k">Perspektif</td><td class="en">Perspective</td><td>Uzaktaki nesnelerin küçük göründüğü kamera türü.</td></tr>
+      <tr><td class="k">Görüş açısı</td><td class="en">Field of View</td><td>Perspektif kameranın dikey görüş açısı, derece cinsinden.</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="yerel">
+  <h2><span class="no">3</span>Yerel ve dünya koordinatları</h2>
+<p>Bir nesne başka bir nesnenin çocuğuysa, Inspector'da görülen konum ebeveyne göre olan <b>yerel</b> konumdur. Kodda iki değer ayrı ayrı okunur:</p>
+<pre class="code"><span class="t">Vector3</span> dunya = transform.position;        <span class="c">// sahnedeki mutlak konum</span>
+<span class="t">Vector3</span> yerel = transform.localPosition;   <span class="c">// ebeveyne göre konum (Inspector&#x27;daki değer)</span>
+
+<span class="c">// Aynı ayrım hareket ettirirken de önemlidir:</span>
+transform.Translate(<span class="t">Vector3</span>.forward * <span class="n">5f</span> * <span class="t">Time</span>.deltaTime, <span class="t">Space</span>.World);  <span class="c">// sahnenin ileri yönü</span>
+transform.Translate(<span class="t">Vector3</span>.forward * <span class="n">5f</span> * <span class="t">Time</span>.deltaTime, <span class="t">Space</span>.Self);   <span class="c">// nesnenin baktığı yön</span></pre>
+<p>Bir araba düşünülürse fark belirginleşir. <code>Space.World</code> kullanıldığında araba hangi yöne dönük olursa olsun sahnenin ileri yönüne kayar. <code>Space.Self</code> kullanıldığında ise burnunun baktığı yöne gider.</p>
+<p>Ebeveyn-çocuk ilişkisi bu nedenle yalnızca bir düzenleme aracı değildir, bir koordinat sistemi tanımlar. Bir karakterin elindeki nesne, elin çocuğu yapıldığında elin koordinat sisteminde yaşamaya başlar ve el hareket ettikçe kod yazmadan onunla birlikte hareket eder.</p>
+</section>
+<section class="sec" id="donus">
+  <h2><span class="no">4</span>Dönüş</h2>
+<p>2B'de dönüş tek bir açıyla ifade edilir, çünkü nesneler yalnızca Z ekseni çevresinde döner. 3B'de ise üç eksen vardır ve dönüşlerin uygulanma sırası sonucu değiştirir: önce X sonra Y ekseni çevresinde döndürmek, önce Y sonra X çevresinde döndürmekle aynı sonucu vermez.</p>
+<p>Euler açılarının bir zayıflığı daha vardır. Belirli açılarda iki dönüş ekseni çakışır ve bir serbestlik derecesi kaybolur. Bu duruma <i>gimbal kilidi</i> denir; nesne beklenmedik biçimde sıçrayarak döner. Unity bu nedenle dönüşleri içeride <b>Quaternion</b> olarak saklar. Quaternion dört sayıdan oluşur ve elle yazılması amaçlanmaz; ancak gimbal kilidi yaşamaz ve iki dönüş arasında yumuşak geçiş yapılabilir. Pratikte şu kalıplar yeterlidir:</p>
+<pre class="code"><span class="c">// Belirli bir açıya ayarlamak</span>
+transform.rotation = <span class="t">Quaternion</span>.Euler(<span class="n">0f</span>, <span class="n">90f</span>, <span class="n">0f</span>);
+
+<span class="c">// Bir hedefe doğru bakmak</span>
+<span class="t">Vector3</span> yon = hedef.position - transform.position;
+transform.rotation = <span class="t">Quaternion</span>.LookRotation(yon);
+
+<span class="c">// Hedefe her karede biraz dönerek yumuşak geçiş</span>
+transform.rotation = <span class="t">Quaternion</span>.Slerp(
+    transform.rotation,
+    <span class="t">Quaternion</span>.LookRotation(yon),
+    <span class="n">5f</span> * <span class="t">Time</span>.deltaTime);</pre>
+<p><code>Time.deltaTime</code>, bir önceki kareden bu yana geçen süredir (saniye). Hareket ve dönüş değerleri bu süreyle çarpılarak kare hızından bağımsız hâle getirilir. Çarpılmazsa oyun hızlı bir bilgisayarda hızlı, yavaş bir bilgisayarda yavaş çalışır.</p>
+</section>
+<section class="sec" id="kamera">
+  <h2><span class="no">5</span>Kamera</h2>
+<p>Kamera, oyuncunun sahneye baktığı tek penceredir. Neyin çerçeveye alındığı, oyuncunun neye dikkat edeceğini belirler. Bu nedenle kamera ayarları teknik olduğu kadar tasarımsal kararlardır.</p>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 2. Kamera ayarlarının iki yolda karşılaştırması</caption>
+    <thead><tr><th></th><th><span class="t2d">2B</span></th><th><span class="t3d">3B</span></th></tr></thead>
+    <tbody>
+      <tr><td class="k">Kamera türü</td><td>Orthographic</td><td>Perspective</td></tr>
+      <tr><td class="k">Boyut ayarı</td><td><i>Orthographic Size</i>: ekran yüksekliğinin yarısı, birim cinsinden</td><td><i>Field of View</i>: dikey görüş açısı; 60° iyi bir başlangıç</td></tr>
+      <tr><td class="k">Derinlik</td><td>Sıralama katmanlarıyla; paralaks ile uzaklık izlenimi</td><td>Gerçek derinlik; <i>Near</i> ve <i>Far Clipping Plane</i> çizim sınırlarını belirler</td></tr>
+      <tr><td class="k">Takip</td><td>Genellikle yatay ya da dikey kaydırma</td><td>Karakteri arkadan, üstten ya da birinci şahıs bakışla izleme</td></tr>
+    </tbody>
+  </table>
+</div>
+<p><b>Paralaks</b>, arka plan katmanlarının kameradan daha yavaş kaydırılmasıyla 2B'de derinlik izlenimi oluşturma tekniğidir. En uzak katman en yavaş, en yakın katman en hızlı hareket eder.</p>
+<p><b>Clipping düzlemleri</b> kameranın hangi uzaklıklar arasında çizim yaptığını belirler. <i>Near</i> değerini çok küçük yapmak (0,01 gibi) derinlik hesabının hassasiyetini düşürür; uzaktaki yüzeyler birbirinin içinden titreyerek görünmeye başlar.</p>
+<p>Kameranın karakteri takip etmesi için Unity'nin <i>Cinemachine</i> paketi kullanılabilir. Paket, takip mesafesi, yumuşatma ve sınırlar gibi ayarları kod yazmadan sağlar.</p>
+<p>Kamera tercihinin öğretim açısından bir anlamı da vardır. Bir molekül modelinde kamerayı serbest bırakmak öğrenciye her açıdan inceleme olanağı verir; kamerayı sabitlemek ise belirli bir ilişkiye dikkat çeker. İki tercih farklı öğrenme çıktılarına hizmet eder.</p>
+</section>
+<section class="sec" id="uygulama">
+  <h2><span class="no">6</span>Ders içi uygulama</h2>
+<ol>
+  <li>Atölyenin <a href="../atolye/#stage-5">Dünya aşamasında</a> evin çatısını seçip evi döndürün; çatının evle birlikte dönmesini yerel koordinatlar üzerinden açıklayın.</li>
+  <li>3B projede bir küpü <code>Space.World</code> ve <code>Space.Self</code> ile hareket ettiren iki script yazın. Küpü 45° döndürüp iki davranışı karşılaştırın.</li>
+  <li>2B projede üç katmanlı bir paralaks arka planı kurun.</li>
+  <li>3B projede kameranın Field of View değerini 30°, 60° ve 100° yapıp sahnenin görünüşünü karşılaştırın.</li>
+</ol>
+</section>
+<section class="sec" id="sorular">
+  <h2>Tekrar soruları</h2>
+<ol class="qs">
+  <li>Bir arabayı burnunun baktığı yöne hareket ettirmek için <code>Space.World</code> mı <code>Space.Self</code> mi kullanılır?
+    <details><summary>Yanıtı göster</summary><p><code>Space.Self</code>. Bu seçenek nesnenin kendi eksenlerini kullanır. <code>Space.World</code> ise nesne hangi yöne dönük olursa olsun sahnenin sabit eksenlerini kullanır.</p></details>
+  </li>
+  <li>Unity dönüşleri neden içeride Euler açıları yerine Quaternion olarak saklar?
+    <details><summary>Yanıtı göster</summary><p>Euler açıları belirli durumlarda gimbal kilidine yol açar ve iki dönüş arasında yumuşak geçiş yapmak zordur. Quaternion bu sorunları taşımaz.</p></details>
+  </li>
+  <li>Hareket kodunda <code>Time.deltaTime</code> ile çarpılmazsa ne olur?
+    <details><summary>Yanıtı göster</summary><p>Hareket kare sayısına bağlı olur: kare hızı yüksek bilgisayarda hızlı, düşük bilgisayarda yavaş çalışır.</p></details>
+  </li>
+  <li>Bir nesneyi büyütmek için neden Scale değerini artırmak yerine içe aktarma ayarları kullanılmalıdır?
+    <details><summary>Yanıtı göster</summary><p>Ölçek, çocuk nesnelere ve fizik hesaplarına yayılır ve beklenmedik sonuçlar doğurabilir. Boyutu kaynakta ayarlayıp Scale'i 1'de bırakmak bu sorunları önler.</p></details>
+  </li>
+</ol>
+</section>
+<section class="sec" id="kaynaklar">
+  <h2>Kaynaklar</h2>
+<ol class="refs">
+  <li>Unity Technologies. <i>Unity Manual: Transforms</i>. <a href="https://docs.unity3d.com/Manual/class-Transform.html">https://docs.unity3d.com/Manual/class-Transform.html</a></li>
+  <li>Unity Technologies. <i>Unity Manual: Rotation and orientation</i>. <a href="https://docs.unity3d.com/Manual/QuaternionAndEulerRotationsInUnity.html">https://docs.unity3d.com/Manual/QuaternionAndEulerRotationsInUnity.html</a></li>
+  <li>Unity Technologies. <i>Unity Manual: Cameras</i>. <a href="https://docs.unity3d.com/Manual/CamerasOverview.html">https://docs.unity3d.com/Manual/CamerasOverview.html</a></li>
+</ol>
+</section>
+
+<div class="pager">
+  <a class="prev" href="hafta-05.html"><small>Önceki hafta</small>5. Sahne tasarımı: Tilemap, arazi ve modüler yapılar</a>
+  <a class="next" href="hafta-07.html"><small>Sonraki hafta</small>7. C# ile hareket ve girdi</a>
+</div>
+
+</main>
+</div>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
+<script src="../js/site.js?v=2"></script>
+</body>
+</html>

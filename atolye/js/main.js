@@ -634,6 +634,8 @@ const STR = {
   'gloss.title': { tr: 'Kavram Sözlüğü', en: 'Concept Glossary' },
   'footer': { tr: 'Oyun Motoru Atölyesi · Three.js ile geliştirildi · Öğrenciler için açık eğitim materyali', en: 'Game Engine Studio · Built with Three.js · Open educational material for students' },
 };
+STR['backToCourse'] = { tr: 'Derse dön', en: 'Back to course' };
+
 function applyI18n() { document.querySelectorAll('[data-i18n]').forEach(el => { const s = STR[el.dataset.i18n]; if (s) el.innerHTML = L(s); }); }
 function setLang(lang) {
   LANG = lang; try { localStorage.setItem('atolye_lang', lang); } catch (e) {}

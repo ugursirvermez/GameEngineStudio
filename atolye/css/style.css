@@ -777,3 +777,14 @@ body::after {
 .node-row.selected { background: rgba(45,226,255,.14); outline-color: var(--neon-cyan); box-shadow: 0 0 12px rgba(45,226,255,.3); color: #cdf6ff; }
 input[type="range"] { accent-color: var(--neon-pink); }
 .code-toggle:hover { box-shadow: 0 0 14px rgba(45,226,255,.35); }
+
+/* ---------- Ders ana sayfasına dönüş (ders sitesi altına gömüldü) ---------- */
+.back-to-course {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; letter-spacing: .3px;
+  color: var(--text-dim); text-decoration: none;
+  background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 8px; padding: 7px 12px; transition: all .15s;
+}
+.back-to-course:hover { color: var(--accent-2); border-color: var(--accent-2); }
+@media (max-width: 620px) { .back-to-course span { display: none; } }

@@ -1,274 +1,534 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oyun Motoru Atölyesi · 2D Görselden 3D Oyun Nesnesine</title>
-  <meta name="description" content="Bir 2D görselden başlayıp Texture, Material, Lighting, Normal Map, GameObject, Rig ve Animation adımlarıyla çalışan bir 3D oyun nesnesine giden etkileşimli öğrenme yolculuğu." />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ugursirvermez.github.io/GameEngineStudio/" />
-  <meta property="og:title" content="Game Engine Studio · Oyun Motoru Atölyesi" />
-  <meta property="og:description" content="From a 2D image to a living 3D game object — learn Texture, Material, Lighting, Normal Map, GameObject, Rig & Animation interactively. Bilingual TR/EN, built with Three.js." />
-  <meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Game Engine Studio · Oyun Motoru Atölyesi" />
-  <meta name="twitter:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=7" />
-  <script type="importmap">
-  { "imports": { "three": "./vendor/three.module.min.js", "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js" } }
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derse Giriş · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Eğitimde Modelleme ve Tasarım dersinin 1. hafta ders notu ve ders akışı: model ve modelleme, oyun motorları, 2B ve 3B üretim, dönem planı ve değerlendirme.">
+<meta property="og:title" content="Derse Giriş · Eğitimde Modelleme ve Tasarım">
+<meta property="og:description" content="1. hafta ders notu ve ders akışı.">
+<meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=2">
 </head>
 <body>
-  <div id="scrollProgress"></div>
 
-  <!-- ÜST BAŞLIK -->
-  <header class="topbar">
-    <div class="brand">
-      <span class="logo">◉</span>
-      <div><h1 data-i18n="brand.title">Oyun Motoru Atölyesi</h1><p class="sub" data-i18n="brand.sub">2D Görsel → 3D Oyun Nesnesi</p></div>
-    </div>
-    <div class="topbar-actions">
-      <button class="badge-tracker locked" id="badgeTracker" title="Rozet ilerlemen"><span class="bt-medal">🏅</span><span id="trackerCount">0/6</span></button>
-      <div class="lang-switch" id="langSwitch" title="Dil / Language">
-        <button class="lang-btn" data-lang="tr">TR</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-      </div>
-    </div>
-  </header>
+<header class="masthead">
+  <a class="mast-title" href="./">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="./" aria-current="page">Giriş</a>
+    <a href="materyaller/">Haftalık materyaller</a>
+    <a href="atolye/">Atölye</a>
+    <button class="btn" id="modeBtn" type="button">Sunum görünümü</button>
+  </nav>
+</header>
 
-  <!-- HERO (büyük 3D) -->
-  <section class="hero2">
-    <div class="hero-left">
-      <div class="hero-eyebrow" data-i18n="hero.eyebrow">🎮 Etkileşimli 3D Atölye</div>
-      <h1 class="hero-big" data-i18n="hero.title">Bir 2D görselden,<br>yaşayan bir 3D oyun nesnesine</h1>
-      <p class="hero-sub" data-i18n="hero.lead">Bir karakter aslında tek parça değildir; üst üste binen katmanlardan oluşur. Burada o katmanları kendi ellerinle koyacaksın: doku, materyal, ışık, iskelet, animasyon. Ben anlatmıyorum, sen yapıyorsun.</p>
-      <div class="hero-cta">
-        <a class="btn-cta" href="#stage-1" data-i18n="brand.start">▶ Yolculuğa Başla</a>
-        <span class="hero-hint" data-i18n="hero.hint">6 aşama · her birinde mini görev · TR/EN</span>
-      </div>
-    </div>
-    <div class="hero-right"><div id="heroCanvas" class="hero-canvas"></div></div>
-  </section>
+<div class="titleblock">
+  <div class="kicker">1. Hafta · Derse giriş</div>
+  <h1>Eğitimde Modelleme ve Tasarım</h1>
+  <p class="dek">Dersin amacı, temel kavramlar ve dönem planı. İlk hafta bu sayfa üzerinden işlenir.</p>
+  <div class="meta"><span>Eğitim Fakültesi</span><span>2025–2026 Güz dönemi</span><span>14 hafta</span><span>Unity 6</span></div>
+</div>
 
-  <!-- YOL HARİTASI -->
-  <ol class="roadmap" id="roadmap">
-    <li><a href="#stage-1" style="--sa:#4ec9b0"><span class="rm-ico">📷</span><span class="rm-tx" data-i18n="rm.texture">Texture</span></a></li>
-    <li><a href="#stage-2" style="--sa:#ffb454"><span class="rm-ico">🎨</span><span class="rm-tx" data-i18n="rm.material">Material</span></a></li>
-    <li><a href="#stage-3" style="--sa:#5aa9ff"><span class="rm-ico">🧊</span><span class="rm-tx" data-i18n="rm.gameobject">GameObject</span></a></li>
-    <li><a href="#stage-4" style="--sa:#ffd34e"><span class="rm-ico">💡</span><span class="rm-tx" data-i18n="rm.surface">Işık & Yüzey</span></a></li>
-    <li><a href="#stage-5" style="--sa:#c792ea"><span class="rm-ico">🏠</span><span class="rm-tx" data-i18n="rm.world">Dünya</span></a></li>
-    <li><a href="#stage-6" style="--sa:#7ee787"><span class="rm-ico">🤖</span><span class="rm-tx" data-i18n="rm.avatar">Avatar</span></a></li>
+<div class="doc">
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="toc-h">İçindekiler</div>
+    <ol>
+      <li><a href="#akis"><span class="n">0</span>Ders akışı</a></li>
+      <li><a href="#amac"><span class="n">1</span>Dersin amacı</a></li>
+      <li><a href="#model"><span class="n">2</span>Model ve modelleme</a></li>
+      <li><a href="#motor"><span class="n">3</span>Oyun motorları</a></li>
+      <li><a href="#atolye"><span class="n">4</span>Atölye gösterimi</a></li>
+      <li><a href="#tartisma"><span class="n">5</span>İçerik oyunun neresinde?</a></li>
+      <li><a href="#plan"><span class="n">6</span>Dönem planı</a></li>
+      <li><a href="#degerlendirme"><span class="n">7</span>Değerlendirme</a></li>
+      <li><a href="#hazirlik"><span class="n">8</span>İkinci haftaya hazırlık</a></li>
+      <li><a href="#sorular"><span class="n">9</span>Sık sorulan sorular</a></li>
+      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
+    </ol>
+  </nav>
+
+<main class="body">
+
+<!-- ===================================================== 0 -->
+<section class="sec hoca-only" id="akis">
+  <h2><span class="no">0</span>Ders akışı</h2>
+
+  <div class="note usage">
+    <b>Bu sayfanın kullanımı.</b> Sayfa, ilk haftayı yürütecek öğretim elemanı için hazırlandı. Bölümlerin arasında
+    <i>Eğitmen notu</i> başlıklı kutular var; bunlar ders sırasında ne yapılacağını anlatır. Sınıfta yansıtırken sağ
+    üstteki <b>Sunum görünümü</b> düğmesine basın: eğitmen notları ve bu bölüm gizlenir, yazı büyür. Sayfa yazdırıldığında
+    notlar görünür kalır.
+  </div>
+
+  <p>Ders 2 × 50 dakika olarak planlandı. Aşağıdaki sıra izlendiğinde teneffüs 3. bölümün sonuna denk gelir.</p>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <thead><tr><th class="num">Süre</th><th>Etkinlik</th><th>Sayfada</th></tr></thead>
+    <tbody>
+      <tr><td class="num">10 dk</td><td>Açılış. Dersin amacı ve bu dönemki değişiklik (2B ve 3B birlikte).</td><td>Bölüm 1</td></tr>
+      <tr><td class="num">20 dk</td><td>Model ve modelleme. Sınıftan model örnekleri toplanır.</td><td>Bölüm 2</td></tr>
+      <tr><td class="num">20 dk</td><td>Oyun motoru nedir, neden Unity, 2B ve 3B üretim arasındaki fark.</td><td>Bölüm 3</td></tr>
+      <tr><td class="num">—</td><td><i>Teneffüs</i></td><td></td></tr>
+      <tr><td class="num">20 dk</td><td>Atölye gösterimi: altı aşama projeksiyonda yürütülür.</td><td>Bölüm 4</td></tr>
+      <tr><td class="num">15 dk</td><td>Tartışma ve grup çalışması: içsel ve dışsal bütünleşme.</td><td>Bölüm 5</td></tr>
+      <tr><td class="num">10 dk</td><td>Dönem planı ve değerlendirme.</td><td>Bölüm 6–7</td></tr>
+      <tr><td class="num">5 dk</td><td>İkinci haftaya hazırlık duyurusu, çıkış kartları.</td><td>Bölüm 8</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Derse girmeden önce</h3>
+  <ul>
+    <li>Projeksiyon ve internet bağlantısı gerekir. Atölye tarayıcıda çalışır; Chrome, Edge ya da Firefox'un güncel bir sürümü yeterlidir. Atölyeyi dersten önce bir kez açıp ilk aşamanın yüklendiğini kontrol edin: <a href="atolye/">atölye bağlantısı</a>.</li>
+    <li>Öğrencilerin bu hafta Unity kurmuş olması beklenmiyor. Kurulum, 2. haftaya hazırlık olarak duyurulacak.</li>
+    <li>Ders sonunda çıkış kartı toplanacak. Yarım A4 boyutunda boş kâğıt yeterli.</li>
+    <li>Zaman daralırsa 5. bölümdeki grup çalışması kısa bir sınıf tartışmasına çevrilebilir. 4. bölümü kısaltmamak iyi olur; dönem boyunca kullanılacak kavramlar ilk kez orada görülüyor.</li>
+  </ul>
+</section>
+
+<!-- ===================================================== 1 -->
+<section class="sec" id="amac">
+  <h2><span class="no">1</span>Dersin amacı ve kapsamı</h2>
+
+  <p class="lead-in">Bu dersin amacı, öğretmen adaylarının kendi alanlarından bir konuyu öğrencinin üzerinde işlem yapabileceği etkileşimli bir modele dönüştürebilmesidir.</p>
+
+  <p>Dönem boyunca Unity oyun motoru kullanılarak küçük ölçekli oyunlar ve benzetimler (simülasyonlar) geliştirilir. Unity'yi kullanmayı öğrenmek dersin bir parçasıdır, ama tek hedefi değildir. Her çalışmada, geliştirilen ürünün hangi öğrenme çıktısına hizmet ettiği ve bunu nasıl yaptığı da sorulur; değerlendirme de bu iki boyutu birlikte ölçer.</p>
+
+  <p>Ders geçen yıl yalnızca iki boyutlu (2B) projelerle yürütüldü. Bu dönem her konu hem 2B hem üç boyutlu (3B) olarak işlenecek. Öğrenciler vize ve final projesinde iki yoldan birini seçecek. Seçimin konunun gerektirdiğine göre yapılması ve gerekçelendirilmesi bekleniyor. Hangi konunun hangi boyutu gerektirdiği 3. bölümde tartışılıyor.</p>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 1. Ders bilgileri</caption>
+    <tbody>
+      <tr><td class="k">Dönem</td><td>2025–2026 Güz, 14 hafta</td></tr>
+      <tr><td class="k">Yazılım</td><td>Unity 6 (LTS). 2B çalışmalar için <i>Universal 2D</i>, 3B çalışmalar için <i>Universal 3D</i> proje şablonu.</td></tr>
+      <tr><td class="k">Ön koşul</td><td>Yok. Programlama bilgisi beklenmez.</td></tr>
+      <tr><td class="k">Ders işleyişi</td><td>Kısa kavramsal anlatım, ardından sınıfta birlikte uygulama. Her haftanın ders notu bu sitede yer alır ve dersten önce okunur.</td></tr>
+      <tr><td class="k">Değerlendirme</td><td>Vize (uygulamalı sınav) %40, final projesi %60. Ayrıntılar 7. bölümde.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Öğrenme çıktıları</h3>
+  <p>Bu dersi başarıyla tamamlayan öğrenci:</p>
+  <ol>
+    <li>Model ve modelleme kavramlarını açıklar, öğretimde kullanılan model türlerini örneklendirir.</li>
+    <li>Bir oyun motorunun temel bileşenlerini ve 2B ile 3B üretim süreçleri arasındaki farkları açıklar.</li>
+    <li>Bir öğretim konusu için 2B ya da 3B gösterimden hangisinin uygun olduğunu gerekçesiyle belirler.</li>
+    <li>Unity'de sahne, nesne ve bileşen yapısını kullanarak etkileşimli bir ortam oluşturur.</li>
+    <li>Temel C# kodlarıyla hareket, etkileşim ve geri bildirim işlevleri yazar.</li>
+    <li>Geliştirdiği ürünü kullanıcılarla dener ve bulgulara göre düzenler.</li>
+    <li>Ürününün hangi öğrenme çıktısını nasıl desteklediğini yazılı ve sözlü olarak açıklar.</li>
   </ol>
 
-  <!-- ============ AŞAMA 1: TEXTURE ============ -->
-  <section class="stage reveal" id="stage-1" style="--sa:#4ec9b0">
-    <div class="stage-head"><span class="stage-badge">01</span><div><span class="stage-chip">Texture · Doku</span><h2 class="stage-title" data-i18n="s1.title">Her şey bir 2D görselle başlar</h2></div></div>
-    <div class="stage-body two-col">
-      <div class="stage-text">
-        <p data-i18n="s1.p1">Bir <b>Texture (doku)</b>, sıradan bir 2B görüntüdür — tıpkı bir fotoğraf gibi piksellerden oluşur. Tek başına 3 boyutlu bir şey yapmaz; bir yüzeye <b>sarılmayı</b> bekler.</p>
-        <p data-i18n="s1.p2">Aşağıdan bir desen seç. Sağda hem <b>2B hâlini</b> hem de yüzeyde nasıl <b>tekrarlandığını (tiling)</b> göreceksin.</p>
-        <div class="callout" data-i18n="s1.note">💡 Seçtiğin bu doku otomatik olarak bir sonraki adıma — <b>Material Stüdyosu</b>'na — taşınacak.</div>
-        <div class="swatches" id="texSwatches"></div>
-      </div>
-      <div class="stage-visual">
-        <div class="tex-preview-wrap">
-          <div class="tex-2d"><canvas id="tex2dCanvas" width="220" height="220"></canvas><span class="tex-cap" data-i18n="s1.cap2d">2B görüntü</span></div>
-          <div class="tex-tile"><canvas id="texTileCanvas" width="220" height="220"></canvas><span class="tex-cap" data-i18n="s1.captile">Yüzeyde tekrarlanışı</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s1.fact">Eski oyunlarda dokular neden hep 256×256, 512×512 gibi 2'nin kuvveti boyutlardaydı? Ekran kartları bu boyutları belleğe daha verimli yerleştirir ve uzaktaki yüzeyler için küçültülmüş kopyalar (<b>mipmap</b>) üretmek kolaylaşır.</span></div>
-    <div class="stage-task" id="task-1"></div>
-    <button class="code-toggle" data-code="1"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
-    <div class="code-panel hidden" id="codePanel-1"><div class="code-wrap"><button class="copy-btn" data-code="1">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-1"></pre></div></div>
-  </section>
+  <div class="hoca">
+    <span class="hoca-l">Eğitmen notu · 10 dk</span>
+    <p>Açılışta öğrencilere el kaldırarak iki soru sormak sınıfın düzeyini görmek için yeterli olur: Daha önce herhangi bir programlama dili kullanan var mı? Unity, Godot, Scratch gibi bir oyun geliştirme aracı kullanan var mı?</p>
+    <p>Programlama bilmeyenlerin çoğunlukta olması beklenen bir durum. Dersin buna göre tasarlandığını açıkça söylemek, ilk haftada sık görülen kaygıyı azaltır.</p>
+  </div>
+</section>
 
-  <!-- ============ AŞAMA 2: MATERIAL ============ -->
-  <section class="stage reveal" id="stage-2" style="--sa:#ffb454">
-    <div class="stage-head"><span class="stage-badge">02</span><div><span class="stage-chip">Material · Materyal</span><h2 class="stage-title" data-i18n="s2.title">Texture + Özellikler = Material</h2></div></div>
-    <div class="stage-body two-col">
-      <div class="stage-text">
-        <p data-i18n="s2.p1">Bir <b>Material (materyal)</b>, bir yüzeyin ışığa nasıl tepki vereceğini tanımlayan bir <b>tariftir</b>. İçine bir <b>Texture</b> koyarsın ve sayısal özellikler eklersin: renk, <b>metalness</b>, <b>roughness</b>.</p>
-        <p data-i18n="s2.p2">Tıpkı Unity'deki gibi: doku slot'unu doldur, kaydırıcılarla oyna. Sağdaki küre bu materyali <b>canlı</b> gösterir.</p>
-        <div class="mat-card">
-          <div class="mat-card-head"><span>🎨</span> <b>Material</b> <span class="mat-shader">Standard (PBR)</span></div>
-          <div class="mat-field"><label data-i18n="s2.basemap">Base Map (Albedo · Texture)</label><div class="mat-slot-row"><div class="mat-thumb" id="matThumb"></div><select id="matBaseSelect"></select></div></div>
-          <div class="mat-field"><label data-i18n="s2.tint">Tint / Renk Tonu</label><input type="color" id="matColor" value="#ffffff" /></div>
-          <div class="mat-field"><label>Metalness · <span class="mval" id="matMetalVal">0.30</span></label><input type="range" id="matMetal" min="0" max="1" step="0.01" value="0.3" /></div>
-          <div class="mat-field"><label>Roughness · <span class="mval" id="matRoughVal">0.50</span></label><input type="range" id="matRough" min="0" max="1" step="0.01" value="0.5" /></div>
-        </div>
-      </div>
-      <div class="stage-visual"><div class="preview3d" id="matPreview"><span class="preview-tag" data-i18n="s2.previewtag">Canlı Material Önizleme</span></div></div>
-    </div>
-    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s2.fact"><b>metalness</b> ve <b>roughness</b> aslında PBR'den gelir: <b>Physically Based Rendering</b>. Mantık şu: gerçek malzemeler de ya metaldir ya değil, ya pürüzlüdür ya parlak. Bu yüzden iyi bir materyal güneşte de mum ışığında da inandırıcı görünür.</span></div>
-    <div class="stage-task" id="task-2"></div>
-    <button class="code-toggle" data-code="2"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
-    <div class="code-panel hidden" id="codePanel-2"><div class="code-wrap"><button class="copy-btn" data-code="2">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-2"></pre></div></div>
-  </section>
+<!-- ===================================================== 2 -->
+<section class="sec" id="model">
+  <h2><span class="no">2</span>Model, modelleme ve öğretim</h2>
 
-  <!-- ============ AŞAMA 3: GAMEOBJECT ============ -->
-  <section class="stage reveal" id="stage-3" style="--sa:#5aa9ff">
-    <div class="stage-head"><span class="stage-badge">03</span><div><span class="stage-chip">Mesh + GameObject</span><h2 class="stage-title" data-i18n="s3.title">Mesh'e Material ekle → GameObject doğsun</h2></div></div>
-    <div class="stage-body two-col">
-      <div class="stage-text">
-        <p data-i18n="s3.p1">Bir <b>GameObject</b>, sahnedeki boş bir kutudur — başlangıçta yalnızca bir <b>Transform</b> taşır. Görünür olması için ona <b>bileşenler</b> ekleriz:</p>
-        <p data-i18n="s3.p2"><b>Mesh</b> nesnenin <i>şeklidir</i>, ama renksizdir. <b>Material</b> ise o şeklin <i>nasıl göründüğüdür</i>. İkisini birleştirince görünen bir nesne elde ederiz.</p>
-        <p class="step-instr" data-i18n="s3.instr">Sırayla adımları çalıştır:</p>
-        <div class="lab-steps" id="goStepList">
-          <button class="lab-step" id="goShapeBtn" data-done="false"><span class="ls-no">1</span> <span data-i18n="s3.step1">+ Mesh (şekil) ekle</span></button>
-          <select id="goShapeSelect" class="lab-shape-sel">
-            <option value="box" data-i18n="s3.box">Küp (Cube)</option>
-            <option value="sphere" data-i18n="s3.sphere">Küre (Sphere)</option>
-            <option value="cylinder" data-i18n="s3.cylinder">Silindir (Cylinder)</option>
-            <option value="torus" data-i18n="s3.torus">Simit (Torus)</option>
-          </select>
-          <button class="lab-step" id="goMatBtn" data-done="false" disabled><span class="ls-no">2</span> <span data-i18n="s3.step2">+ Material uygula (Aşama 2'den)</span></button>
-          <button class="lab-step ghost" id="goWireBtn"><span class="ls-no">👁</span> <span data-i18n="s3.wire">Wireframe (mesh'i göster)</span></button>
-          <button class="lab-step ghost" id="goResetBtn"><span class="ls-no">↺</span> <span data-i18n="s3.reset">Sıfırla</span></button>
-        </div>
-      </div>
-      <div class="stage-visual">
-        <div class="preview3d" id="goLab"><span class="preview-tag" id="goStatusTag" data-i18n="s3.empty">Boş GameObject (yalnızca Transform)</span></div>
-        <div class="components" id="goComponents"></div>
-      </div>
-    </div>
-    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s3.fact">Unity'de buna "GameObject", Unreal'de "Actor", Godot'ta "Node" denir. İsim motordan motora değişir ama fikir aynı: sahnedeki her şey, üzerine bileşen ve kod (<b>script</b>) eklenebilen boş bir kaptır.</span></div>
-    <div class="stage-task" id="task-3"></div>
-    <button class="code-toggle" data-code="3"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
-    <div class="code-panel hidden" id="codePanel-3"><div class="code-wrap"><button class="copy-btn" data-code="3">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-3"></pre></div></div>
-  </section>
+  <h3><span class="no">2.1</span>Model nedir?</h3>
+  <p class="def">Model, bir sistemin ya da olgunun belirli bir amaç için sadeleştirilmiş temsilidir.</p>
+  <p>Tanımdaki iki öğe önemlidir. Birincisi, her model sadeleştirir: gerçek sistemin bazı özelliklerini korur, bazılarını dışarıda bırakır. İkincisi, neyin korunup neyin bırakılacağına amaç karar verir.</p>
+  <p>İstanbul'un metro haritası buna iyi bir örnektir. Harita, istasyonlar arasındaki gerçek uzaklıkları ve hatların gerçek kıvrımlarını bilerek bozar. Buna karşılık hangi istasyonun hangi hat üzerinde olduğunu ve nerede aktarma yapılabileceğini doğru gösterir. Yolcunun ihtiyacı bu olduğu için harita işini görür. Aynı şehrin imar planı ise uzaklıkları korur ama yolculuk planlamak için kullanışsızdır. İkisi de aynı şehrin modelidir; amaçları farklı olduğu için dışarıda bıraktıkları da farklıdır.</p>
+  <p>Öğretimde kullanılan modeller için de aynı durum geçerlidir. Bir modelin eksik olması kusur sayılmaz. Asıl soru, dışarıda bırakılan şeyin öğrenme amacı açısından gerçekten önemsiz olup olmadığıdır.</p>
 
-  <!-- ============ AŞAMA 4: IŞIK ============ -->
-  <section class="stage reveal" id="stage-4" style="--sa:#ffd34e">
-    <div class="stage-head"><span class="stage-badge">04</span><div><span class="stage-chip">Lighting · Surface</span><h2 class="stage-title" data-i18n="s4l.title">Yüzey ışıkla buluşunca: parlaklık + pürüz</h2></div></div>
-    <div class="stage-body two-col">
-      <div class="stage-text">
-        <p data-i18n="s4l.p1">Bir materyalin rengini ve parlaklığını gözümüz, <b>ışığın yüzeyden yansımasıyla</b> görür. Işığı gezdir; parlak nokta kayar. <b>Roughness</b>: pürüzlü yüzey ışığı dağıtır (mat), pürüzsüz yansıtır (parlak).</p>
-        <p data-i18n="s4l.p2">Şimdi aynı yüzeye bir <b>Normal Map</b> ekle: yüzey <b>girintili-çıkıntılı</b> görünür ama <b>geometri hiç değişmez</b>. <b>Wireframe</b> ile kontrol et.</p>
-        <div class="light-card">
-          <div class="mat-field"><label data-i18n="s4l.angle">Işık açısı</label><input type="range" id="liAngle" min="0" max="360" value="50" /></div>
-          <div class="mat-field"><label data-i18n="s4l.height">Işık yüksekliği</label><input type="range" id="liElev" min="5" max="88" value="55" /></div>
-          <div class="mat-field"><label data-i18n="s4l.intensity">Şiddet (Intensity) · <span class="mval" id="liIntVal">2.4</span></label><input type="range" id="liInt" min="0" max="5" step="0.1" value="2.4" /></div>
-          <div class="mat-field"><label data-i18n="s4l.color">Işık rengi</label><input type="color" id="liColor" value="#ffffff" /></div>
-          <div class="mat-field"><label>Roughness · <span class="mval" id="liRoughVal">0.40</span></label><input type="range" id="liRough" min="0" max="1" step="0.01" value="0.4" /></div>
-          <div class="ls-divider"></div>
-          <div class="toggle-row">
-            <button class="toggle-chip active" id="nmOff" data-i18n="s5n.off">Normal Map: Kapalı</button>
-            <button class="toggle-chip" id="nmOn" data-i18n="s5n.on">Normal Map: Açık</button>
-            <button class="toggle-chip" id="nmWire" data-i18n="s5n.wire">Wireframe</button>
-          </div>
-          <div style="margin-top:10px;display:flex;align-items:center;gap:10px"><span class="tex-cap" data-i18n="s5n.thumb">Kullanılan normal map:</span><canvas id="nmThumb" width="64" height="64" style="border:1px solid var(--line);border-radius:6px"></canvas></div>
-        </div>
-      </div>
-      <div class="stage-visual"><div class="preview3d" id="lsLab"><span class="preview-tag" data-i18n="s4l.tag">Işık & Yüzey</span></div></div>
-    </div>
-    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s4.fact">Normal map'ler neden hep o tuhaf mavi-mor renktedir? Her piksel bir yönü (X, Y, Z) saklar ve bu yön R, G, B'ye çevrilir. Düz bir yüzey "yukarı" bakar; yukarı Z eksenine, Z de maviye denk geldiği için harita ağırlıklı mavi çıkar.</span></div>
-    <div class="stage-task" id="task-4"></div>
-    <button class="code-toggle" data-code="4"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
-    <div class="code-panel hidden" id="codePanel-4"><div class="code-wrap"><button class="copy-btn" data-code="4">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-4"></pre></div></div>
-  </section>
+  <h3><span class="no">2.2</span>Öğretimde kullanılan model türleri</h3>
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 2. Model türleri ve örnekler</caption>
+    <thead><tr><th>Tür</th><th>Özelliği</th><th>Örnek</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Fiziksel</td><td>Elle tutulabilen, ölçeklendirilmiş nesne</td><td>İnsan torsosu maketi, dünya küresi, molekül modeli</td></tr>
+      <tr><td class="k">Kavramsal</td><td>Öğeler arasındaki ilişkileri şekille gösterir</td><td>Besin zinciri şeması, kavram haritası, akış şeması</td></tr>
+      <tr><td class="k">Matematiksel</td><td>İlişkiyi denklem ya da grafikle ifade eder</td><td>Serbest düşme için <i>h = ½gt²</i>, nüfus artış grafiği</td></tr>
+      <tr><td class="k">Hesaplamalı</td><td>Bilgisayarda çalışır; öğrenci değişkenleri değiştirip sonucu gözler</td><td>PhET sarkaç benzetimi, bir ekosistem benzetimi</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Bu derste son türle çalışıyoruz. Hesaplamalı modelin öteki türlerden farkı, öğrencinin modele müdahale edebilmesidir: sarkacın ipini uzatır, yerçekimini değiştirir ve sonucun nasıl değiştiğini görür. Oyun motoru bu tür modelleri kurmak için elverişli bir araçtır.</p>
 
-  <!-- ============ AŞAMA 5: DÜNYA / SAHNE ============ -->
-  <section class="stage reveal" id="stage-5" style="--sa:#c792ea">
-    <div class="stage-head"><span class="stage-badge">05</span><div><span class="stage-chip">World · Scene</span><h2 class="stage-title" data-i18n="s5w.title">Bir dünya da GameObject hiyerarşisidir</h2></div></div>
-    <div class="stage-body two-col">
-      <div class="stage-text">
-        <p data-i18n="s5w.p1">Az önce tek bir GameObject yaptın. Bir <b>sahne</b> ise yüzlerce GameObject'in iç içe geçmiş hâlidir. Şu <b>ev</b>, tıpkı bir iskelet gibi hiyerarşiktir: <code>Bahçe → Ev → Çatı, Duvarlar, Kapı…</code></p>
-        <p data-i18n="s5w.p2">Hiyerarşiden (ya da 3D'de) bir parçaya tıkla → seçili kutuyu gör. <b>Duvarlar, Aşama 2'de oluşturduğun materyali giyer.</b> Arabalar yollarda ilerler ve harita kenarında kaybolur.</p>
-        <button class="btn btn-accent" id="applyMatBtn" style="margin:6px 0 14px" data-i18n="s5w.apply">🎨 Materyalimi eve uygula</button>
-        <div class="house-hier">
-          <div class="hh-head" data-i18n="s5w.hier">⛬ Ev Hiyerarşisi</div>
-          <ul id="houseTree" class="tree"></ul>
-        </div>
-      </div>
-      <div class="stage-visual"><div class="preview3d" id="worldLab" style="height:440px"><span class="preview-tag" data-i18n="s5w.tag">Bahçe · Yollar · Arabalar</span></div></div>
-    </div>
-    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s5.fact">Arabaların harita kenarında yok olması tesadüf değil, bir oyun tekniği. Görünmeyen nesneleri çizmemeye <b>culling</b>, silip yeniden yaratmak yerine aynı nesneyi tekrar kullanmaya <b>object pooling</b> denir. Açık dünya oyunları akıcı kalmayı bu hilelere borçlu.</span></div>
-    <div class="stage-task" id="task-5"></div>
-    <button class="code-toggle" data-code="5"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
-    <div class="code-panel hidden" id="codePanel-5"><div class="code-wrap"><button class="copy-btn" data-code="5">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-5"></pre></div></div>
-  </section>
+  <h3><span class="no">2.3</span>Modeli kullanmak ve modeli kurmak</h3>
+  <p>Öğrenciler hazır bir modeli inceleyerek öğrenebilir, ama bir modeli kendileri kurduklarında farklı bir şey olur. Model kuran kişi hangi öğeleri alacağına, bunların nasıl ilişkileneceğine ve neyi dışarıda bırakacağına karar vermek zorundadır. Jonassen (2006), bu kararların konunun yapısı üzerine düşünmeyi zorunlu kıldığını ve model kurmanın bu yüzden kavramsal anlamayı desteklediğini savunur.</p>
+  <p>Papert'in (1980) yapılandırmacılık (<i>constructionism</i>) görüşü de benzer bir noktadan hareket eder: öğrenme, başkalarının görebileceği ve kullanabileceği bir ürün inşa edilirken güçlenir. Kafai ve Burke (2015), öğrencilerin oyun yaparak öğrenmesine ilişkin çalışmaları derledikleri incelemede bu görüşü oyun geliştirme bağlamında ele alır.</p>
+  <p>Bu derste öğretmen adayları model kuran taraftadır. Kurdukları model ise ileride kendi öğrencilerinin kullanacağı bir öğretim aracıdır. Dolayısıyla dönem boyunca iki soru birlikte sorulacak: Bu modeli kurarken konu hakkında ne düşünmem gerekti? Bu model, onu kullanacak öğrenciye neyi gösteriyor?</p>
 
-  <!-- ============ AŞAMA 6: AVATAR EDİTÖRÜ ============ -->
-  <section class="stage reveal" id="stage-6" style="--sa:#7ee787">
-    <div class="stage-head"><span class="stage-badge">06</span><div><span class="stage-chip">Hierarchy · Rig · Animation</span><h2 class="stage-title" data-i18n="s6.title">Çok sayıda GameObject → yaşayan bir Avatar</h2></div></div>
-    <p class="stage-lead" data-i18n="s6.lead">Şimdi her şey bir arada. Onlarca GameObject bir <b>Hiyerarşi</b> içinde iç içe geçer, bir <b>Rig</b> onları bağlar ve <b>Animation</b> bu iskeleti hareket ettirir. Tıkla, düzenle, oynat.</p>
-    <div class="editor">
-      <aside class="panel hierarchy-panel">
-        <div class="panel-head"><span class="panel-title" data-i18n="ed.hierarchy">⛬ Hiyerarşi</span><span class="panel-tag" data-i18n="ed.scenegraph">Sahne Grafiği</span></div>
-        <div class="panel-hint" data-i18n="ed.hierarchyhint">Parent → Child. Bir öğeye tıkla → seç.</div>
-        <ul id="hierarchy" class="tree"></ul>
-      </aside>
-      <section class="viewport-wrap">
-        <div class="toolbar">
-          <div class="tool-group"><span class="tool-label" data-i18n="ed.animation">Animasyon</span>
-            <button class="btn btn-tool active" data-anim="stop" data-i18n="ed.manual">⏹ Manuel</button>
-            <button class="btn btn-tool" data-anim="idle">🧍 Idle</button>
-            <button class="btn btn-tool" data-anim="wave" data-i18n="ed.wave">👋 El Salla</button>
-            <button class="btn btn-tool" data-anim="walk" data-i18n="ed.walk">🚶 Yürü</button>
-          </div>
-          <div class="tool-group"><span class="tool-label" data-i18n="ed.view">Görünüm</span>
-            <button class="btn btn-tool" id="toggleWireframe">🔲 Wireframe</button>
-            <button class="btn btn-tool" id="toggleRig" data-i18n="ed.rig">🦴 Rig</button>
-            <button class="btn btn-tool" id="resetView" data-i18n="ed.resetcam">🎯 Kamera</button>
-          </div>
-        </div>
-        <div id="viewport" class="viewport">
-          <div class="viewport-badge"><span data-i18n="ed.selected">Seçili:</span> <strong id="selName">—</strong></div>
-          <div class="loading" id="loading"><div class="spinner"></div><span data-i18n="ed.loading">3D sahne hazırlanıyor…</span></div>
-        </div>
-      </section>
-      <aside class="panel inspector-panel">
-        <div class="panel-head"><span class="panel-title" data-i18n="ed.inspector">⚙ Inspector</span><span class="panel-tag" data-i18n="ed.properties">Özellikler</span></div>
-        <div id="inspector" class="inspector"><div class="empty-state" data-i18n="ed.empty">Bir nesne seç ve özelliklerini burada düzenle.</div></div>
-      </aside>
-    </div>
-    <div class="lesson-bar" id="lessonBar">
-      <div class="lesson-icon" id="lessonIcon">📘</div>
-      <div class="lesson-content">
-        <div class="lesson-meta"><span class="lesson-step" id="lessonStep">Tur 1 / 5</span><span class="lesson-chip" id="lessonChip">Hierarchy</span></div>
-        <h2 class="lesson-title" id="lessonTitle" data-i18n="tour.intro.title">Editör turunu başlatmak için "Sonraki"ye bas</h2>
-        <p class="lesson-body" id="lessonBody" data-i18n="tour.intro.body">Her adım ilgili nesneyi otomatik seçer ve ne deneyeceğini söyler.</p>
-      </div>
-      <div class="lesson-nav"><button class="btn btn-ghost" id="prevLesson" data-i18n="tour.prev">‹ Önceki</button><div class="lesson-dots" id="lessonDots"></div><button class="btn btn-accent" id="nextLesson" data-i18n="tour.next">Sonraki ›</button></div>
-    </div>
-    <div class="info-note"><span class="in-label" data-i18n="fact.label">🎓 Bilgi Notu</span> <span data-i18n="s6.fact">Gerçek oyunlarda karakter animasyonu çoğunlukla <b>skinning</b> ile yapılır: tek bir mesh görünmez kemiklere "ağırlıklarla" bağlanır, kemik kıpırdayınca yüzey de esner. Biz bunu parçaları iç içe gruplayarak basitleştirdik — mantık aynı: ebeveyni döndür, ona bağlı her şey döner.</span></div>
-    <div class="stage-task" id="task-6"></div>
-    <button class="code-toggle" data-code="6"><span class="ct-ico">&lt;/&gt;</span> <span data-i18n="code.show">Kodu Göster</span><span class="ct-arrow">▾</span></button>
-    <div class="code-panel hidden" id="codePanel-6"><div class="code-wrap"><button class="copy-btn" data-code="6">⧉ <span data-i18n="copy">Kopyala</span></button><pre class="code" id="code-6"></pre></div></div>
-  </section>
+  <h3><span class="no">2.4</span>Benzetim, oyun ve eğitsel oyun</h3>
+  <p>Benzetim bir sistemin nasıl çalıştığını modeller. Oyun ise bu modele bir hedef, kurallar, geri bildirim ve zorluk ekler. Örneğin PhET'in sarkaç benzetiminde öğrenci değişkenleri serbestçe değiştirir; burada ulaşılacak bir hedef yoktur. Aynı modele "sarkacın periyodunu tam iki saniyeye ayarla" gibi bir hedef ve doğru ayara yaklaşıldığını gösteren bir gösterge eklendiğinde ortaya oyuna yakın bir etkinlik çıkar.</p>
+  <p>Eğitsel oyunda hedef ve geri bildirim, öğrenme çıktısına bağlanır. Oyuncunun ulaşmaya çalıştığı şey, öğrenilmesi istenen işlemin doğru yapılmasıdır. Bu bağın nasıl kurulacağı 5. bölümde tartışılıyor.</p>
 
-  <!-- BİTİRME ROZETİ -->
-  <section class="finale locked" id="finale">
-    <div class="finale-badge">🏅</div>
-    <h2 id="finaleTitle" data-i18n="finale.lockedTitle">Atölyeyi tamamla</h2>
-    <p id="finaleBody" data-i18n="finale.lockedBody">Her aşamadaki mini görevi bitir; bu rozet o zaman parlayacak.</p>
-    <div class="finale-progress"><span id="finaleCount">0 / 6</span></div>
-    <div class="finale-bar"><i id="finaleFill"></i></div>
-  </section>
+  <div class="hoca">
+    <span class="hoca-l">Eğitmen notu · 20 dk</span>
+    <p>2.1'i anlattıktan sonra sınıfa sorun: <i>Kendi alanınızdaki derslerde kullanılan bir model söyleyin.</i> Üç dört örneği tahtaya yazın. Her biri için ikinci soruyu sorun: <i>Bu model neyi dışarıda bırakıyor?</i></p>
+    <p>Öğrenciler genellikle eksikliği modelin kusuru olarak görür. Burada fark ettirilmek istenen, eksikliğin modelin doğası olduğu ve neyin dışarıda bırakılacağının öğretim amacına göre seçildiğidir. Bu fikir 4. bölümdeki normal haritası örneğinde yeniden karşınıza çıkacak.</p>
+  </div>
+</section>
 
-  <!-- SÖZLÜK -->
-  <section class="glossary"><h2 data-i18n="gloss.title">Kavram Sözlüğü</h2><div class="glossary-grid" id="glossaryGrid"></div></section>
-  <footer class="site-footer"><p data-i18n="footer">Oyun Motoru Atölyesi · Three.js ile geliştirildi · Öğrenciler için açık eğitim materyali</p></footer>
-  <div class="toast" id="toast"></div>
-  <div class="crt" aria-hidden="true"></div>
+<!-- ===================================================== 3 -->
+<section class="sec" id="motor">
+  <h2><span class="no">3</span>Oyun motorları</h2>
 
-  <script>
-    (function () {
-      function showError(msg) { var el = document.getElementById('loading'); if (!el) return; el.classList.remove('hidden'); el.innerHTML = '<div style="max-width:480px;text-align:center;padding:24px"><div style="font-size:42px;margin-bottom:10px">⚠️</div><div style="color:#ff6b6b;font-weight:700;font-size:16px;margin-bottom:12px">3D sahne başlatılamadı</div><div style="color:#9aa3b2;font-size:13.5px;line-height:1.7;text-align:left">' + msg + '</div></div>'; }
-      var code = 'style="font-family:monospace;background:#2a2f3a;padding:2px 6px;border-radius:4px;color:#ffb454"';
-      if (location.protocol === 'file:') { setTimeout(function () { if (!window.__sceneReady) showError('Bu sayfayı <b>çift tıklayarak (file://)</b> açtınız. Tarayıcılar bu modda 3D motorunu engeller.<br><br>✅ Klasördeki <b style="color:#4ec9b0">baslat.bat</b> dosyasını çift tıklayın.<br><br>🛠️ Ya da <code ' + code + '>python -m http.server 8000</code> çalıştırıp <code ' + code + '>http://localhost:8000</code> adresine gidin.'); }, 1200); }
-      else { setTimeout(function () { if (!window.__sceneReady) showError('Three.js motoru yüklenemedi.<br><br>• <b>vendor/</b> klasörünün mevcut olduğundan emin olun.<br>• Konsolu (<b>F12</b>) kontrol edin.'); }, 7000); }
-      window.addEventListener('error', function (e) { if (e && e.target && e.target.tagName === 'SCRIPT' && !window.__sceneReady) showError('Bir dosya yüklenemedi: <code ' + code + '>' + (e.target.src || '') + '</code>'); }, true);
-    })();
-  </script>
-  <script type="module" src="js/main.js?v=7"></script>
+  <h3><span class="no">3.1</span>Oyun motoru nedir?</h3>
+  <p>Oyun motoru, etkileşimli ve gerçek zamanlı uygulamalar geliştirmek için gereken temel sistemleri hazır olarak sunan yazılım ortamıdır (Gregory, 2018). Ekranda hareket eden tek bir karakter bile saniyede onlarca kez yeniden çizilmeyi, klavyeden gelen girdinin okunmasını, çarpışmaların hesaplanmasını ve seslerin zamanında çalınmasını gerektirir. Bu işlerin hiçbiri öğretilecek konuyla ilgili değildir. Motor bunları üstlenir; geliştiriciye sahnede hangi nesnelerin olacağına, nasıl görüneceklerine ve birbirleriyle etkileşince ne olacağına karar vermek kalır.</p>
+  <p>Bir oyun motorunun sağladığı başlıca sistemler şunlardır:</p>
+  <ul>
+    <li><b>Görüntü oluşturma</b> (<i>rendering</i>): sahnenin kameradan görünen hâlini her karede ekrana çizer.</li>
+    <li><b>Fizik</b>: yerçekimi, çarpışma ve kuvvet hesaplarını yapar.</li>
+    <li><b>Girdi</b>: klavye, fare, dokunmatik ekran ve oyun kumandasından gelen komutları okur.</li>
+    <li><b>Ses</b>: ses efektlerini ve müziği çalar, konuma göre ayarlar.</li>
+    <li><b>Sahne yönetimi</b>: nesnelerin oluşturulması, güncellenmesi ve kaldırılmasını düzenler.</li>
+    <li><b>Derleme</b>: projeyi Windows, macOS, Android ya da web tarayıcısı gibi farklı platformlarda çalışacak hâle getirir.</li>
+  </ul>
+
+  <h3><span class="no">3.2</span>Neden Unity?</h3>
+  <p>Yaygın kullanılan başka motorlar da var: Unreal Engine yüksek görsel kalitesiyle öne çıkar ama daha güçlü donanım ister; Godot açık kaynaklı ve hafiftir; GameMaker 2B oyunlara yöneliktir. Bu derste Unity'nin seçilmesinin nedenleri şunlardır:</p>
+  <ul>
+    <li>2B ve 3B projeleri aynı ortamda ve aynı kavramlarla destekler. Dersin iki yolu paralel yürütmesi buna dayanır.</li>
+    <li>Eğitim alanında yaygındır; Unity Learn üzerinden çok sayıda ücretsiz öğrenme kaynağı bulunur.</li>
+    <li>Projeler web tarayıcısında çalışacak biçimde derlenebilir. Öğrencilerin ürettiği prototip bir bağlantıyla paylaşılabilir; kullanıcının bir şey kurması gerekmez.</li>
+    <li>Kişisel kullanım ve öğrenci lisansları ücretsizdir.</li>
+  </ul>
+  <p>Derste öğrenilen temel kavramlar (sahne, nesne, bileşen, script) öteki motorlarda da benzer biçimde bulunur. Unity'de öğrenilenler başka bir araca geçildiğinde büyük ölçüde işe yarar.</p>
+
+  <h3><span class="no">3.3</span>Unity'nin temel kavramları</h3>
+  <p>Aşağıdaki kavramlar 2. ve 3. haftalarda ayrıntılı işlenecek. Bu hafta adlarını ve ne işe yaradıklarını bilmek yeterli.</p>
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 3. Unity'de temel kavramlar</caption>
+    <thead><tr><th>Kavram</th><th>Unity'deki adı</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Sahne</td><td class="en">Scene</td><td>Bir anda oyunda bulunan nesnelerin tamamı. Bir menü, bir bölüm ya da bir etkinlik ayrı birer sahne olabilir.</td></tr>
+      <tr><td class="k">Oyun nesnesi</td><td class="en">GameObject</td><td>Sahnedeki her şey: karakter, zemin, ışık, kamera. Kendi başına yalnızca bir konum bilgisi taşır.</td></tr>
+      <tr><td class="k">Bileşen</td><td class="en">Component</td><td>Nesneye eklenen özellik. Nesnenin görünmesi, düşmesi, ses çıkarması bileşenlerle sağlanır.</td></tr>
+      <tr><td class="k">Varlık</td><td class="en">Asset</td><td>Projeye eklenen her dosya: görüntü, 3B model, ses, materyal, script.</td></tr>
+      <tr><td class="k">Script</td><td class="en">C# Script</td><td>Nesneye davranış kazandıran kod dosyası. Unity'de script'ler de birer bileşendir.</td></tr>
+      <tr><td class="k">Prefab</td><td class="en">Prefab</td><td>Hazırlanmış bir nesnenin kaydedilmiş kalıbı. Aynı nesne sahnede birçok kez kullanılacaksa prefab'dan çoğaltılır.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3><span class="no">3.4</span>2B ve 3B üretim arasındaki fark</h3>
+  <p>Unity her iki durumda da aynı sahne yapısını kullanır. Fark, bir nesnenin ekranda nasıl görünür hâle geldiğinde ortaya çıkar. 2B'de kaynak bir görüntü dosyasıdır ve derinlik, hangi görüntünün hangisinin önünde çizileceğini belirleyen bir sıralamadan ibarettir. 3B'de kaynak hacmi olan bir modeldir; derinlik, ışık ve gölge motor tarafından hesaplanır.</p>
+
+  <figure>
+    <svg viewBox="0 0 820 250" role="img" aria-labelledby="sekil1">
+      <title id="sekil1">2B ve 3B üretim süreçlerinin karşılaştırması</title>
+      <defs>
+        <marker id="ok" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#6d707a"/>
+        </marker>
+      </defs>
+      <g font-family="IBM Plex Sans, Segoe UI, Arial, sans-serif">
+        <g font-size="12" fill="#6d707a" text-anchor="middle">
+          <text x="124" y="20">Kaynak dosya</text>
+          <text x="282" y="20">Motordaki varlık</text>
+          <text x="440" y="20">Görünür kılan bileşen</text>
+          <text x="598" y="20">Derinlik</text>
+          <text x="756" y="20">Kamera</text>
+        </g>
+
+        <text x="30" y="66" font-size="16" font-weight="600" fill="#2b6657" text-anchor="middle">2B</text>
+        <g fill="#ffffff" stroke="#2b6657" stroke-width="1.2">
+          <rect x="62" y="32" width="124" height="58" rx="3"/>
+          <rect x="220" y="32" width="124" height="58" rx="3"/>
+          <rect x="378" y="32" width="124" height="58" rx="3"/>
+          <rect x="536" y="32" width="124" height="58" rx="3"/>
+          <rect x="694" y="32" width="124" height="58" rx="3"/>
+        </g>
+        <g font-size="13" fill="#1d1e22" text-anchor="middle">
+          <text x="124" y="66">PNG görüntü</text>
+          <text x="282" y="66">Sprite</text>
+          <text x="440" y="66">Sprite Renderer</text>
+          <text x="598" y="58">Sıralama</text>
+          <text x="598" y="75">(Sorting Layer)</text>
+          <text x="756" y="66">Orthographic</text>
+        </g>
+
+        <text x="30" y="144" font-size="16" font-weight="600" fill="#8f5512" text-anchor="middle">3B</text>
+        <g fill="#ffffff" stroke="#8f5512" stroke-width="1.2">
+          <rect x="62" y="110" width="124" height="58" rx="3"/>
+          <rect x="220" y="110" width="124" height="58" rx="3"/>
+          <rect x="378" y="110" width="124" height="58" rx="3"/>
+          <rect x="536" y="110" width="124" height="58" rx="3"/>
+          <rect x="694" y="110" width="124" height="58" rx="3"/>
+        </g>
+        <g font-size="13" fill="#1d1e22" text-anchor="middle">
+          <text x="124" y="136">FBX model</text>
+          <text x="124" y="153">+ doku</text>
+          <text x="282" y="136">Mesh</text>
+          <text x="282" y="153">+ materyal</text>
+          <text x="440" y="136">Mesh Filter</text>
+          <text x="440" y="153">+ Mesh Renderer</text>
+          <text x="598" y="136">Gerçek derinlik,</text>
+          <text x="598" y="153">ışık ve gölge</text>
+          <text x="756" y="144">Perspective</text>
+        </g>
+
+        <g stroke="#6d707a" stroke-width="1.2" marker-end="url(#ok)">
+          <line x1="188" y1="61" x2="216" y2="61"/><line x1="346" y1="61" x2="374" y2="61"/>
+          <line x1="504" y1="61" x2="532" y2="61"/><line x1="662" y1="61" x2="690" y2="61"/>
+          <line x1="188" y1="139" x2="216" y2="139"/><line x1="346" y1="139" x2="374" y2="139"/>
+          <line x1="504" y1="139" x2="532" y2="139"/><line x1="662" y1="139" x2="690" y2="139"/>
+        </g>
+
+        <rect x="62" y="188" width="756" height="50" rx="3" fill="#f2efe6" stroke="#d6d1c3"/>
+        <text x="440" y="208" font-size="12" fill="#6d707a" text-anchor="middle">Her iki yolda ortak olanlar</text>
+        <text x="440" y="227" font-size="13" fill="#1d1e22" text-anchor="middle">GameObject · Transform · bileşenler · C# script · fizik · arayüz · derleme</text>
+      </g>
+    </svg>
+    <figcaption><b>Şekil 1.</b> Bir görselin ya da modelin sahnede görünür hâle gelmesi. Üst satır 2B, alt satır 3B yolunu gösterir; alttaki kısım iki yolda aynıdır.</figcaption>
+  </figure>
+
+  <p>Hangi yolun seçileceği konuya bağlıdır. 3B daha gelişmiş göründüğü için daha iyi bir seçim sayılmamalıdır. 3B'de model, doku, ışık ve kamera ayarı gibi ek işler vardır; aynı sürede 2B'de çok daha kapsamlı bir ürün ortaya çıkar. Bu yüzden 3B'nin seçilmesi için konunun kendisinin bir uzamsal ilişki içermesi beklenir.</p>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 4. Konuya göre boyut seçimi</caption>
+    <thead><tr><th>2B'nin genellikle yeterli olduğu konular</th><th>3B'nin gerekli olduğu konular</th></tr></thead>
+    <tbody>
+      <tr><td>Sıralama ve sınıflandırma (canlıları gruplara ayırma, cümle öğeleri)</td><td>Hacim, kesit ve izdüşüm (geometrik cisimler)</td></tr>
+      <tr><td>Sayı doğrusu, kesirler, grafik okuma</td><td>Molekül ve kristal yapıları</td></tr>
+      <tr><td>Harita üzerinde konum ve yön</td><td>İnsan anatomisi, eklem hareketleri</td></tr>
+      <tr><td>Algoritma, akış ve kural uygulama</td><td>Gök cisimlerinin birbirine göre konumu, gece-gündüz, mevsimler</td></tr>
+      <tr><td>Dil bilgisi ve kelime çalışmaları</td><td>Mimari mekân, ölçek ve bakış açısı</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="hoca">
+    <span class="hoca-l">Eğitmen notu · 20 dk</span>
+    <p>3.1 ve 3.2'yi kısa geçebilirsiniz. Asıl zaman 3.4'e ayrılmalı, çünkü öğrencilerin dönem boyunca vereceği en önemli karar 2B ile 3B arasındaki seçim.</p>
+    <p>Tablo 4'ü gösterdikten sonra sınıfa, sağ sütundaki konuların neden 2B'de iyi anlatılamayacağını sorun. Beklenen yanıt, bu konularda öğrenilecek şeyin bir bakış açısı ya da derinlik ilişkisi olduğu; 2B çizim bunu ancak tek bir açıdan gösterebilir.</p>
+    <p>Bu bölümün sonunda teneffüs verin.</p>
+  </div>
+</section>
+
+<!-- ===================================================== 4 -->
+<section class="sec" id="atolye">
+  <h2><span class="no">4</span>Atölye gösterimi: 2B görselden 3B nesneye</h2>
+
+  <p>Ders için hazırlanan atölye, Unity kurmadan tarayıcıda çalışan bir öğrenme aracıdır. Bir oyun motorunun bir görüntüyü sahnede görünen bir nesneye dönüştürürken izlediği adımları altı aşamada gösterir. Atölyede yapılan seçimler bir sonraki aşamaya taşınır: birinci aşamada seçilen doku, ikinci aşamada kurulan materyalin içine girer; o materyal de üçüncü aşamada bir nesneye uygulanır.</p>
+
+  <div class="actions no-print">
+    <a class="btn btn-primary" href="atolye/" target="_blank" rel="noopener">Atölyeyi yeni sekmede aç</a>
+  </div>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 5. Atölyenin aşamaları</caption>
+    <thead><tr><th class="num">Aşama</th><th>Yapılan</th><th>Dikkat çekilecek nokta</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td><b>Doku.</b> Bir desen seçilir; düz hâli ve bir yüzey üzerinde tekrarlanışı görülür.</td><td>Doku yalnızca bir görüntüdür. Bir yüzeye uygulanana kadar üç boyutlu bir şey oluşturmaz.</td></tr>
+      <tr><td class="num">2</td><td><b>Materyal.</b> Doku materyaldeki yuvaya bırakılır; renk, metaliklik ve pürüzlülük değiştirilir.</td><td>Aynı doku, farklı materyal ayarlarıyla farklı bir malzeme gibi görünür.</td></tr>
+      <tr><td class="num">3</td><td><b>GameObject.</b> Boş bir nesneye önce şekil (mesh), sonra materyal eklenir; bileşen listesi izlenir.</td><td>Nesnenin ne olduğunu üzerine eklenen bileşenler belirler. Unity'deki Inspector penceresi aynı mantıkla çalışır.</td></tr>
+      <tr><td class="num">4</td><td><b>Işık ve yüzey.</b> Işık kürenin etrafında gezdirilir, normal haritası açılır, ardından tel kafes (wireframe) görünümü açılır.</td><td>Normal haritası yüzeyi pürüzlü gösterir ama geometri değişmez. Bölüm 2.1'deki fikrin somut bir örneği: model, gerçekte içermediği bir özelliği taklit ediyor.</td></tr>
+      <tr><td class="num">5</td><td><b>Dünya.</b> Evin parçaları hiyerarşi listesinden seçilir.</td><td>Nesneler iç içe gruplanır. Üstteki nesne hareket edince içindekiler de onunla birlikte hareket eder.</td></tr>
+      <tr><td class="num">6</td><td><b>Avatar.</b> Kalça (Hips) döndürülür, iskelet (rig) görünür yapılır, el sallama ve yürüme animasyonları oynatılır.</td><td>Karakter animasyonu, birbirine bağlı kemiklerin sırayla döndürülmesiyle elde edilir.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="hoca">
+    <span class="hoca-l">Eğitmen notu · 20 dk</span>
+    <p>Gösterimi siz yapın; öğrencilerin kendi cihazlarında eşzamanlı açması isteğe bağlı. Her aşamanın altındaki mini görevi yapmanız gerekmiyor, aşamanın ana işlemini göstermek yeterli.</p>
+    <p>En çok zaman ayrılacak aşama 4. Önce normal haritasını açıp ışığı gezdirin, sınıfa yüzeyin gerçekten pürüzlü olup olmadığını sorun. Ardından tel kafes görünümünü açın. Kürenin geometrisinin hiç değişmediğini görmek, dönem boyunca tekrar edilecek "model neyi taklit ediyor" sorusunu somutlaştırır.</p>
+    <p>Her aşamadaki "Kodu göster" düğmesi arka plandaki kodu açar. Bu hafta kodu incelemek gerekmiyor; bir kodun var olduğunu görmeleri yeterli.</p>
+    <p>İnternet bağlantısında sorun olursa bu bölümü atlayıp 5. bölüme geçebilirsiniz. Atölye 3. ve 4. haftalarda yeniden kullanılacak.</p>
+  </div>
+</section>
+
+<!-- ===================================================== 5 -->
+<section class="sec" id="tartisma">
+  <h2><span class="no">5</span>Öğrenme içeriği oyunun neresinde?</h2>
+
+  <p>Eğitsel oyun tasarımında temel sorulardan biri, öğretilecek içeriğin oyunun neresinde yer aldığıdır. Habgood ve Ainsworth (2011) bu konuda iki yaklaşımı birbirinden ayırır.</p>
+  <p><b>Dışsal bütünleşmede</b> içerik oyunun asıl eyleminden ayrı durur. Oyuncu, örneğin bir çarpma sorusunu doğru yanıtladığında uzay gemisi ateş eder ya da bir kapı açılır. Soru, oyunun ilerlemesi için konulmuş bir geçiş koşuludur; oyunun kendisi başka bir şeydir.</p>
+  <p><b>İçsel bütünleşmede</b> içerik oyunun temel eyleminin kendisidir. Oyuncu oyunu oynarken zaten öğrenilmesi istenen işlemi yapar.</p>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 6. Dışsal ve içsel bütünleşme örnekleri</caption>
+    <thead><tr><th>Oyun</th><th>Konu</th><th>Oyuncunun yaptığı</th><th>Tür</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Math Blaster türü alıştırma oyunları</td><td>Dört işlem</td><td>Soruyu yanıtlar; doğru yanıt oyunda ilerlemeyi sağlar.</td><td>Dışsal</td></tr>
+      <tr><td class="k">DragonBox Algebra</td><td>Denklem çözme</td><td>Denklemin iki yanındaki kartları eşitliği bozmadan taşıyarak bilinmeyeni yalnız bırakır.</td><td>İçsel</td></tr>
+      <tr><td class="k">Zombie Division</td><td>Bölme</td><td>Her düşmanın üzerindeki sayıyı tam bölen silahı seçerek saldırır.</td><td>İçsel</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Habgood ve Ainsworth, Zombie Division'ın içsel ve dışsal iki sürümünü karşılaştırdıkları çalışmada içsel sürümü oynayan çocukların daha fazla öğrendiğini bildirmiştir. Aynı çalışmada çocuklar, serbest zamanlarında içsel sürümü belirgin biçimde daha uzun süre oynamayı tercih etmiştir.</p>
+  <p>Bu ayrım, dönem boyunca geliştirilecek projelerin değerlendirilmesinde de kullanılacak. Final projesi ölçütlerindeki "öğretim tasarımı" maddesi, öğrenme çıktısının oyunun temel eylemine ne ölçüde yerleştirildiğini sorar.</p>
+
+  <h3>Grup çalışması</h3>
+  <p>Üç ya da dört kişilik gruplar oluşturun. Her grup kendi alanından bir konu seçer ve bu konu için iki oyun fikri yazar: biri dışsal, biri içsel bütünleşmeye örnek olsun. Her fikir tek cümleyle, oyuncunun tekrar tekrar yaptığı eylem üzerinden anlatılmalıdır. Süre 8 dakika.</p>
+  <p>Örnek konular: kesirler, besin zinciri, zaman kipleri, Türkiye'nin iklim bölgeleri, basit elektrik devreleri.</p>
+
+  <div class="hoca">
+    <span class="hoca-l">Eğitmen notu · 15 dk</span>
+    <p>8 dakikalık çalışmadan sonra iki üç grubun fikirlerini dinleyin. Gruplar dışsal fikri genellikle hızlı bulur, içsel fikirde zorlanır.</p>
+    <p>İçsel diye sunulan her fikir için şu soruyu sorun: <i>Oyuncu tam olarak hangi eylemi yapıyor ve bu eylem, konudaki işlemin kendisi mi?</i> Kesirler için örnek: karakterin sayı doğrusunda 3/4 noktasına zıplaması içsel; soru doğru yanıtlanınca kapının açılması dışsaldır.</p>
+    <p>Zaman azsa grup çalışmasını atlayıp aynı soruyu tüm sınıfa tek bir konu üzerinden sorabilirsiniz.</p>
+  </div>
+</section>
+
+<!-- ===================================================== 6 -->
+<section class="sec" id="plan">
+  <h2><span class="no">6</span>Dönem planı</h2>
+
+  <p>Her hafta aynı kavram önce iki yolda ortak olan yönüyle anlatılır, ardından 2B ve 3B'de nasıl uygulandığı gösterilir. Haftaların ders notları <a href="materyaller/">materyaller sayfasında</a>; her haftanın notu o haftanın dersinden önce okunmalıdır.</p>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 7. 14 haftalık plan</caption>
+    <thead><tr><th class="num">Hafta</th><th>Konu</th><th><span class="t2d">2B</span> yolunda</th><th><span class="t3d">3B</span> yolunda</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Derse giriş: model, modelleme ve oyun motorları</td><td>Sprite tabanlı üretim</td><td>Mesh ve materyal tabanlı üretim</td></tr>
+      <tr><td class="num">2</td><td>Unity arayüzü, proje yapısı ve şablonlar</td><td>Universal 2D şablonu</td><td>Universal 3D şablonu</td></tr>
+      <tr><td class="num">3</td><td>GameObject, bileşen ve prefab</td><td>Sprite Renderer, sıralama katmanları</td><td>Mesh Filter, Mesh Renderer, hiyerarşi</td></tr>
+      <tr><td class="num">4</td><td>Görsel varlıklar: sprite, doku ve materyal</td><td>Sprite içe aktarma, Sprite Atlas</td><td>Materyal, doku, normal haritası</td></tr>
+      <tr><td class="num">5</td><td>Sahne tasarımı</td><td>Tilemap, Rule Tile</td><td>Blok taslak, Terrain, modüler parçalar</td></tr>
+      <tr><td class="num">6</td><td>Transform, koordinat sistemleri ve kamera</td><td>Orthographic kamera, paralaks</td><td>Perspective kamera, Quaternion</td></tr>
+      <tr><td class="num">7</td><td>C# ile hareket ve girdi</td><td>Rigidbody2D</td><td>CharacterController</td></tr>
+      <tr class="row-exam"><td class="num">8</td><td colspan="3"><b>Vize: uygulamalı sınav (%40)</b></td></tr>
+      <tr><td class="num">9</td><td>Fizik ve çarpışma</td><td>Collider2D, trigger</td><td>Collider, raycast</td></tr>
+      <tr><td class="num">10</td><td>Işıklandırma</td><td>Light 2D</td><td>Gerçek zamanlı ve önceden hesaplanmış ışık</td></tr>
+      <tr><td class="num">11</td><td>Animasyon ve karakter</td><td>Sprite animasyonu, Animator</td><td>Rig, Avatar, Blend Tree</td></tr>
+      <tr><td class="num">12</td><td>Kullanıcı arayüzü, oyun döngüsü ve kayıt</td><td>Canvas, puan ve süre göstergeleri</td><td>Dünya içi arayüz, kaydetme ve yükleme</td></tr>
+      <tr><td class="num">13</td><td>Ses, efektler, kullanıcı testi ve yayınlama</td><td>Ses, parçacık efektleri, web derlemesi</td><td>Görüntü sonrası efektler, performans</td></tr>
+      <tr class="row-exam"><td class="num">14</td><td colspan="3"><b>Final projesi sunumları (%60) ve dönem değerlendirmesi</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ===================================================== 7 -->
+<section class="sec" id="degerlendirme">
+  <h2><span class="no">7</span>Değerlendirme</h2>
+
+  <h3>Vize: uygulamalı sınav (%40)</h3>
+  <p>Vize 8. haftada, sınıfta bilgisayar başında yapılır ve 90 dakika sürer. Oturumun başında kısa bir öğretim senaryosu verilir; öğrenci bu senaryoya göre Unity'de çalışan bir sahne hazırlar ve sahnenin hangi öğrenme çıktısını nasıl hedeflediğini yarım sayfalık bir metinle açıklar. 2B ya da 3B yolundan biri seçilir; ikisi de aynı ölçütlerle değerlendirilir. Kapsam 1–7. haftalardır. Unity belgeleri ve ders notları sınav sırasında kullanılabilir. Ayrıntılı kılavuz <a href="materyaller/hafta-08.html">8. hafta notunda</a> yer alır.</p>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 8. Vize ölçütleri</caption>
+    <thead><tr><th>Ölçüt</th><th>Açıklama</th><th class="num">Puan</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Proje kurulumu ve düzeni</td><td>Doğru şablon, anlamlı klasör ve dosya adları, kaydedilmiş sahne</td><td class="num">5</td></tr>
+      <tr><td class="k">Varlıklar ve materyal</td><td>2B: sprite'ların doğru ayarlarla içe aktarılması. 3B: bir materyal kurulup nesneye uygulanması</td><td class="num">8</td></tr>
+      <tr><td class="k">Sahne</td><td>Tilemap ya da 3B yapılarla kurulmuş, dolaşılabilir ve okunaklı bir alan</td><td class="num">9</td></tr>
+      <tr><td class="k">Hareket kodu</td><td>Girdiyi okuyan, hatasız derlenen ve oynanabilir bir hareket</td><td class="num">12</td></tr>
+      <tr><td class="k">Öğretimsel gerekçe</td><td>Sahnenin hangi öğrenme çıktısını nasıl hedeflediğinin açıklaması</td><td class="num">6</td></tr>
+    </tbody>
+    <tfoot><tr><td colspan="2">Toplam</td><td class="num">40</td></tr></tfoot>
+  </table>
+  </div>
+
+  <h3>Final projesi (%60)</h3>
+  <p>Öğrenci kendi alanından bir öğretim konusu seçer ve bu konu için çalışan bir oyun ya da benzetim prototipi geliştirir. Proje dönem boyunca her hafta biraz büyütülür; 14. haftada sınıfta oynatılarak sunulur ve kısa bir raporla birlikte teslim edilir.</p>
+
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 9. Final projesi ölçütleri</caption>
+    <thead><tr><th>Ölçüt</th><th>Açıklama</th><th class="num">Puan</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Teknik işlevsellik</td><td>Prototip baştan sona hatasız oynanıyor; hareket, etkileşim ve geri bildirim çalışıyor</td><td class="num">15</td></tr>
+      <tr><td class="k">Öğretim tasarımı</td><td>Açık bir öğrenme çıktısı, hedef kitleye uygunluk, çıktının oyunun temel eylemine yerleştirilmesi</td><td class="num">15</td></tr>
+      <tr><td class="k">Modelleme ve görsel tasarım</td><td>Tutarlı görseller, düzenli sahne, okunaklı arayüz, amaca uygun kamera ve ışık</td><td class="num">10</td></tr>
+      <tr><td class="k">Kod düzeni</td><td>Anlamlı adlandırma, görevlerin bileşenlere bölünmesi, açıklama satırları</td><td class="num">8</td></tr>
+      <tr><td class="k">Kullanıcı testi</td><td>En az üç kişiyle yapılan deneme, bulguların raporlanması, en az iki düzeltme</td><td class="num">6</td></tr>
+      <tr><td class="k">Sunum</td><td>Oyunun sınıfta oynatılması; öğrenme çıktısının ve tasarım kararlarının gerekçelendirilmesi</td><td class="num">6</td></tr>
+    </tbody>
+    <tfoot><tr><td colspan="2">Toplam</td><td class="num">60</td></tr></tfoot>
+  </table>
+  </div>
+
+  <div class="hoca">
+    <span class="hoca-l">Eğitmen notu · 10 dk (6. ve 7. bölüm birlikte)</span>
+    <p>Dönem planını satır satır okumanız gerekmiyor. Paralel yapıyı, 8. haftadaki vizeyi ve 14. haftadaki sunumu göstermeniz yeterli.</p>
+    <p>Öğrenciler en çok vizenin nasıl olacağını sorar. Vizenin yazılı değil, bilgisayar başında yapılan bir uygulama olduğunu ve ayrıntılı kılavuzun 8. hafta notunda bulunduğunu söyleyin.</p>
+  </div>
+</section>
+
+<!-- ===================================================== 8 -->
+<section class="sec" id="hazirlik">
+  <h2><span class="no">8</span>İkinci haftaya hazırlık</h2>
+
+  <p>İkinci haftanın dersi Unity kurulu bilgisayarlar üzerinde yapılacak. Derse kadar şunlar tamamlanmalı:</p>
+  <ol>
+    <li><a href="https://unity.com/download">unity.com/download</a> adresinden Unity Hub'ı kurun ve bir Unity hesabı açın.</li>
+    <li>Unity Hub'da <i>Installs → Install Editor</i> bölümünden LTS etiketli güncel Unity 6 sürümünü kurun. Modül seçiminde <i>Web Build Support</i> ile Windows'ta <i>Microsoft Visual Studio</i> seçeneğini işaretleyin; macOS'ta Visual Studio Code ayrıca kurulabilir. Kurulum için diskte en az 15 GB boş alan gerekir.</li>
+    <li>Dizüstü bilgisayarı olanlar ikinci haftada bilgisayarlarını derse getirsin. Unity 6 için 64 bit Windows 10/11 ya da güncel bir macOS ve en az 8 GB bellek önerilir.</li>
+    <li><a href="materyaller/hafta-02.html">2. hafta ders notunu</a> okuyun.</li>
+    <li>Kendi alanınızdan oyunlaştırmak istediğiniz bir konu düşünün. İkinci haftada bu konu üzerinden kısa bir tasarım belgesi yazmaya başlanacak.</li>
+  </ol>
+
+  <h3>Çıkış kartı</h3>
+  <p>Dersten çıkmadan önce yarım sayfaya şunları yazın:</p>
+  <ol>
+    <li>Ad, soyad ve bölüm.</li>
+    <li>Oyunlaştırmak istediğiniz bir konu. Henüz yoksa ilginizi çeken bir alan.</li>
+    <li>Şu anki tercihiniz: 2B, 3B ya da henüz bilmiyorum.</li>
+    <li>Dersle ilgili bir soru ya da endişe.</li>
+  </ol>
+
+  <div class="hoca">
+    <span class="hoca-l">Eğitmen notu · 5 dk</span>
+    <p>Kartları toplayıp dersin sorumlusuna iletin. İkinci haftanın örnekleri ve grupları bu kartlara göre planlanacak. Ders sırasında yanıtlayamadığınız sorular olduysa onları da not edip iletmeniz yeterli.</p>
+  </div>
+</section>
+
+<!-- ===================================================== 9 -->
+<section class="sec" id="sorular">
+  <h2><span class="no">9</span>Sık sorulan sorular</h2>
+  <dl class="faq">
+    <dt>Programlama bilmiyorum. Bu dersi başarabilir miyim?</dt>
+    <dd>Evet. Ders programlama bilgisi varsaymaz. Kod yazma, hazır bileşenlerle kurulan bir sahneye küçük davranışlar eklemekle sınırlıdır. 3. haftada birkaç satırlık örneklerle başlanır, hareket kodu 7. haftada adım adım yazılır.</dd>
+    <dt>2B mi 3B mi seçmeliyim?</dt>
+    <dd>Şimdi karar vermek gerekmiyor. İlk yedi hafta her iki yol birlikte işlenir; karar vizeden önce, seçtiğiniz konuya göre verilir. Tablo 4 yol gösterici olabilir.</dd>
+    <dt>Bilgisayarım yeterli değil ya da bilgisayarım yok.</dt>
+    <dd>2B yolu daha düşük donanımla çalışır. Bilgisayar koşulu sağlanamıyorsa durumunuzu ikinci haftada dersin sorumlusuyla konuşun.</dd>
+    <dt>Mac'te çalışır mı?</dt>
+    <dd>Evet. Unity Hub ve Unity 6, macOS'ta da çalışır. Derste kullanılan her şey iki işletim sisteminde de aynıdır.</dd>
+    <dt>Vize nasıl olacak?</dt>
+    <dd>Bilgisayar başında, 90 dakikalık bir uygulama. Verilen senaryoya göre çalışan bir sahne hazırlanır. Ölçütler Tablo 8'de, ayrıntılı kılavuz 8. hafta notunda.</dd>
+  </dl>
+</section>
+
+<!-- ===================================================== kaynaklar -->
+<section class="sec" id="kaynaklar">
+  <h2>Kaynaklar</h2>
+  <ol class="refs">
+    <li>Gregory, J. (2018). <i>Game engine architecture</i> (3rd ed.). CRC Press.</li>
+    <li>Habgood, M. P. J., &amp; Ainsworth, S. E. (2011). Motivating children to learn effectively: Exploring the value of intrinsic integration in educational games. <i>Journal of the Learning Sciences, 20</i>(2), 169–206.</li>
+    <li>Jonassen, D. H. (2006). <i>Modeling with technology: Mindtools for conceptual change</i> (3rd ed.). Pearson Merrill Prentice Hall.</li>
+    <li>Kafai, Y. B., &amp; Burke, Q. (2015). Constructionist gaming: Understanding the benefits of making games for learning. <i>Educational Psychologist, 50</i>(4), 313–334.</li>
+    <li>Papert, S. (1980). <i>Mindstorms: Children, computers, and powerful ideas</i>. Basic Books.</li>
+    <li>Plass, J. L., Homer, B. D., &amp; Kinzer, C. K. (2015). Foundations of game-based learning. <i>Educational Psychologist, 50</i>(4), 258–283.</li>
+    <li>PhET Interactive Simulations. University of Colorado Boulder. <a href="https://phet.colorado.edu/tr/">https://phet.colorado.edu/tr/</a></li>
+    <li>Unity Technologies. <i>Unity Learn</i>. <a href="https://learn.unity.com/">https://learn.unity.com/</a></li>
+  </ol>
+
+  <div class="pager">
+    <span></span>
+    <a class="next" href="materyaller/hafta-02.html"><small>Sonraki hafta</small>2. Unity arayüzü, proje yapısı ve şablonlar</a>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="materyaller/">Haftalık materyaller</a> · <a href="atolye/">Atölye</a></footer>
+
+<script src="js/site.js?v=2"></script>
 </body>
 </html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4. Hafta: Görsel varlıklar: sprite, doku ve materyal · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Aynı görüntü dosyası 2B projede sprite olarak kullanılır, 3B projede bir materyalin parçası olur. Bu hafta görüntülerin içe aktarılmasını, doku ile materyal arasındaki farkı ve normal haritalarının nasıl çalıştığını ele alıyoruz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=2">
+</head>
+<body>
+
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="./" aria-current="page">Haftalık materyaller</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<div class="titleblock">
+  <div class="kicker">4. Hafta · Ders notu</div>
+  <h1>Görsel varlıklar: sprite, doku ve materyal</h1>
+  <p class="dek">Aynı görüntü dosyası 2B projede sprite olarak kullanılır, 3B projede bir materyalin parçası olur. Bu hafta görüntülerin içe aktarılmasını, doku ile materyal arasındaki farkı ve normal haritalarının nasıl çalıştığını ele alıyoruz.</p>
+  <div class="meta"><span>4. hafta</span><span>Okuma süresi yaklaşık 18 dk</span><span>İlgili atölye aşaması: <a href="../atolye/#stage-1">1, 2 ve 4. aşamalar</a></span></div>
+</div>
+
+<div class="doc">
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="toc-h">İçindekiler</div>
+    <ol>
+      <li><a href="#ayrim"><span class="n">1</span>Doku, sprite ve materyal</a></li>
+      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
+      <li><a href="#sprite"><span class="n">3</span>2B: sprite içe aktarma</a></li>
+      <li><a href="#materyal"><span class="n">4</span>3B: materyal</a></li>
+      <li><a href="#normal"><span class="n">5</span>Normal haritası</a></li>
+      <li><a href="#karsilastirma"><span class="n">6</span>İki yolda görsel varlıklar</a></li>
+      <li><a href="#uygulama"><span class="n">7</span>Ders içi uygulama</a></li>
+      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
+      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
+    </ol>
+  </nav>
+
+<main class="body">
+
+<section class="sec" id="ayrim">
+  <h2><span class="no">1</span>Doku, sprite ve materyal</h2>
+<p>Bir PNG dosyası piksellerden oluşan bir ızgaradır. Unity bu dosyayı ekran kartına bir <b>doku</b> (<i>texture</i>) olarak yükler. Buraya kadar iki yol aynıdır; ayrım dokunun nasıl kullanıldığında başlar.</p>
+<p>2B'de doku, <b>sprite</b> olarak doğrudan bir dikdörtgenin üzerine basılır. Bu durumda ilgilenilen konular görüntünün sahnedeki ölçeği, piksellerin keskin kalıp kalmadığı ve dosyanın ne kadar yer kapladığıdır.</p>
+<p>3B'de doku tek başına kullanılmaz; bir <b>materyalin</b> içine yerleştirilir. Materyal, bir yüzeyin ışığa nasıl tepki vereceğini tanımlayan ayarların bütünüdür. Hangi dokunun kullanılacağı bu ayarlardan yalnızca biridir; yüzeyin ne kadar parlak, ne kadar pürüzlü ve metal olup olmadığı da materyalde belirlenir. Aynı doku, farklı materyal ayarlarıyla tamamen farklı bir malzeme gibi görünebilir.</p>
+</section>
+<section class="sec" id="kavramlar">
+  <h2><span class="no">2</span>Kavramlar</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 1. Bu haftanın kavramları</caption>
+    <thead><tr><th>Kavram</th><th>Unity / İngilizce</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Doku</td><td class="en">Texture</td><td>Ekran kartına yüklenmiş görüntü.</td></tr>
+      <tr><td class="k">Sprite</td><td class="en">Sprite</td><td>2B'de kullanılmak üzere içe aktarılmış görüntü.</td></tr>
+      <tr><td class="k">Materyal</td><td class="en">Material</td><td>Yüzeyin ışığa tepkisini tanımlayan ayarlar ve kullandığı dokular.</td></tr>
+      <tr><td class="k">Gölgelendirici</td><td class="en">Shader</td><td>Materyalin hesabını ekran kartında yapan program. Materyal, bir shader'ın ayarları doldurulmuş hâlidir.</td></tr>
+      <tr><td class="k">Temel renk haritası</td><td class="en">Base Map (Albedo)</td><td>Yüzeyin ışıktan bağımsız rengi ya da dokusu.</td></tr>
+      <tr><td class="k">Pürüzsüzlük</td><td class="en">Smoothness</td><td>Yansımanın ne kadar keskin olduğu. Yüksek değer cilalı, düşük değer mat bir yüzey verir.</td></tr>
+      <tr><td class="k">Normal haritası</td><td class="en">Normal Map</td><td>Yüzeyin her noktasının hangi yöne baktığını taşıyan doku. Geometri değişmeden pürüz görüntüsü verir.</td></tr>
+      <tr><td class="k">UV koordinatları</td><td class="en">UV</td><td>3B yüzeyin her noktasının dokunun hangi noktasına karşılık geldiğini belirten koordinatlar.</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="sprite">
+  <h2><span class="no">3</span>2B: sprite içe aktarma</h2>
+<p>Görüntü dosyası projeye eklendikten sonra Project penceresinde seçilir ve ayarları Inspector'da düzenlenir. Varsayılan ayarlar her görsel için uygun değildir. Dört ayar özellikle önemlidir.</p>
+<h3>Pixels Per Unit</h3>
+<p>Unity'de uzunluk birimle ölçülür ve fizik değerleri bu birime göre çalışır. <i>Pixels Per Unit</i> (PPU), bir birimin kaç piksele karşılık geldiğini belirtir. 32 × 32 piksellik bir karo için PPU 32 yapılırsa karo sahnede 1 × 1 birim yer kaplar; bu da 5. haftada kullanılacak Tilemap ızgarasıyla uyumludur. Projedeki bütün sprite'lar için aynı PPU kullanılmalıdır. Aksi hâlde aynı boyutta çizilmiş iki görsel sahnede farklı büyüklükte görünür.</p>
+<h3>Filter Mode</h3>
+<p><i>Point (no filter)</i> seçildiğinde pikseller keskin kalır; piksel sanatı için bu ayar gereklidir. <i>Bilinear</i> pikselleri yumuşatır ve elle boyanmış, yüksek çözünürlüklü görseller için uygundur.</p>
+<h3>Compression</h3>
+<p>Sıkıştırma dosya boyutunu küçültür ancak renk kaybına yol açabilir. Piksel sanatında ve arayüz görsellerinde bu kayıp belirgin olduğu için sıkıştırma kapatılır (<i>None</i>) ya da yüksek kaliteye alınır.</p>
+<h3>Sprite Mode</h3>
+<p>Tek dosyada birden fazla kare varsa (<i>sprite sheet</i>) <i>Multiple</i> seçilir ve dosya <i>Sprite Editor</i> ile parçalara ayrılır. 11. haftada animasyonlar bu parçalardan kurulacak.</p>
+<div class="note"><b>Bulanık görünen piksel sanatı.</b> Sırasıyla şunlar kontrol edilir: Filter Mode <i>Point</i> mi, Compression kapalı mı, nesnenin ölçeği 1 mi? Sahne kamerasına <i>Pixel Perfect Camera</i> bileşeni eklemek, piksellerin ekran piksellerine tam oturmasını sağlar.</div>
+<h3>Sprite Atlas</h3>
+<p>Ekran kartı her farklı doku için ayrı bir çizim komutu alır. Elli ayrı sprite kullanan bir sahnede bu sayı yükselir ve özellikle mobil cihazlarda performansı düşürür. <i>Sprite Atlas</i>, sprite'ları tek bir büyük dokuda toplayarak çizim komutu sayısını azaltır.</p>
+</section>
+<section class="sec" id="materyal">
+  <h2><span class="no">4</span>3B: materyal</h2>
+<p>Universal 3D şablonunda materyaller varsayılan olarak <code>Universal Render Pipeline/Lit</code> shader'ını kullanır. Yeni materyal Project penceresinde sağ tıklanarak (<i>Create → Material</i>) oluşturulur ve sahnedeki nesnenin üzerine sürüklenerek uygulanır. Başlıca ayarlar:</p>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 2. URP Lit materyalinin başlıca ayarları</caption>
+    <thead><tr><th>Ayar</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Base Map</td><td>Temel renk ya da doku. Yüzeyin ışıktan bağımsız görünüşü.</td></tr>
+      <tr><td class="k">Metallic</td><td>0 ahşap, plastik, taş gibi metal olmayan yüzeyler; 1 metaller. Gerçek malzemeler genellikle bu iki uçtan birine yakındır.</td></tr>
+      <tr><td class="k">Smoothness</td><td>Yansımanın keskinliği. Malzemenin kimliğini en çok belirleyen ayardır: aynı taş dokusu düşük değerle kuru, yüksek değerle ıslak görünür.</td></tr>
+      <tr><td class="k">Normal Map</td><td>Yüzey pürüzü görüntüsü (aşağıda).</td></tr>
+      <tr><td class="k">Emission</td><td>Kendiliğinden ışık veriyormuş gibi görünen yüzeyler: ekranlar, lambalar, uyarı ışıkları.</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>Materyal ayarları koddan da değiştirilebilir. Eğitsel oyunlarda bu, doğru ya da yanlış bir yanıta renkle geri bildirim vermek için kullanışlıdır:</p>
+<div class="code-label">RenkGeriBildirimi.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+
+<span class="k">public</span> <span class="k">class</span> RenkGeriBildirimi : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">Color</span> dogruRengi = <span class="t">Color</span>.green;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">Color</span> yanlisRengi = <span class="t">Color</span>.red;
+
+    <span class="k">private</span> <span class="t">Material</span> materyal;
+
+    <span class="k">void</span> Start()
+    {
+        <span class="c">// .material bu nesneye özel bir materyal kopyası oluşturur.</span>
+        <span class="c">// Böylece aynı materyali kullanan öteki nesneler etkilenmez.</span>
+        materyal = GetComponent&lt;<span class="t">MeshRenderer</span>&gt;().material;
+    }
+
+    <span class="k">public</span> <span class="k">void</span> Isaretle(<span class="k">bool</span> dogruMu)
+    {
+        <span class="c">// URP Lit shader&#x27;ında temel rengin adı _BaseColor&#x27;dır.</span>
+        materyal.SetColor(<span class="s">&quot;_BaseColor&quot;</span>, dogruMu ? dogruRengi : yanlisRengi);
+    }
+}</pre>
+<p>Shader alan adı yanlış yazılırsa (<code>_Color</code> gibi) hata iletisi görülmez; renk yalnızca değişmez. Bir materyalin kullandığı alan adları, shader seçilip Inspector'da incelenerek bulunabilir.</p>
+</section>
+<section class="sec" id="normal">
+  <h2><span class="no">5</span>Normal haritası</h2>
+<p>Bir tuğla duvarın bütün tuğlalarını ve derzlerini modellemek yüz binlerce üçgen gerektirir. Oysa duvarın pürüzlü görünmesi için geometriyi değiştirmek gerekmez; ışığın yüzeye farklı açılardan çarptığı izlenimini vermek yeterlidir.</p>
+<p>Normal haritası bu izlenimi oluşturur. Yüzeyin her noktası için "bu noktada yüzey şu yöne bakıyor" bilgisini taşır. Motor ışık hesabını bu yönlere göre yapar; gölgeler ve parlamalar, yüzeyde çıkıntılar varmış gibi oluşur. Ancak nesnenin kenar çizgisi düz kalır. Yanılsamanın sınırı, nesneye yandan bakıldığında görülür.</p>
+<p>Normal haritaları genellikle açık mavi-mor renkte görünür. Bunun nedeni, görüntünün renk kanallarının renk değil yön bilgisi taşımasıdır: kırmızı kanal yatay, yeşil kanal dikey eğimi, mavi kanal ise yüzeyden dışarı doğru bileşeni temsil eder. Hiç eğimi olmayan bir yüzey mavi kanalda en yüksek değeri aldığı için bu renk baskın çıkar.</p>
+<p>Normal haritası, giriş dersinde tartışılan model kavramına iyi bir örnektir: model gerçekte içermediği bir özelliği, yalnızca belirli bir amaç için yeterli olacak ölçüde taklit eder.</p>
+</section>
+<section class="sec" id="karsilastirma">
+  <h2><span class="no">6</span>İki yolda görsel varlıklar</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 3. Görsel varlıkların iki yolda karşılaştırması</caption>
+    <thead><tr><th></th><th><span class="t2d">2B</span></th><th><span class="t3d">3B</span></th></tr></thead>
+    <tbody>
+      <tr><td class="k">Kaynak</td><td>PNG görüntü → sprite</td><td>FBX model + dokular → mesh ve materyal</td></tr>
+      <tr><td class="k">Temel ayarlar</td><td>Pixels Per Unit, Filter Mode, Compression</td><td>Base Map, Metallic, Smoothness, Normal Map</td></tr>
+      <tr><td class="k">Işık</td><td>Global Light 2D varsayılan olarak bulunur; ışık zorunlu değildir</td><td>Işık olmadan nesneler karanlık görünür</td></tr>
+      <tr><td class="k">Pürüz ve derinlik</td><td>Çoğunlukla görsele çizilir; normal haritası 2B ışıkla kullanılabilir (10. hafta)</td><td>Normal haritası ve ışıkla hesaplanır</td></tr>
+      <tr><td class="k">Performans</td><td>Sprite Atlas ile çizim komutları azaltılır</td><td>Doku boyutu ve materyal sayısı belirleyicidir</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="uygulama">
+  <h2><span class="no">7</span>Ders içi uygulama</h2>
+<ol>
+  <li>Atölyede sırasıyla <a href="../atolye/#stage-1">Doku</a>, <a href="../atolye/#stage-2">Materyal</a> ve <a href="../atolye/#stage-4">Işık ve yüzey</a> aşamalarını çalışın. 4. aşamada normal haritasını açtıktan sonra tel kafes görünümünü açıp geometrinin değişmediğini doğrulayın.</li>
+  <li>2B projede bir piksel sanatı sprite'ını içe aktarın. Önce varsayılan ayarlarla, sonra Point filtre ve doğru PPU ile sahneye koyup farkı karşılaştırın.</li>
+  <li>3B projede iki materyal oluşturun: aynı dokuyu kullanan, biri düşük diğeri yüksek Smoothness değerine sahip. İki küpe uygulayıp ışığı döndürün.</li>
+</ol>
+</section>
+<section class="sec" id="sorular">
+  <h2>Tekrar soruları</h2>
+<ol class="qs">
+  <li>Doku ile materyal arasındaki fark nedir?
+    <details><summary>Yanıtı göster</summary><p>Doku bir görüntüdür. Materyal ise hangi dokunun kullanılacağını ve yüzeyin parlaklık, pürüzsüzlük, metaliklik gibi ışığa tepkisini birlikte tanımlar.</p></details>
+  </li>
+  <li>İki sprite aynı piksel boyutunda çizildiği hâlde sahnede farklı büyüklükte görünüyor. Olası neden nedir?
+    <details><summary>Yanıtı göster</summary><p>Pixels Per Unit değerleri farklıdır. Projedeki bütün sprite'lar için aynı PPU kullanılmalıdır.</p></details>
+  </li>
+  <li>Normal haritası kullanılan bir küreye yandan bakıldığında ne görülür, neden?
+    <details><summary>Yanıtı göster</summary><p>Kenar çizgisi pürüzsüz görünür. Normal haritası yalnızca ışık hesabını değiştirir, geometriye dokunmaz.</p></details>
+  </li>
+  <li>Koddan <code>_Color</code> alanını değiştirdiniz ama URP Lit materyalinin rengi değişmedi. Neden?
+    <details><summary>Yanıtı göster</summary><p>URP Lit shader'ında temel renk alanının adı <code>_BaseColor</code>'dır. Var olmayan bir alana değer atamak hata üretmez, etkisi de olmaz.</p></details>
+  </li>
+</ol>
+</section>
+<section class="sec" id="kaynaklar">
+  <h2>Kaynaklar</h2>
+<ol class="refs">
+  <li>Unity Technologies. <i>Unity Manual: Texture Import Settings</i>. <a href="https://docs.unity3d.com/Manual/class-TextureImporter.html">https://docs.unity3d.com/Manual/class-TextureImporter.html</a></li>
+  <li>Unity Technologies. <i>URP: Lit shader</i>. <a href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/manual/lit-shader.html">https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/manual/lit-shader.html</a></li>
+  <li>Akenine-Möller, T., Haines, E., Hoffman, N., Pesce, A., Iwanicki, M., &amp; Hillaire, S. (2018). <i>Real-time rendering</i> (4th ed.). CRC Press.</li>
+</ol>
+</section>
+
+<div class="pager">
+  <a class="prev" href="hafta-03.html"><small>Önceki hafta</small>3. GameObject, bileşen ve prefab</a>
+  <a class="next" href="hafta-05.html"><small>Sonraki hafta</small>5. Sahne tasarımı: Tilemap, arazi ve modüler yapılar</a>
+</div>
+
+</main>
+</div>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
+<script src="../js/site.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13. Hafta: Ses, efektler, kullanıcı testi ve yayınlama · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Ses ve küçük görsel efektler oyunun nasıl hissettirdiğini belirgin biçimde değiştirir. Kullanıcı testi ise tasarımın gerçekte ne öğrettiğini gösterir. Haftanın sonunda proje, tarayıcıda çalışan ve bir bağlantıyla paylaşılabilen bir sürüme dönüştürülür.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=2">
+</head>
+<body>
+
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="./" aria-current="page">Haftalık materyaller</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<div class="titleblock">
+  <div class="kicker">13. Hafta · Ders notu</div>
+  <h1>Ses, efektler, kullanıcı testi ve yayınlama</h1>
+  <p class="dek">Ses ve küçük görsel efektler oyunun nasıl hissettirdiğini belirgin biçimde değiştirir. Kullanıcı testi ise tasarımın gerçekte ne öğrettiğini gösterir. Haftanın sonunda proje, tarayıcıda çalışan ve bir bağlantıyla paylaşılabilen bir sürüme dönüştürülür.</p>
+  <div class="meta"><span>13. hafta</span><span>Okuma süresi yaklaşık 16 dk</span></div>
+</div>
+
+<div class="doc">
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="toc-h">İçindekiler</div>
+    <ol>
+      <li><a href="#ses"><span class="n">1</span>Ses ve görsel geri bildirim</a></li>
+      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
+      <li><a href="#test"><span class="n">3</span>Kullanıcı testi</a></li>
+      <li><a href="#derleme"><span class="n">4</span>Web için derleme ve paylaşım</a></li>
+      <li><a href="#uygulama"><span class="n">5</span>Ders içi uygulama</a></li>
+      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
+      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
+    </ol>
+  </nav>
+
+<main class="body">
+
+<section class="sec" id="ses">
+  <h2><span class="no">1</span>Ses ve görsel geri bildirim</h2>
+<p>Bir eyleme ses eklemek, eylemin gerçekleştiğini onaylar. Doğru ve yanlış yanıtlar için farklı sesler kullanmak, öğrencinin ekrana bakmadan da geri bildirim almasını sağlar.</p>
+<ul>
+  <li><code>AudioSource</code> sesi çalan bileşendir. Kısa efektler <code>PlayOneShot</code> ile çalınır.</li>
+  <li><i>Audio Mixer</i> ile sesler gruplara ayrılır: müzik, efektler, arayüz. Böylece örneğin müzik ayrı kısılabilir.</li>
+  <li>Aynı sesin art arda çalınması yapay duyulur. Her çalışta perde (<code>pitch</code>) değerini küçük bir aralıkta değiştirmek bunu giderir.</li>
+</ul>
+<div class="code-label">SesGeriBildirimi.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+
+[<span class="t">RequireComponent</span>(typeof(<span class="t">AudioSource</span>))]
+<span class="k">public</span> <span class="k">class</span> SesGeriBildirimi : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">AudioClip</span> dogruSesi;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">AudioClip</span> yanlisSesi;
+
+    <span class="k">private</span> <span class="t">AudioSource</span> kaynak;
+
+    <span class="k">void</span> Awake() =&gt; kaynak = GetComponent&lt;<span class="t">AudioSource</span>&gt;();
+
+    <span class="k">public</span> <span class="k">void</span> Cal(<span class="k">bool</span> dogruMu)
+    {
+        kaynak.pitch = <span class="t">Random</span>.Range(<span class="n">0.95f</span>, <span class="n">1.05f</span>);
+        kaynak.PlayOneShot(dogruMu ? dogruSesi : yanlisSesi);
+    }
+}</pre>
+<p>Görsel geri bildirim için <i>Particle System</i> ile doğru yanıtta kısa bir parlama, toplanan nesnenin kaybolmadan önce kısa bir süre büyümesi ya da çok hafif bir ekran sarsıntısı kullanılabilir. Ekran sarsıntısı abartıldığında rahatsız edicidir ve bazı kullanıcılarda baş dönmesine yol açabilir; ölçülü kullanılmalıdır.</p>
+<p>3B projelerde görüntü sonrası efektler (<i>post-processing</i>) Universal 3D şablonundaki <i>Global Volume</i> nesnesi üzerinden ayarlanır: parlama (<i>Bloom</i>), kenar kararması (<i>Vignette</i>), renk ayarı (<i>Color Adjustments</i>). Bu efektler görünüşü belirgin biçimde değiştirir, ancak yüksek bloom değerleri yazıların okunmasını zorlaştırır. Eğitsel içerikte okunaklılık önceliklidir.</p>
+</section>
+<section class="sec" id="kavramlar">
+  <h2><span class="no">2</span>Kavramlar</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 1. Bu haftanın kavramları</caption>
+    <thead><tr><th>Kavram</th><th>Unity / İngilizce</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Ses kaynağı</td><td class="en">AudioSource</td><td>Bir ses klibini çalan bileşen.</td></tr>
+      <tr><td class="k">Ses karıştırıcı</td><td class="en">Audio Mixer</td><td>Sesleri gruplara ayırıp birlikte ayarlamayı sağlayan sistem.</td></tr>
+      <tr><td class="k">Parçacık sistemi</td><td class="en">Particle System</td><td>Çok sayıda küçük görselle efekt üreten bileşen.</td></tr>
+      <tr><td class="k">Görüntü sonrası efekt</td><td class="en">Post-processing</td><td>Sahne çizildikten sonra görüntüye uygulanan efektler.</td></tr>
+      <tr><td class="k">Kullanıcı testi</td><td class="en">Playtest</td><td>Oyunun hedef kullanıcılarca, geliştirici müdahale etmeden oynanması.</td></tr>
+      <tr><td class="k">Derleme profili</td><td class="en">Build Profile</td><td>Projenin hangi platform için, hangi ayarlarla derleneceğini tutan yapılandırma.</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="test">
+  <h2><span class="no">3</span>Kullanıcı testi</h2>
+<p>Kullanıcı testi, oyunu birine göstermek anlamına gelmez; birinin oyunu geliştiricinin yardımı olmadan oynamasını izlemek anlamına gelir. Bu fark, elde edilen bilginin değerini belirler.</p>
+<h3>Yöntem</h3>
+<ol>
+  <li><b>Açıklama yapılmaz.</b> Oyuncuya ne yapacağı söylenmez. Oyun kendini anlatamıyorsa bu bir bulgudur ve kaydedilmelidir.</li>
+  <li><b>Soru sorulmaz, gözlem yapılır.</b> Oyuncu nerede duraksadı, nereye baktı, neyi birden fazla kez denedi?</li>
+  <li><b>Tasarım savunulmaz.</b> "Orada bir ipucu vardı" demek yerine ipucunun görülmediği not edilir.</li>
+  <li><b>Oyun bittikten sonra sorulur.</b> "Ne yapmaya çalışıyordun?" ve "Bu oyun sence ne öğretiyor?" İkinci soru eğitsel oyunlar için özellikle önemlidir.</li>
+</ol>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 2. Gözlem formu</caption>
+    <thead><tr><th>Alan</th><th>Kaydedilen</th><th>Ne gösterir</th></tr></thead>
+    <tbody>
+      <tr><td class="k">İlk 30 saniye</td><td>Oyuncunun ne yapmaya çalıştığı</td><td>Oyunun kendini anlatıp anlatmadığı</td></tr>
+      <tr><td class="k">Duraksamalar</td><td>Yeri ve süresi</td><td>Tasarımın belirsiz olduğu noktalar</td></tr>
+      <tr><td class="k">Tekrarlanan hatalar</td><td>Aynı hatanın kaç kez yapıldığı</td><td>Geri bildirimin işlemediği yerler</td></tr>
+      <tr><td class="k">Sesli tepkiler</td><td>Oyuncunun kendi kendine söyledikleri</td><td>Oyuncunun oyunu nasıl anladığı</td></tr>
+      <tr><td class="k">Kapanış sorusu</td><td>"Bu oyun ne öğretiyor?" yanıtı</td><td>Öğrenme çıktısı ile oyun eylemi arasındaki bağın gerçekte kurulup kurulmadığı</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>Son satır en önemli bulguyu verir. Oyuncunun yanıtı hedeflenen öğrenme çıktısıyla örtüşmüyorsa, oyun teknik olarak ne kadar iyi çalışırsa çalışsın o çıktıyı desteklemiyor demektir.</p>
+<div class="note"><b>Final ölçütü.</b> En az üç kişiyle test yapılması, bulguların raporlanması ve en az iki düzeltmenin gösterilmesi beklenir. Düzeltmenin gösterilmesi, "şu bulguya karşılık şunu değiştirdim" biçiminde bir eşleştirme yapılması anlamına gelir.</div>
+</section>
+<section class="sec" id="derleme">
+  <h2><span class="no">4</span>Web için derleme ve paylaşım</h2>
+<p>Projeyi paylaşmanın en kolay yolu web tarayıcısında çalışacak biçimde derlemektir. Kullanıcının bir şey kurması gerekmez; bir bağlantı yeterlidir. Bu dersin atölyesi de aynı nedenle tarayıcıda çalışır.</p>
+<ol>
+  <li><i>File → Build Profiles</i> penceresinde platform olarak <i>Web</i> seçilir ve <i>Switch Platform</i> düğmesine basılır.</li>
+  <li><i>Scene List</i> bölümüne oyunun sahneleri eklenir. Listenin ilk sahnesi oyun açıldığında yüklenir.</li>
+  <li><i>Player Settings → Publishing Settings</i> altında sıkıştırma biçimi seçilir (Brotli ya da Gzip). Proje GitHub Pages gibi sunucu ayarları değiştirilemeyen bir yerde yayınlanacaksa <i>Decompression Fallback</i> seçeneği işaretlenir; aksi hâlde oyun tarayıcıda açılmayabilir.</li>
+  <li><i>Build</i> ile boş bir klasöre derlenir. İlk derleme uzun sürer; sonrakiler daha kısadır.</li>
+</ol>
+<div class="note">Web derlemesi, klasördeki <code>index.html</code> dosyasına çift tıklanarak açılamaz; tarayıcılar yerel dosyadan bu biçimde yüklemeye izin vermez. Yerel deneme için Unity'deki <i>Build And Run</i> kullanılabilir ya da klasörde bir terminal açılıp <code>python -m http.server 8000</code> komutu çalıştırıldıktan sonra tarayıcıda <code>http://localhost:8000</code> adresine gidilir. Paylaşım için GitHub Pages ya da itch.io kullanılabilir.</div>
+<h3>Boyut ve performans</h3>
+<ul>
+  <li>Derleme boyutunun büyük bölümünü dokular oluşturur. Gereğinden büyük görseller küçültülmelidir.</li>
+  <li>Kullanılmayan paketler <i>Package Manager</i>'dan kaldırılır.</li>
+  <li>3B projelerde gerçek zamanlı gölgeli ışık sayısı azaltılır ve sabit nesneler için önceden hesaplanmış ışık kullanılır (10. hafta).</li>
+  <li>Uzak nesneler için daha az ayrıntılı modeller kullanmak (<i>LOD</i>), büyük 3B sahnelerde performansı artırır.</li>
+</ul>
+</section>
+<section class="sec" id="uygulama">
+  <h2><span class="no">5</span>Ders içi uygulama</h2>
+<ol>
+  <li>Doğru ve yanlış yanıtlara ses ekleyin.</li>
+  <li>Çapraz kullanıcı testi: herkes yanındakinin oyununu oynar, sahibi gözlem formunu doldurur. Oturum sonunda her projenin en az üç bulgusu olmalı.</li>
+  <li>Projenin web derlemesini alıp yerel sunucuda deneyin.</li>
+</ol>
+</section>
+<section class="sec" id="sorular">
+  <h2>Tekrar soruları</h2>
+<ol class="qs">
+  <li>Kullanıcı testi sırasında oyuncu takıldı ve size bakıyor. Ne yapmalısınız?
+    <details><summary>Yanıtı göster</summary><p>Açıklama yapmadan nerede ve ne kadar süre takıldığını not etmek. Oyunun kendini anlatamaması düzeltilmesi gereken bir tasarım bulgusudur.</p></details>
+  </li>
+  <li>Web derlemesinin <code>index.html</code> dosyası çift tıklandığında açılmıyor. Neden?
+    <details><summary>Yanıtı göster</summary><p>Tarayıcılar yerel dosyadan bu biçimde yüklemeye izin vermez. Yerel bir sunucu ya da Build And Run kullanılmalıdır.</p></details>
+  </li>
+  <li>GitHub Pages'te yayınlanan Unity oyunu açılmıyor. Hangi ayar kontrol edilir?
+    <details><summary>Yanıtı göster</summary><p>Publishing Settings'teki Decompression Fallback. GitHub Pages sıkıştırılmış dosyalar için gereken sunucu başlıklarını göndermez.</p></details>
+  </li>
+</ol>
+</section>
+<section class="sec" id="kaynaklar">
+  <h2>Kaynaklar</h2>
+<ol class="refs">
+  <li>Unity Technologies. <i>Unity Manual: Web build settings</i>. <a href="https://docs.unity3d.com/Manual/web-build-settings.html">https://docs.unity3d.com/Manual/web-build-settings.html</a></li>
+  <li>Unity Technologies. <i>Unity Manual: Audio Mixer</i>. <a href="https://docs.unity3d.com/Manual/AudioMixer.html">https://docs.unity3d.com/Manual/AudioMixer.html</a></li>
+  <li>Fullerton, T. (2019). <i>Game design workshop: A playcentric approach to creating innovative games</i> (4th ed.). CRC Press. (Kullanıcı testi bölümü.)</li>
+  <li>Swink, S. (2009). <i>Game feel: A game designer's guide to virtual sensation</i>. Morgan Kaufmann.</li>
+</ol>
+</section>
+
+<div class="pager">
+  <a class="prev" href="hafta-12.html"><small>Önceki hafta</small>12. Kullanıcı arayüzü, oyun döngüsü ve kayıt</a>
+  <a class="next" href="hafta-14.html"><small>Sonraki hafta</small>14. Final projesi sunumları ve dönem değerlendirmesi</a>
+</div>
+
+</main>
+</div>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
+<script src="../js/site.js?v=2"></script>
+</body>
+</html>

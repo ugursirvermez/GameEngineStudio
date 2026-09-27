@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12. Hafta: Kullanıcı arayüzü, oyun döngüsü ve kayıt · Eğitimde Modelleme ve Tasarım</title>
+<meta name="description" content="Puan, süre ve ilerleme göstergeleri, öğrenciye ne yaptığını ve ne öğrendiğini bildiren kanaldır. Bu hafta arayüzü kurup oyunun başlangıç, bitiş ve yeniden deneme döngüsünü tamamlıyor, verileri kalıcı hâle getiriyoruz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css?v=2">
+</head>
+<body>
+
+<header class="masthead">
+  <a class="mast-title" href="../">Eğitimde Modelleme ve Tasarım <span>· 2025–2026 Güz</span></a>
+  <nav class="mast-nav">
+    <a href="../">Giriş</a>
+    <a href="./" aria-current="page">Haftalık materyaller</a>
+    <a href="../atolye/">Atölye</a>
+  </nav>
+</header>
+
+<div class="titleblock">
+  <div class="kicker">12. Hafta · Ders notu</div>
+  <h1>Kullanıcı arayüzü, oyun döngüsü ve kayıt</h1>
+  <p class="dek">Puan, süre ve ilerleme göstergeleri, öğrenciye ne yaptığını ve ne öğrendiğini bildiren kanaldır. Bu hafta arayüzü kurup oyunun başlangıç, bitiş ve yeniden deneme döngüsünü tamamlıyor, verileri kalıcı hâle getiriyoruz.</p>
+  <div class="meta"><span>12. hafta</span><span>Okuma süresi yaklaşık 16 dk</span></div>
+</div>
+
+<div class="doc">
+  <nav class="toc" aria-label="İçindekiler">
+    <div class="toc-h">İçindekiler</div>
+    <ol>
+      <li><a href="#geri-bildirim"><span class="n">1</span>Geri bildirim ve öğrenme</a></li>
+      <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
+      <li><a href="#canvas"><span class="n">3</span>Canvas ve çözünürlükten bağımsız yerleşim</a></li>
+      <li><a href="#dongu"><span class="n">4</span>Oyun döngüsü ve sahne geçişleri</a></li>
+      <li><a href="#kayit"><span class="n">5</span>Verileri saklamak</a></li>
+      <li><a href="#iki-yol"><span class="n">6</span>İki yolda arayüz</a></li>
+      <li><a href="#uygulama"><span class="n">7</span>Ders içi uygulama</a></li>
+      <li><a href="#sorular"><span class="n"></span>Tekrar soruları</a></li>
+      <li><a href="#kaynaklar"><span class="n"></span>Kaynaklar</a></li>
+    </ol>
+  </nav>
+
+<main class="body">
+
+<section class="sec" id="geri-bildirim">
+  <h2><span class="no">1</span>Geri bildirim ve öğrenme</h2>
+<p>Geri bildirim, öğrenmeyi en çok etkileyen etkenler arasında gösterilir (Hattie ve Timperley, 2007). Oyunlar bu açıdan elverişlidir: her eylemin sonucu hemen görülür ve eylem tekrarlanabilir. Ancak arayüz yanlış kurulduğunda bu avantaj kaybolur. Eğitsel oyunlarda sık görülen üç sorun şunlardır:</p>
+<ul>
+  <li><b>Gecikmiş geri bildirim.</b> Doğru ya da yanlış bilgisi yalnızca oyunun sonunda verilirse öğrenci hangi eyleminin doğru olduğunu ilişkilendiremez.</li>
+  <li><b>Yalnızca toplam puan.</b> "Puan: 40" bilgisi öğrenciye neyi yanlış yaptığını söylemez. "3 doğru, 1 yanlış; paydası farklı kesirlerde zorlandın" gibi bir özet söyler.</li>
+  <li><b>Yalnızca kayıp gösteren sayaç.</b> Sürekli azalan bir can göstergesi hataya odaklanır. İlerlemeyi gösteren bir gösterge çoğu durumda daha uygundur.</li>
+</ul>
+</section>
+<section class="sec" id="kavramlar">
+  <h2><span class="no">2</span>Kavramlar</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 1. Bu haftanın kavramları</caption>
+    <thead><tr><th>Kavram</th><th>Unity / İngilizce</th><th>Açıklama</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Tuval</td><td class="en">Canvas</td><td>Arayüz öğelerinin içinde bulunduğu kap nesne.</td></tr>
+      <tr><td class="k">Ölçekleyici</td><td class="en">Canvas Scaler</td><td>Arayüzün farklı ekran boyutlarında nasıl ölçekleneceğini belirleyen bileşen.</td></tr>
+      <tr><td class="k">Çapa</td><td class="en">Anchor</td><td>Bir arayüz öğesinin ekranın hangi kenarına ya da köşesine sabitlendiği.</td></tr>
+      <tr><td class="k">Metin</td><td class="en">TextMeshPro</td><td>Unity'nin arayüz ve sahne metinleri için kullandığı metin sistemi.</td></tr>
+      <tr><td class="k">Dünya içi arayüz</td><td class="en">World Space Canvas</td><td>Sahnenin içinde, bir nesne gibi konumlanan arayüz.</td></tr>
+      <tr><td class="k">Oyun döngüsü</td><td class="en">Game loop</td><td>Başla, oyna, bitir, yeniden dene çevrimi.</td></tr>
+      <tr><td class="k">Kalıcı veri</td><td class="en">Persistence</td><td>Oyun kapatılıp açıldığında korunan veri.</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="sec" id="canvas">
+  <h2><span class="no">3</span>Canvas ve çözünürlükten bağımsız yerleşim</h2>
+<p>Bu derste arayüz, Unity'nin nesne tabanlı arayüz sistemi olan <i>uGUI</i> ile kurulur: <i>GameObject → UI</i> menüsünden eklenen her öğe bir Canvas'ın içinde yer alır. Metinler için <i>Text - TextMeshPro</i> kullanılır; ilk kullanımda Unity gerekli dosyaları içe aktarmayı önerir.</p>
+<p>Arayüzün en sık görülen sorunu, geliştirme ekranında düzgün görünen yerleşimin projeksiyonda ya da başka bir bilgisayarda kaymasıdır. Bunu önlemek için iki ayar yapılır:</p>
+<ol>
+  <li>Canvas'taki <i>Canvas Scaler</i> bileşeninde <i>UI Scale Mode</i> ayarı <i>Scale With Screen Size</i> yapılır ve bir referans çözünürlük (örneğin 1920 × 1080) verilir. Arayüz bu çözünürlüğe göre orantılı olarak ölçeklenir.</li>
+  <li>Her öğe bulunması gereken kenara ya da köşeye çapalanır. Sol üst köşeye çapalanan bir puan göstergesi, ekran genişlese de sol üstte kalır.</li>
+</ol>
+<p>Öğeleri ekranın tam kenarına yerleştirmemek de önemlidir. Projeksiyonda kenarlar kesilebilir, telefonlarda çentik alanı öğeleri kapatabilir.</p>
+<div class="code-label">SkorYonetici.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+<span class="k">using</span> TMPro;
+
+<span class="c">// Oturum boyunca doğru ve yanlış sayısını tutar, arayüzü günceller.</span>
+<span class="k">public</span> <span class="k">class</span> SkorYonetici : <span class="t">MonoBehaviour</span>
+{
+    <span class="k">public</span> <span class="k">static</span> SkorYonetici Ornek { <span class="k">get</span>; <span class="k">private</span> <span class="k">set</span>; }
+
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">TMP_Text</span> skorMetni;
+
+    <span class="k">private</span> <span class="k">int</span> dogru;
+    <span class="k">private</span> <span class="k">int</span> yanlis;
+
+    <span class="k">void</span> Awake()
+    {
+        <span class="c">// Sahnede tek bir skor yöneticisi olmasını sağla</span>
+        <span class="k">if</span> (Ornek != <span class="k">null</span> &amp;&amp; Ornek != <span class="k">this</span>) { Destroy(gameObject); <span class="k">return</span>; }
+        Ornek = <span class="k">this</span>;
+    }
+
+    <span class="k">public</span> <span class="k">void</span> Kaydet(<span class="k">bool</span> dogruMu)
+    {
+        <span class="k">if</span> (dogruMu) dogru++; <span class="k">else</span> yanlis++;
+        skorMetni.text = <span class="s">$&quot;Doğru: {dogru}   Yanlış: {yanlis}&quot;</span>;
+    }
+
+    <span class="k">public</span> <span class="k">string</span> OturumOzeti()
+    {
+        <span class="k">int</span> toplam = dogru + yanlis;
+        <span class="k">if</span> (toplam == <span class="n">0</span>) <span class="k">return</span> <span class="s">&quot;Henüz deneme yapılmadı.&quot;</span>;
+        <span class="k">int</span> oran = <span class="t">Mathf</span>.RoundToInt(<span class="n">100f</span> * dogru / toplam);
+        <span class="k">return</span> <span class="s">$&quot;{toplam} denemede {dogru} doğru (%{oran}).&quot;</span>;
+    }
+}</pre>
+<p>9. haftadaki seçenek script'inde <code>Debug.Log</code> satırlarının yerine <code>SkorYonetici.Ornek.Kaydet(true)</code> ya da <code>Kaydet(false)</code> yazıldığında sonuçlar ekranda görünür. <code>Ornek</code> alanı, sahnedeki tek skor yöneticisine her script'ten erişmeyi sağlar. Bu kalıba <i>singleton</i> denir; büyük projelerde sakıncaları vardır, ancak bu derste geliştirilen prototipler için yeterlidir.</p>
+</section>
+<section class="sec" id="dongu">
+  <h2><span class="no">4</span>Oyun döngüsü ve sahne geçişleri</h2>
+<p>Bir prototipin oyun olarak tamamlanması için döngüsünün kapanması gerekir: başla, oyna, bitir, yeniden dene. Eğitsel oyunlarda yeniden deneme adımı özellikle önemlidir; öğrencinin yanlışının ardından hemen tekrar deneyebilmesi gerekir.</p>
+<div class="code-label">OyunDongusu.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+<span class="k">using</span> UnityEngine.SceneManagement;
+
+<span class="k">public</span> <span class="k">class</span> OyunDongusu : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">GameObject</span> bitisPaneli;
+
+    <span class="k">public</span> <span class="k">void</span> OyunuBitir()
+    {
+        bitisPaneli.SetActive(<span class="k">true</span>);
+        <span class="t">Time</span>.timeScale = <span class="n">0f</span>;            <span class="c">// oyunu dondur</span>
+    }
+
+    <span class="c">// Bitiş panelindeki &quot;Yeniden dene&quot; düğmesine bağlanır</span>
+    <span class="k">public</span> <span class="k">void</span> YenidenDene()
+    {
+        <span class="t">Time</span>.timeScale = <span class="n">1f</span>;            <span class="c">// sahne yüklemeden önce geri al</span>
+        <span class="t">SceneManager</span>.LoadScene(<span class="t">SceneManager</span>.GetActiveScene().name);
+    }
+}</pre>
+<p><code>Time.timeScale</code> sıfırlandıktan sonra 1'e döndürülmezse yeni yüklenen sahnede hiçbir şey hareket etmez. Hata iletisi üretilmediği için bu sorunun nedeni geç fark edilir. Başka bir sahneye geçilecekse o sahnenin <i>File → Build Profiles</i> penceresindeki sahne listesine eklenmiş olması gerekir.</p>
+</section>
+<section class="sec" id="kayit">
+  <h2><span class="no">5</span>Verileri saklamak</h2>
+<p>Sahne değiştiğinde önceki sahnedeki nesneler silinir. Bir verinin sahneler arasında ya da oyun kapatılıp açıldığında korunması için saklanması gerekir. Küçük veriler için <code>PlayerPrefs</code> kullanılır:</p>
+<pre class="code"><span class="c">// En yüksek doğru sayısını sakla</span>
+<span class="k">int</span> enIyi = <span class="t">PlayerPrefs</span>.GetInt(<span class="s">&quot;EnIyi&quot;</span>, <span class="n">0</span>);
+<span class="k">if</span> (dogru &gt; enIyi)
+{
+    <span class="t">PlayerPrefs</span>.SetInt(<span class="s">&quot;EnIyi&quot;</span>, dogru);
+    <span class="t">PlayerPrefs</span>.Save();
+}</pre>
+<p>Birden fazla alanı olan veriler için bir sınıf <code>[System.Serializable]</code> ile işaretlenir ve <code>JsonUtility.ToJson</code> ile metne çevrilerek saklanır; <code>JsonUtility.FromJson</code> ile geri okunur.</p>
+<div class="note"><code>PlayerPrefs</code> kolayca okunup değiştirilebilir ve büyük veri için tasarlanmamıştır. Ders projeleri için yeterlidir. Gerçek bir sınıfta öğrenci verisi toplayan bir uygulama geliştirilecekse kişisel verilerin korunmasına ilişkin yükümlülükler ayrıca düşünülmelidir.</div>
+</section>
+<section class="sec" id="iki-yol">
+  <h2><span class="no">6</span>İki yolda arayüz</h2>
+<div class="tbl-wrap">
+  <table class="tbl">
+    <caption>Tablo 2. Arayüzün iki yolda karşılaştırması</caption>
+    <thead><tr><th></th><th><span class="t2d">2B</span></th><th><span class="t3d">3B</span></th></tr></thead>
+    <tbody>
+      <tr><td class="k">Canvas türü</td><td>Genellikle <i>Screen Space – Overlay</i></td><td><i>Screen Space</i> ya da <i>World Space</i></td></tr>
+      <tr><td class="k">Görsel dil</td><td>Arayüz sprite'ları oyun görselleriyle aynı biçemi paylaşabilir</td><td>Sahnedeki bir ekranda gösterilen, dünyanın parçası olan arayüz mümkündür</td></tr>
+      <tr><td class="k">Okunaklılık riski</td><td>Arayüz arka planla karışabilir; karşıtlık gerekir</td><td>Dünya içi arayüzde yazı boyutu uzaklıkla değişir</td></tr>
+    </tbody>
+  </table>
+</div>
+<p>3B'de dünya içi arayüz, eğitsel açıdan ilginç bir olanaktır: bir ölçüm değerini ekranın köşesinde değil, sahnedeki bir ölçüm aletinin ekranında göstermek, verinin ortamın parçası olarak algılanmasını sağlar. Teknik olarak daha zahmetli olduğu için prototipte önce ekran arayüzüyle başlanması önerilir.</p>
+</section>
+<section class="sec" id="uygulama">
+  <h2><span class="no">7</span>Ders içi uygulama</h2>
+<ol>
+  <li>Projenize SkorYonetici'yi ekleyin ve 9. haftadaki seçenekleri ona bağlayın.</li>
+  <li>Bir bitiş paneli oluşturun: oturum özeti ve "Yeniden dene" düğmesi.</li>
+  <li>Oyun penceresinin çözünürlüğünü değiştirerek arayüzün doğru ölçeklendiğini kontrol edin.</li>
+</ol>
+</section>
+<section class="sec" id="sorular">
+  <h2>Tekrar soruları</h2>
+<ol class="qs">
+  <li>Arayüz geliştirme ekranında düzgün, projeksiyonda kaymış görünüyor. Hangi iki ayar kontrol edilir?
+    <details><summary>Yanıtı göster</summary><p>Canvas Scaler'ın Scale With Screen Size olması ve öğelerin doğru kenara çapalanmış olması.</p></details>
+  </li>
+  <li>Yeni sahne açıldı ama hiçbir şey hareket etmiyor, hata da yok. Olası neden nedir?
+    <details><summary>Yanıtı göster</summary><p><code>Time.timeScale</code> önceki sahnede 0 yapılmış ve geri alınmamış.</p></details>
+  </li>
+  <li>Eğitsel bir oyunda "Puan: 40" yerine nasıl bir geri bildirim tercih edilir?
+    <details><summary>Yanıtı göster</summary><p>Hemen verilen ve neyin doğru ya da yanlış yapıldığını gösteren bir geri bildirim; oturum sonunda da konu bazında bir özet.</p></details>
+  </li>
+</ol>
+</section>
+<section class="sec" id="kaynaklar">
+  <h2>Kaynaklar</h2>
+<ol class="refs">
+  <li>Hattie, J., &amp; Timperley, H. (2007). The power of feedback. <i>Review of Educational Research, 77</i>(1), 81–112.</li>
+  <li>Unity Technologies. <i>Unity UI (uGUI) documentation</i>. <a href="https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/index.html">https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/index.html</a></li>
+  <li>Unity Technologies. <i>Scripting API: PlayerPrefs</i>. <a href="https://docs.unity3d.com/ScriptReference/PlayerPrefs.html">https://docs.unity3d.com/ScriptReference/PlayerPrefs.html</a></li>
+</ol>
+</section>
+
+<div class="pager">
+  <a class="prev" href="hafta-11.html"><small>Önceki hafta</small>11. Animasyon ve karakter</a>
+  <a class="next" href="hafta-13.html"><small>Sonraki hafta</small>13. Ses, efektler, kullanıcı testi ve yayınlama</a>
+</div>
+
+</main>
+</div>
+
+<footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../atolye/">Atölye</a></footer>
+<script src="../js/site.js?v=2"></script>
+</body>
+</html>
