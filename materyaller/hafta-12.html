@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=8">
+<link rel="stylesheet" href="../css/site.css?v=10">
 <script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
@@ -26,15 +26,17 @@
 
 <nav class="rail" aria-label="İçindekiler">
   <ol>
-    <li><a href="#geri-bildirim"><span class="n">01</span>Geri bildirim ve öğrenme</a></li>
-    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
-    <li><a href="#canvas"><span class="n">03</span>Canvas ve çözünürlükten bağımsız yerleşim</a></li>
-    <li><a href="#dongu"><span class="n">04</span>Oyun döngüsü ve sahne geçişleri</a></li>
-    <li><a href="#kayit"><span class="n">05</span>Verileri saklamak</a></li>
-    <li><a href="#iki-yol"><span class="n">06</span>İki yolda arayüz</a></li>
-    <li><a href="#uygulama"><span class="n">07</span>Sınıf etkinliği</a></li>
-    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
-    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+    <li><a href="#geri-bildirim"><span class="n">1</span>Geri bildirim ve öğrenme</a></li>
+    <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
+    <li><a href="#canvas"><span class="n">3</span>Canvas ve çözünürlükten bağımsız yerleşim</a></li>
+    <li><a href="#dongu"><span class="n">4</span>Oyun döngüsü ve sahne geçişleri</a></li>
+    <li><a href="#kayit"><span class="n">5</span>Verileri saklamak</a></li>
+    <li><a href="#iki-yol"><span class="n">6</span>İki yolda arayüz</a></li>
+    <li><a href="#ozet"><span class="n">✓</span>Akılda kalsın</a></li>
+    <li><a href="#hatalar"><span class="n">!</span>Sık yapılan hatalar</a></li>
+    <li><a href="#sorular"><span class="n">?</span>Kendinizi sınayın</a></li>
+    <li><a href="#devam"><span class="n">→</span>Bu haftadan sonra</a></li>
+    <li><a href="#kaynaklar"><span class="n">§</span>Kaynaklar</a></li>
   </ol>
 </nav>
 
@@ -43,23 +45,28 @@
   <div class="kicker">12. Hafta · Ders notu</div>
   <h1>Kullanıcı arayüzü, oyun döngüsü ve kayıt</h1>
   <p class="dek">Puan, süre ve ilerleme göstergeleri, öğrenciye ne yaptığını ve ne öğrendiğini bildiren kanaldır. Bu hafta arayüzü kurup oyunun başlangıç, bitiş ve yeniden deneme döngüsünü tamamlıyor, verileri kalıcı hâle getiriyoruz.</p>
-  <div class="meta"><span>12. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>1 etkileşim</span><span><a href="../etkinlikler/hafta-12.html">Bu haftanın etkinliği</a></span></div>
 </div>
-
-<section class="sec" id="geri-bildirim">
-  <div class="sec-head"><span class="sec-no">01</span><h2>Geri bildirim ve öğrenme</h2></div>
-<div class="col">
+<div class="glance">
+  <div class="glance-top">
+    <div class="glance-l"><div class="lbl">Bu haftanın sorusu</div><p class="goal">Öğrenci ne yaptığını ve ne öğrendiğini oyunun içinde nereden anlar?</p><div class="lbl">Bu notun sonunda</div><ul class="kz"><li>Eğitsel oyunlarda geri bildirimin zamanlaması ve içeriğiyle ilgili sık görülen sorunları tanır.</li><li>Farklı çözünürlüklerde kaymayan bir arayüz kurar.</li><li>Başla, oyna, bitir, yeniden dene döngüsünü kapatır.</li><li>PlayerPrefs ve JSON ile küçük verileri kalıcı hâle getirir.</li></ul></div>
+    <div class="glance-r">
+      <div class="fact"><span class="lbl">Okuma</span><span class="v"><b>yaklaşık 18 dk</b></span></div>
+      <div class="fact"><span class="lbl">Önkoşul</span><span class="v"><a href="hafta-09.html">9. hafta</a> <span class="mute">(Seçenek script'i ve geri çağrılar)</span></span></div>
+      <div class="fact"><span class="lbl">Etkileşim</span><span class="v">1 deneme alanı, sayfanın içinde</span></div>
+      <div class="fact"><span class="lbl">Etkinlik</span><span class="v"><a href="../etkinlikler/hafta-12.html">“Ne öğrendim?” paneli</a> <span class="mute">· 75 dk</span></span></div>
+    </div>
+  </div>
+  <div class="glance-flow"><div class="row"><span class="lbl" style="margin:0">Bölümler</span></div><div class="flow"><a href="#geri-bildirim" style="flex-grow:2"><span class="n">01</span><span class="t">Geri bildirim ve öğrenme</span><span class="d">1 dk</span></a><a href="#kavramlar" style="flex-grow:2"><span class="n">02</span><span class="t">Kavramlar</span><span class="d">1 dk</span></a><a href="#canvas" style="flex-grow:7"><span class="n">03</span><span class="t">Canvas ve çözünürlükten bağımsız yerleşim</span><span class="d">7 dk</span></a><a href="#dongu" style="flex-grow:3"><span class="n">04</span><span class="t">Oyun döngüsü ve sahne geçişleri</span><span class="d">3 dk</span></a><a href="#kayit" style="flex-grow:2"><span class="n">05</span><span class="t">Verileri saklamak</span><span class="d">2 dk</span></a><a href="#iki-yol" style="flex-grow:2"><span class="n">06</span><span class="t">İki yolda arayüz</span><span class="d">1 dk</span></a></div></div>
+</div>
+<section class="sec note-sec" id="geri-bildirim"><div class="part-head"><span class="part-no">1</span><div><h2>Geri bildirim ve öğrenme</h2></div><span class="part-dk">1 dk</span></div><div class="col">
 <p>Geri bildirim, öğrenmeyi en çok etkileyen etkenler arasında gösterilir (Hattie ve Timperley, 2007). Oyunlar bu açıdan elverişlidir: her eylemin sonucu hemen görülür ve eylem tekrarlanabilir. Ancak arayüz yanlış kurulduğunda bu avantaj kaybolur. Eğitsel oyunlarda sık görülen üç sorun şunlardır:</p>
 <ul>
   <li><b>Gecikmiş geri bildirim.</b> Doğru ya da yanlış bilgisi yalnızca oyunun sonunda verilirse öğrenci hangi eyleminin doğru olduğunu ilişkilendiremez.</li>
   <li><b>Yalnızca toplam puan.</b> "Puan: 40" bilgisi öğrenciye neyi yanlış yaptığını söylemez. "3 doğru, 1 yanlış; paydası farklı kesirlerde zorlandın" gibi bir özet söyler.</li>
   <li><b>Yalnızca kayıp gösteren sayaç.</b> Sürekli azalan bir can göstergesi hataya odaklanır. İlerlemeyi gösteren bir gösterge çoğu durumda daha uygundur.</li>
 </ul>
-</div>
-</section>
-<section class="sec" id="kavramlar">
-  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="kavramlar"><div class="part-head"><span class="part-no">2</span><div><span class="kick">Terimler</span><h2>Kavramlar</h2></div><span class="part-dk">1 dk</span></div><div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 1. Bu haftanın kavramları</caption>
@@ -75,11 +82,8 @@
     </tbody>
   </table>
 </div>
-</div>
-</section>
-<section class="sec" id="canvas">
-  <div class="sec-head"><span class="sec-no">03</span><h2>Canvas ve çözünürlükten bağımsız yerleşim</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="canvas"><div class="part-head"><span class="part-no">3</span><div><h2>Canvas ve çözünürlükten bağımsız yerleşim</h2></div><span class="part-dk">7 dk</span></div><div class="col">
 <p>Bu derste arayüz, Unity'nin nesne tabanlı arayüz sistemi olan <i>uGUI</i> ile kurulur: <i>GameObject → UI</i> menüsünden eklenen her öğe bir Canvas'ın içinde yer alır. Metinler için <i>Text - TextMeshPro</i> kullanılır; ilk kullanımda Unity gerekli dosyaları içe aktarmayı önerir.</p>
 <p>Arayüzün en sık görülen sorunu, geliştirme ekranında düzgün görünen yerleşimin projeksiyonda ya da başka bir bilgisayarda kaymasıdır. Bunu önlemek için iki ayar yapılır:</p>
 <ol>
@@ -133,11 +137,8 @@
   <figcaption>Arayüz 1920 × 1080 referans çözünürlüğüne göre tasarlandı.</figcaption>
 </figure>
 <div class="col">
-</div>
-</section>
-<section class="sec" id="dongu">
-  <div class="sec-head"><span class="sec-no">04</span><h2>Oyun döngüsü ve sahne geçişleri</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="dongu"><div class="part-head"><span class="part-no">4</span><div><h2>Oyun döngüsü ve sahne geçişleri</h2></div><span class="part-dk">3 dk</span></div><div class="col">
 <p>Bir prototipin oyun olarak tamamlanması için döngüsünün kapanması gerekir: başla, oyna, bitir, yeniden dene. Eğitsel oyunlarda yeniden deneme adımı özellikle önemlidir; öğrencinin yanlışının ardından hemen tekrar deneyebilmesi gerekir.</p>
 <div class="code-label">OyunDongusu.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -161,11 +162,8 @@
     }
 }</pre>
 <p><code>Time.timeScale</code> sıfırlandıktan sonra 1'e döndürülmezse yeni yüklenen sahnede hiçbir şey hareket etmez. Hata iletisi üretilmediği için bu sorunun nedeni geç fark edilir. Başka bir sahneye geçilecekse o sahnenin <i>File → Build Profiles</i> penceresindeki sahne listesine eklenmiş olması gerekir.</p>
-</div>
-</section>
-<section class="sec" id="kayit">
-  <div class="sec-head"><span class="sec-no">05</span><h2>Verileri saklamak</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="kayit"><div class="part-head"><span class="part-no">5</span><div><h2>Verileri saklamak</h2></div><span class="part-dk">2 dk</span></div><div class="col">
 <p>Sahne değiştiğinde önceki sahnedeki nesneler silinir. Bir verinin sahneler arasında ya da oyun kapatılıp açıldığında korunması için saklanması gerekir. Küçük veriler için <code>PlayerPrefs</code> kullanılır:</p>
 <pre class="code"><span class="c">// En yüksek doğru sayısını sakla</span>
 <span class="k">int</span> enIyi = <span class="t">PlayerPrefs</span>.GetInt(<span class="s">&quot;EnIyi&quot;</span>, <span class="n">0</span>);
@@ -176,11 +174,8 @@
 }</pre>
 <p>Birden fazla alanı olan veriler için bir sınıf <code>[System.Serializable]</code> ile işaretlenir ve <code>JsonUtility.ToJson</code> ile metne çevrilerek saklanır; <code>JsonUtility.FromJson</code> ile geri okunur.</p>
 <div class="note"><code>PlayerPrefs</code> kolayca okunup değiştirilebilir ve büyük veri için tasarlanmamıştır. Ders projeleri için yeterlidir. Gerçek bir sınıfta öğrenci verisi toplayan bir uygulama geliştirilecekse kişisel verilerin korunmasına ilişkin yükümlülükler ayrıca düşünülmelidir.</div>
-</div>
-</section>
-<section class="sec" id="iki-yol">
-  <div class="sec-head"><span class="sec-no">06</span><h2>İki yolda arayüz</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="iki-yol"><div class="part-head"><span class="part-no">6</span><div><span class="kick">İki yol</span><h2>İki yolda arayüz</h2></div><span class="part-dk">1 dk</span></div><div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 2. Arayüzün iki yolda karşılaştırması</caption>
@@ -193,18 +188,15 @@
   </table>
 </div>
 <p>3B'de dünya içi arayüz, eğitsel açıdan ilginç bir olanaktır: bir ölçüm değerini ekranın köşesinde değil, sahnedeki bir ölçüm aletinin ekranında göstermek, verinin ortamın parçası olarak algılanmasını sağlar. Teknik olarak daha zahmetli olduğu için prototipte önce ekran arayüzüyle başlanması önerilir.</p>
-</div>
-</section>
-<section class="sec" id="uygulama">
-  <div class="sec-head"><span class="sec-no">07</span><h2>Sınıf etkinliği</h2></div>
-<div class="col">
-<p>Bu haftanın sınıf etkinliği; adım adım yönergeleri, başlangıç dosyaları ve tamamlanma ölçütleriyle ayrı bir sayfada.</p><div class="link-card"><div><b>12. hafta etkinliği: “Ne öğrendim?” paneli</b><span>Doğru/yanlış ve süre göstergesi, bitiş paneli, yeniden deneme düğmesi; farklı çözünürlüklerde test. · 75 dk</span></div><a class="btn btn-solid" href="../etkinlikler/hafta-12.html">Etkinliği aç</a></div>
-</div>
-</section>
-<section class="sec" id="sorular">
-  <div class="sec-head"><h2>Tekrar soruları</h2></div>
-<div class="col">
-<ol class="qs">
+</div></section>
+<section class="sec note-sec" id="ozet"><div class="part-head"><span class="part-no alt">✓</span><div><span class="kick">Özet</span><h2>Akılda kalsın</h2></div><span></span></div><div class="col">
+<ul class="ozet"><li>Geri bildirim hemen verilir ve neyin doğru ya da yanlış yapıldığını söyler; oturum sonunda konu bazında bir özet eklenir.</li><li>Canvas Scaler <i>Scale With Screen Size</i> ve bir referans çözünürlükle ayarlanır; her öğe ait olduğu kenara çapalanır.</li><li>Script'ler skor yöneticisine tek bir erişim noktasından (singleton) ulaşır.</li><li><code>Time.timeScale</code> sıfırlandıysa sahne yeniden yüklenmeden önce 1'e döndürülür.</li><li>Küçük veriler PlayerPrefs ile, çok alanlı veriler JSON ile saklanır.</li></ul>
+</div></section>
+<section class="sec note-sec" id="hatalar"><div class="part-head"><span class="part-no alt">!</span><div><span class="kick">Sorun giderme</span><h2>Sık yapılan hatalar</h2></div><span></span></div><div class="col">
+<p class="part-intro">Belirtiye tıklayın; olası neden ve çözüm açılır.</p><div class="trouble"><details><summary>Arayüz projeksiyonda kaymış ya da kesilmiş.</summary><div>Canvas Scaler <i>Constant Pixel Size</i>'ta kalmış ya da öğeler yanlış köşeye çapalanmış. Game penceresinde farklı en-boy oranları seçerek deneyin.</div></details><details><summary>Düğmeye tıklanıyor ama hiçbir şey olmuyor.</summary><div>Sahnede <i>EventSystem</i> nesnesi yok ya da düğmenin önünde tıklamayı yakalayan başka bir arayüz öğesi var. Önündeki öğenin <i>Raycast Target</i> ayarını kapatın ve düğmenin <i>On Click</i> listesinde bir metot seçili olduğunu kontrol edin.</div></details><details><summary>“Yeniden dene”den sonra oyun donuk.</summary><div><code>Time.timeScale</code> 0'da kalmış. <code>SceneManager.LoadScene</code>'den önce 1'e döndürün.</div></details><details><summary><code>NullReferenceException</code>: <code>SkorYonetici.Ornek</code> boş.</summary><div>Sahnede SkorYonetici bileşenini taşıyan bir nesne yok ya da skor metni alanı Inspector'da atanmamış.</div></details></div>
+</div></section>
+<section class="sec note-sec" id="sorular"><div class="part-head"><span class="part-no alt">?</span><div><span class="kick">Tekrar soruları</span><h2>Kendinizi sınayın</h2></div><span></span></div><div class="col">
+<p class="part-intro">Önce yanıtı kendiniz verin, sonra açıp karşılaştırın.</p><ol class="qs">
   <li>Arayüz geliştirme ekranında düzgün, projeksiyonda kaymış görünüyor. Hangi iki ayar kontrol edilir?
     <details><summary>Yanıtı göster</summary><p>Canvas Scaler'ın Scale With Screen Size olması ve öğelerin doğru kenara çapalanmış olması.</p></details>
   </li>
@@ -214,19 +206,21 @@
   <li>Eğitsel bir oyunda "Puan: 40" yerine nasıl bir geri bildirim tercih edilir?
     <details><summary>Yanıtı göster</summary><p>Hemen verilen ve neyin doğru ya da yanlış yapıldığını gösteren bir geri bildirim; oturum sonunda da konu bazında bir özet.</p></details>
   </li>
+  <li>Sahnedeki bir ölçüm değerini ekranın köşesi yerine sahnedeki bir aletin ekranında göstermenin öğretim açısından yararı nedir?
+    <details><summary>Yanıtı göster</summary><p>Veri ortamın parçası olarak algılanır ve öğrencinin dikkati sahne ile arayüz arasında bölünmez. Bunun için World Space Canvas kullanılır.</p></details>
+  </li>
 </ol>
-</div>
-</section>
-<section class="sec" id="kaynaklar">
-  <div class="sec-head"><h2>Kaynaklar</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="devam"><div class="part-head"><span class="part-no alt">→</span><div><span class="kick">Sonraki adım</span><h2>Bu haftadan sonra</h2></div><span></span></div><div class="col">
+<div class="next"><div class="acc"><h4>Sınıf etkinliği</h4><p><b>“Ne öğrendim?” paneli</b> · 75 dk</p><p>Öğrenciye ne yaptığını ve ne öğrendiğini söyleyen bir arayüz kurmak ve oyun döngüsünü kapatmak.</p><a class="more" href="../etkinlikler/hafta-12.html">Etkinliği aç</a></div><div class="warm"><h4>Final projenize</h4><p>Geri bildirim final ölçütlerinde iki yerde geçer: teknik işlevsellikte “geri bildirim çalışıyor”, öğretim tasarımında ise öğrenme çıktısının oyuna yerleştirilmesi. Bitiş panelindeki oturum özeti 13. haftadaki kullanıcı testinde de işe yarar: oyuncunun kaç denemede başardığı kendiliğinden kayda geçer.</p></div><div class="plain"><h4>Gelecek hafta</h4><p><b>13. Ses, efektler, kullanıcı testi ve yayınlama</b></p><p>Oyun gerçekte ne öğretiyor ve bunu kimden öğreniriz?</p><a class="more" href="hafta-13.html">Notu aç</a></div></div>
+</div></section>
+<section class="sec note-sec" id="kaynaklar"><div class="part-head"><span class="part-no alt">§</span><div><h2>Kaynaklar</h2></div><span></span></div><div class="col">
 <ol class="refs">
   <li>Hattie, J., &amp; Timperley, H. (2007). The power of feedback. <i>Review of Educational Research, 77</i>(1), 81–112.</li>
   <li>Unity Technologies. <i>Unity UI (uGUI) documentation</i>. <a href="https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/index.html">https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/index.html</a></li>
   <li>Unity Technologies. <i>Scripting API: PlayerPrefs</i>. <a href="https://docs.unity3d.com/ScriptReference/PlayerPrefs.html">https://docs.unity3d.com/ScriptReference/PlayerPrefs.html</a></li>
 </ol>
-</div>
-</section>
+</div></section>
 
 <div class="col">
 <div class="pager">
@@ -237,6 +231,6 @@
 </main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../etkinlikler/">Etkinlikler</a> · <a href="../atolye/">Atölye</a></footer>
-<script type="module" src="../js/site.js?v=8"></script>
+<script type="module" src="../js/site.js?v=10"></script>
 </body>
 </html>

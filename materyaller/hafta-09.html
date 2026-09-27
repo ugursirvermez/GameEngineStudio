@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=8">
+<link rel="stylesheet" href="../css/site.css?v=10">
 <script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
@@ -26,14 +26,16 @@
 
 <nav class="rail" aria-label="İçindekiler">
   <ol>
-    <li><a href="#collider"><span class="n">01</span>Collider ve trigger</a></li>
-    <li><a href="#kavramlar"><span class="n">02</span>Kavramlar</a></li>
-    <li><a href="#secenek"><span class="n">03</span>Seçenek toplama örneği</a></li>
-    <li><a href="#raycast"><span class="n">04</span>Raycast ile seçim</a></li>
-    <li><a href="#teshis"><span class="n">05</span>Fizik çalışmadığında</a></li>
-    <li><a href="#uygulama"><span class="n">06</span>Sınıf etkinliği</a></li>
-    <li><a href="#sorular"><span class="n">·</span>Tekrar soruları</a></li>
-    <li><a href="#kaynaklar"><span class="n">·</span>Kaynaklar</a></li>
+    <li><a href="#collider"><span class="n">1</span>Collider ve trigger</a></li>
+    <li><a href="#kavramlar"><span class="n">2</span>Kavramlar</a></li>
+    <li><a href="#secenek"><span class="n">3</span>Seçenek toplama örneği</a></li>
+    <li><a href="#raycast"><span class="n">4</span>Raycast ile seçim</a></li>
+    <li><a href="#teshis"><span class="n">5</span>Fizik çalışmadığında</a></li>
+    <li><a href="#ozet"><span class="n">✓</span>Akılda kalsın</a></li>
+    <li><a href="#hatalar"><span class="n">!</span>Sık yapılan hatalar</a></li>
+    <li><a href="#sorular"><span class="n">?</span>Kendinizi sınayın</a></li>
+    <li><a href="#devam"><span class="n">→</span>Bu haftadan sonra</a></li>
+    <li><a href="#kaynaklar"><span class="n">§</span>Kaynaklar</a></li>
   </ol>
 </nav>
 
@@ -42,12 +44,20 @@
   <div class="kicker">9. Hafta · Ders notu</div>
   <h1>Fizik ve çarpışma</h1>
   <p class="dek">Eşya toplamak, kapı açmak, doğru seçeneği işaretlemek: eğitsel oyunlardaki etkileşimlerin çoğu iki nesnenin temas etmesine dayanır. Bu hafta Unity'nin bu temasları nasıl algıladığını ve bildirdiğini ele alıyoruz.</p>
-  <div class="meta"><span>9. hafta</span><span>Okuma süresi yaklaşık 16 dk</span><span>1 etkileşim</span><span><a href="../etkinlikler/hafta-09.html">Bu haftanın etkinliği</a></span></div>
 </div>
-
-<section class="sec" id="collider">
-  <div class="sec-head"><span class="sec-no">01</span><h2>Collider ve trigger</h2></div>
-<div class="col">
+<div class="glance">
+  <div class="glance-top">
+    <div class="glance-l"><div class="lbl">Bu haftanın sorusu</div><p class="goal">İki nesnenin birbirine değdiğini oyun nasıl anlar ve bu an öğretime nasıl bağlanır?</p><div class="lbl">Bu notun sonunda</div><ul class="kz"><li>Katı collider ile trigger arasındaki farkı ve ilgili geri çağrıları açıklar.</li><li>Etiket kullanarak yalnızca oyuncunun temasına tepki veren bir seçenek script'i yazar.</li><li>Fareyle seçim için katman maskeli raycast kullanır.</li><li>Çalışmayan bir çarpışmayı sistemli bir kontrol listesiyle teşhis eder.</li></ul></div>
+    <div class="glance-r">
+      <div class="fact"><span class="lbl">Okuma</span><span class="v"><b>yaklaşık 15 dk</b></span></div>
+      <div class="fact"><span class="lbl">Önkoşul</span><span class="v"><a href="hafta-03.html">3. hafta</a> <span class="mute">(2B ve 3B fizik bileşenleri)</span>, <a href="hafta-07.html">7. hafta</a> <span class="mute">(Rigidbody2D ve CharacterController)</span></span></div>
+      <div class="fact"><span class="lbl">Etkileşim</span><span class="v">1 deneme alanı, sayfanın içinde</span></div>
+      <div class="fact"><span class="lbl">Etkinlik</span><span class="v"><a href="../etkinlikler/hafta-09.html">Doğru cevabı topla</a> <span class="mute">· 60 dk</span></span></div>
+    </div>
+  </div>
+  <div class="glance-flow"><div class="row"><span class="lbl" style="margin:0">Bölümler</span></div><div class="flow"><a href="#collider" style="flex-grow:4"><span class="n">01</span><span class="t">Collider ve trigger</span><span class="d">4 dk</span></a><a href="#kavramlar" style="flex-grow:2"><span class="n">02</span><span class="t">Kavramlar</span><span class="d">1 dk</span></a><a href="#secenek" style="flex-grow:3"><span class="n">03</span><span class="t">Seçenek toplama örneği</span><span class="d">3 dk</span></a><a href="#raycast" style="flex-grow:3"><span class="n">04</span><span class="t">Raycast ile seçim</span><span class="d">3 dk</span></a><a href="#teshis" style="flex-grow:2"><span class="n">05</span><span class="t">Fizik çalışmadığında</span><span class="d">1 dk</span></a></div></div>
+</div>
+<section class="sec note-sec" id="collider"><div class="part-head"><span class="part-no">1</span><div><h2>Collider ve trigger</h2></div><span class="part-dk">4 dk</span></div><div class="col">
 <p><i>Collider</i> bileşeni nesneye görünmeyen bir fiziksel sınır ekler. Bu sınır iki farklı biçimde davranabilir; hangisinin geçerli olduğunu bileşendeki <i>Is Trigger</i> ayarı belirler.</p>
 <ul>
   <li><b>Is Trigger kapalı:</b> Sınır katıdır. Nesneler birbirinin içinden geçemez. Duvar, zemin, sandık.</li>
@@ -76,11 +86,8 @@
   <figcaption>Katı kutu topu durdurur ve OnCollisionEnter2D çağrılır. Trigger kutu topu durdurmaz; giriş ve çıkışı bildirir.</figcaption>
 </figure>
 <div class="col">
-</div>
-</section>
-<section class="sec" id="kavramlar">
-  <div class="sec-head"><span class="sec-no">02</span><h2>Kavramlar</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="kavramlar"><div class="part-head"><span class="part-no">2</span><div><span class="kick">Terimler</span><h2>Kavramlar</h2></div><span class="part-dk">1 dk</span></div><div class="col">
 <div class="tbl-wrap">
   <table class="tbl">
     <caption>Tablo 2. Bu haftanın kavramları</caption>
@@ -95,11 +102,8 @@
     </tbody>
   </table>
 </div>
-</div>
-</section>
-<section class="sec" id="secenek">
-  <div class="sec-head"><span class="sec-no">03</span><h2>Seçenek toplama örneği</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="secenek"><div class="part-head"><span class="part-no">3</span><div><h2>Seçenek toplama örneği</h2></div><span class="part-dk">3 dk</span></div><div class="col">
 <p>Eğitsel oyunlarda sık kullanılan bir yapı şudur: ortamda birkaç seçenek bulunur, öğrenci doğru olana ulaşır ve geri bildirim alır. Aşağıdaki script bir seçenek nesnesine eklenir. Nesnenin collider'ında <i>Is Trigger</i> açık olmalı, oyuncu karakterinin etiketi <i>Player</i> olmalıdır.</p>
 <div class="code-label">Secenek2D.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -128,11 +132,8 @@
 }</pre>
 <p>3B karşılığında <code>OnTriggerEnter2D</code> yerine <code>OnTriggerEnter</code>, <code>Collider2D</code> yerine <code>Collider</code> yazılır; geri kalan kod aynıdır.</p>
 <p>Koddaki küçük bir karar, öğretim açısından önemlidir: yanlış seçenek kaldırılmıyor. Yanlış seçenek yok edilseydi öğrencinin hatası geri alınamaz bir sonuca dönüşür ve deneme isteği azalırdı. Seçeneğin yerinde kalması öğrenciye yeniden deneme olanağı verir. 12. haftada bu yapıya puan ve geri bildirim göstergeleri eklenecek.</p>
-</div>
-</section>
-<section class="sec" id="raycast">
-  <div class="sec-head"><span class="sec-no">04</span><h2>Raycast ile seçim</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="raycast"><div class="part-head"><span class="part-no">4</span><div><h2>Raycast ile seçim</h2></div><span class="part-dk">3 dk</span></div><div class="col">
 <p>Bazı etkileşimler temas gerektirmez: fareyle bir nesneye tıklamak, bir nesneye bakmak, uzaktan nişan almak. Bunlar için raycast kullanılır. Aşağıdaki örnek, 3B sahnede fareyle tıklanan nesneyi bulur:</p>
 <div class="code-label">TiklaSec.cs</div>
 <pre class="code"><span class="k">using</span> UnityEngine;
@@ -158,11 +159,8 @@
     }
 }</pre>
 <p><code>secilebilir</code> katman maskesi önemlidir. Maske verilmezse ışın, aradaki herhangi bir nesneye, örneğin oyuncunun kendi collider'ına çarpabilir. 2B'de aynı iş <code>Physics2D.Raycast</code> ya da tıklanan noktadaki collider'ı bulan <code>Physics2D.OverlapPoint</code> ile yapılır.</p>
-</div>
-</section>
-<section class="sec" id="teshis">
-  <div class="sec-head"><span class="sec-no">05</span><h2>Fizik çalışmadığında</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="teshis"><div class="part-head"><span class="part-no">5</span><div><h2>Fizik çalışmadığında</h2></div><span class="part-dk">1 dk</span></div><div class="col">
 <p>Çarpışmaların algılanmaması en sık karşılaşılan sorundur ve genellikle aşağıdaki nedenlerden birine bağlıdır. Sırayla kontrol edilmesi önerilir:</p>
 <ol>
   <li>2B ve 3B bileşenler karışmış mı? 2B sahnede 3B collider ya da tersi kullanılmışsa temas hiç algılanmaz.</li>
@@ -174,18 +172,15 @@
   <li>Nesne çok mu hızlı? Hızlı bir nesne tek adımda ince bir duvarın öbür tarafına geçebilir. Rigidbody'nin <i>Collision Detection</i> ayarı <i>Continuous</i> yapılır.</li>
   <li>Script ve nesne etkin mi? Bileşenin yanındaki onay kutusu ve nesnenin etkinliği kontrol edilir.</li>
 </ol>
-</div>
-</section>
-<section class="sec" id="uygulama">
-  <div class="sec-head"><span class="sec-no">06</span><h2>Sınıf etkinliği</h2></div>
-<div class="col">
-<p>Bu haftanın sınıf etkinliği; adım adım yönergeleri, başlangıç dosyaları ve tamamlanma ölçütleriyle ayrı bir sayfada.</p><div class="link-card"><div><b>9. hafta etkinliği: Doğru cevabı topla</b><span>Üç seçenekli bir soru alanı kurmak: 2B'de trigger ile, 3B'de fareyle tıklayarak seçim. · 60 dk</span></div><a class="btn btn-solid" href="../etkinlikler/hafta-09.html">Etkinliği aç</a></div>
-</div>
-</section>
-<section class="sec" id="sorular">
-  <div class="sec-head"><h2>Tekrar soruları</h2></div>
-<div class="col">
-<ol class="qs">
+</div></section>
+<section class="sec note-sec" id="ozet"><div class="part-head"><span class="part-no alt">✓</span><div><span class="kick">Özet</span><h2>Akılda kalsın</h2></div><span></span></div><div class="col">
+<ul class="ozet"><li><i>Is Trigger</i> kapalı collider nesneyi durdurur; açık olan içinden geçirir ve giriş ile çıkışı bildirir.</li><li>Temasın bildirilmesi için taraflardan en az birinde Rigidbody (3B'de CharacterController da olur) gerekir.</li><li>Geri çağrılar adlarından tanınır; tek harflik yazım yanlışı hata vermeden çalışmamaya yol açar.</li><li>Raycast'e her zaman bir katman maskesi verilir.</li><li>Yanlış seçeneği yok etmek yerine yerinde bırakmak, öğrenciye yeniden deneme olanağı verir.</li></ul>
+</div></section>
+<section class="sec note-sec" id="hatalar"><div class="part-head"><span class="part-no alt">!</span><div><span class="kick">Sorun giderme</span><h2>Sık yapılan hatalar</h2></div><span></span></div><div class="col">
+<p class="part-intro">Belirtiye tıklayın; olası neden ve çözüm açılır.</p><div class="trouble"><details><summary>Trigger her şeye tepki veriyor.</summary><div>Etiket kontrolü yok. Metodun başına <code>if (!diger.CompareTag("Player")) return;</code> yazın ve oyuncu nesnesinin <i>Tag</i> alanını <i>Player</i> yapın.</div></details><details><summary>Seçenek bir kez değil birkaç kez sayılıyor.</summary><div>Oyuncunun birden fazla collider'ı trigger'a giriyor ya da seçenek toplandıktan sonra da etkin kalıyor. Toplanan seçeneği <code>SetActive(false)</code> ile kapatın ya da bir <code>kullanildi</code> değişkeni tutun.</div></details><details><summary>Raycast hiçbir şeye çarpmıyor.</summary><div>Katman maskesinde hedefin katmanı seçili değil ya da hedefte collider yok. 2B sahnede <code>Physics.Raycast</code> değil <code>Physics2D</code> sorguları kullanılır.</div></details><details><summary><code>Camera.main</code> null döndürüyor.</summary><div>Sahnedeki kameranın etiketi <i>MainCamera</i> değil. Kamerayı seçip Tag alanını düzeltin.</div></details></div>
+</div></section>
+<section class="sec note-sec" id="sorular"><div class="part-head"><span class="part-no alt">?</span><div><span class="kick">Tekrar soruları</span><h2>Kendinizi sınayın</h2></div><span></span></div><div class="col">
+<p class="part-intro">Önce yanıtı kendiniz verin, sonra açıp karşılaştırın.</p><ol class="qs">
   <li>İki hareketsiz collider birbirine değiyor ama hiçbir geri çağrı çalışmıyor. Neden?
     <details><summary>Yanıtı göster</summary><p>Taraflardan hiçbirinde Rigidbody yok. Fizik motoru bir teması bildirmek için en az bir tarafın Rigidbody taşımasını gerektirir.</p></details>
   </li>
@@ -199,18 +194,17 @@
     <details><summary>Yanıtı göster</summary><p>Öğrencinin yanlış yanıtın ardından yeniden deneyebilmesi için. Yanlışı geri alınamaz bir sonuca dönüştürmek deneme isteğini azaltır.</p></details>
   </li>
 </ol>
-</div>
-</section>
-<section class="sec" id="kaynaklar">
-  <div class="sec-head"><h2>Kaynaklar</h2></div>
-<div class="col">
+</div></section>
+<section class="sec note-sec" id="devam"><div class="part-head"><span class="part-no alt">→</span><div><span class="kick">Sonraki adım</span><h2>Bu haftadan sonra</h2></div><span></span></div><div class="col">
+<div class="next"><div class="acc"><h4>Sınıf etkinliği</h4><p><b>Doğru cevabı topla</b> · 60 dk</p><p>Eğitsel oyunların en yaygın etkileşimini kurmak: öğrenci doğru seçeneğe ulaşır, geri bildirim alır, yanlışta yeniden dener.</p><a class="more" href="../etkinlikler/hafta-09.html">Etkinliği aç</a></div><div class="warm"><h4>Final projenize</h4><p>Final projenizin temel eylemi büyük olasılıkla bir temas ya da seçimle sonuçlanır: doğru nesneye ulaşmak, doğru yere bırakmak, doğru seçeneğe tıklamak. Bu anı hangi geri çağrının yakaladığını ve öğrencinin yanlışından sonra ne olduğunu raporda açıkça yazın. Öğretim tasarımı maddesi (15 puan) tam olarak bu kararı sorar.</p></div><div class="plain"><h4>Gelecek hafta</h4><p><b>10. Işıklandırma</b></p><p>Işık sahneyi görünür kılmanın ötesinde oyuncunun dikkatini nasıl yönlendirir ve bunun bedeli nedir?</p><a class="more" href="hafta-10.html">Notu aç</a></div></div>
+</div></section>
+<section class="sec note-sec" id="kaynaklar"><div class="part-head"><span class="part-no alt">§</span><div><h2>Kaynaklar</h2></div><span></span></div><div class="col">
 <ol class="refs">
   <li>Unity Technologies. <i>Scripting API: Collider2D.OnTriggerEnter2D</i>. <a href="https://docs.unity3d.com/ScriptReference/Collider2D.OnTriggerEnter2D.html">https://docs.unity3d.com/ScriptReference/Collider2D.OnTriggerEnter2D.html</a></li>
   <li>Unity Technologies. <i>Scripting API: Collider.OnTriggerEnter</i>. <a href="https://docs.unity3d.com/ScriptReference/Collider.OnTriggerEnter.html">https://docs.unity3d.com/ScriptReference/Collider.OnTriggerEnter.html</a></li>
   <li>Unity Technologies. <i>Scripting API: Physics.Raycast</i>. <a href="https://docs.unity3d.com/ScriptReference/Physics.Raycast.html">https://docs.unity3d.com/ScriptReference/Physics.Raycast.html</a></li>
 </ol>
-</div>
-</section>
+</div></section>
 
 <div class="col">
 <div class="pager">
@@ -221,6 +215,6 @@
 </main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="./">Haftalık materyaller</a> · <a href="../etkinlikler/">Etkinlikler</a> · <a href="../atolye/">Atölye</a></footer>
-<script type="module" src="../js/site.js?v=8"></script>
+<script type="module" src="../js/site.js?v=10"></script>
 </body>
 </html>

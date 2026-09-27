@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>6. Hafta Etkinliği: Hiyerarşi, uzay ve kamera · Eğitimde Modelleme ve Tasarım</title>
-<meta name="description" content="Nesneleri iç içe gruplamanın bir koordinat sistemi kurmak olduğunu bir araç üzerinde deneyecek, kameranın anlatım gücünü görüş açısı ve paralaksla keşfedeceksiniz.">
+<meta name="description" content="İç içe nesnelerin bir koordinat sistemi kurduğunu görmek ve kameranın anlatım gücünü denemek.">
 <meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=8">
+<link rel="stylesheet" href="../css/site.css?v=10">
 <script type="importmap">{ "imports": { "three": "../atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
@@ -24,76 +24,90 @@
   </nav>
 </header>
 
-<nav class="rail" aria-label="İçindekiler">
-  <ol>
-    <li><a href="#dosya"><span class="n">01</span>Başlangıç dosyaları</a></li>
-    <li><a href="#adim"><span class="n">02</span>Adımlar</a></li>
-    <li><a href="#soru"><span class="n">03</span>Yanıtlanacak sorular</a></li>
-    <li><a href="#teslim"><span class="n">04</span>Teslim ve tamamlanma ölçütleri</a></li>
-    <li><a href="#ileri"><span class="n">05</span>İleri görev</a></li>
-    <li><a href="#sorun"><span class="n">06</span>Sık karşılaşılan sorunlar</a></li>
-    <li><a href="#final"><span class="n">07</span>Final projesine taşı</a></li>
-  </ol>
-</nav>
+<nav class="rail" aria-label="İçindekiler"><ol>
+    <li><a href="#hazirlik"><span class="n">0</span>Hazırlık</a></li>
+    <li><a href="#kur"><span class="n">1</span>Sahneyi kurun</a></li>
+    <li><a href="#hareket"><span class="n">2</span>Hareket ettirin</a></li>
+    <li><a href="#kamera"><span class="n">3</span>Kamerayla anlatın</a></li>
+    <li><a href="#soru"><span class="n">4</span>Düşünün</a></li>
+    <li><a href="#teslim"><span class="n">✓</span>Teslim</a></li>
+    <li><a href="#sorun"><span class="n">?</span>Takıldığınızda</a></li>
+    <li><a href="#sonraki"><span class="n">→</span>Sonraki adım</a></li>
+</ol></nav>
 <main class="page">
 <div class="titleblock">
   <div class="kicker">6. Hafta · Etkinlik</div>
   <h1>Hiyerarşi, uzay ve kamera</h1>
-  <p class="dek">Nesneleri iç içe gruplamanın bir koordinat sistemi kurmak olduğunu bir araç üzerinde deneyecek, kameranın anlatım gücünü görüş açısı ve paralaksla keşfedeceksiniz.</p>
-  <div class="meta"><span>6. hafta</span><span>60 dk</span><span><a href="../materyaller/hafta-06.html">Ders notu</a></span></div>
+  <div class="meta"><span>60 dk</span><span>Bireysel</span><span><a href="../materyaller/hafta-06.html">6. hafta ders notu</a></span></div>
 </div>
-<div class="col"><div class="act-card"><div><div class="l">Süre</div><div class="v">60 dk</div></div><div><div class="l">Biçim</div><div class="v">Bireysel</div></div><div><div class="l">Yol</div><div class="v">2B ya da 3B</div></div><div class="wide"><div class="l">Kazanımlar</div><div class="v"><ul><li>Transform'un üç alanını işlevleriyle açıklar.</li><li>Yerel ve dünya uzayı farkını bir örnekle gösterir.</li><li>Orthographic ve Perspective kamerayı yerinde kullanır.</li></ul></div></div><div class="wide"><div class="l">Teslim edilecek</div><div class="v">Çalışan sahne, karşılaştırma ekran görüntüleri ve iki sorunun yanıtı.</div></div><div class="wide"><div class="l">Önce</div><div class="v"><a href="../materyaller/hafta-06.html">6. hafta ders notu</a></div></div></div></div>
+<div class="glance">
+  <div class="glance-top">
+    <div class="glance-l"><div class="lbl">Amaç</div><p class="goal">İç içe nesnelerin bir koordinat sistemi kurduğunu görmek ve kameranın anlatım gücünü denemek.</p><div class="lbl">Bu etkinliğin sonunda</div><ul class="kz"><li>Transform'un üç alanını işlevleriyle açıklar.</li><li>Yerel ve dünya uzayı farkını gösterir.</li><li>Kamerayı konuya uygun biçimde kullanır.</li></ul></div>
+    <div class="glance-r">
+      <div class="fact"><span class="lbl">Süre</span><span class="v"><b>60 dk</b></span></div>
+      <div class="fact"><span class="lbl">Biçim</span><span class="v">Bireysel</span></div>
+      <div class="fact"><span class="lbl">Yol</span><span class="v">2B ya da 3B</span></div>
+      <div class="fact"><span class="lbl">Teslim</span><span class="v chipset"><span class="fchip">H06_Soyad_Ad.pdf</span></span></div>
+    </div>
+  </div>
+  <div class="glance-flow"><div class="row"><span class="lbl" style="margin:0">Akış</span><div class="yolsec" data-tabs="yol"><span>Yolunuz:</span><div class="tab-bar"><button type="button" data-tab="2B">2B</button><button type="button" data-tab="3B">3B</button></div></div></div><div class="flow"><a href="#kur" style="flex-grow:20"><span class="n">BÖLÜM 1</span><span class="t">Sahneyi kurun</span><span class="d">20 dk</span></a><a href="#hareket" style="flex-grow:15"><span class="n">BÖLÜM 2</span><span class="t">Hareket ettirin</span><span class="d">15 dk</span></a><a href="#kamera" style="flex-grow:15"><span class="n">BÖLÜM 3</span><span class="t">Kamerayla anlatın</span><span class="d">15 dk</span></a><a href="#soru" style="flex-grow:10"><span class="n">BÖLÜM 4</span><span class="t">Düşünün</span><span class="d">10 dk</span></a></div></div>
+</div>
+<section class="sec" id="hazirlik"><div class="part-head"><span class="part-no alt">0</span><div><span class="kick">Derse gelmeden</span><h2>Hazırlık</h2></div><span></span></div><div class="col"><p class="part-intro">Başlamadan önce:</p><ul><li><a href="../materyaller/hafta-06.html">6. hafta ders notu</a></li></ul><div class="files"><div class="files-head"><span><b>Başlangıç dosyaları</b> · telifsiz, bu ders için üretildi</span><a class="btn btn-solid" href="dosyalar/hafta06.zip" download>Hepsini indir (hafta06.zip)</a></div><div class="files-grid"><a class="file" href="dosyalar/hafta06/arkaplan_uzak.png" download><div class="thumb"><img src="dosyalar/onizleme/arkaplan_uzak.png" alt="arkaplan_uzak.png" loading="lazy"></div><span class="n">arkaplan_uzak.png</span><span class="d">2B: gökyüzü ve dağlar</span></a><a class="file" href="dosyalar/hafta06/arkaplan_orta.png" download><div class="thumb"><img src="dosyalar/onizleme/arkaplan_orta.png" alt="arkaplan_orta.png" loading="lazy"></div><span class="n">arkaplan_orta.png</span><span class="d">2B: tepeler</span></a><a class="file" href="dosyalar/hafta06/arkaplan_yakin.png" download><div class="thumb"><img src="dosyalar/onizleme/arkaplan_yakin.png" alt="arkaplan_yakin.png" loading="lazy"></div><span class="n">arkaplan_yakin.png</span><span class="d">2B: ağaçlar</span></a><a class="file" href="dosyalar/hafta06/Paralaks.cs" download><div class="thumb code">C#</div><span class="n">Paralaks.cs</span><span class="d">2B: katmanı kameraya oranla izletir</span></a><a class="file" href="dosyalar/hafta06/KameraKaydir.cs" download><div class="thumb code">C#</div><span class="n">KameraKaydir.cs</span><span class="d">2B: kamerayı ok tuşlarıyla kaydırır</span></a><a class="file" href="dosyalar/hafta06/TasitHareket.cs" download><div class="thumb code">C#</div><span class="n">TasitHareket.cs</span><span class="d">3B: aracı sürer, uzay seçilebilir</span></a></div></div></div></section><section class="sec" id="kur"><div class="part-head"><span class="part-no">1</span><div><span class="kick">Bölüm 1</span><h2>Sahneyi kurun</h2></div><span class="part-dk">20 dk</span></div><div class="col"><div class="tabs" data-tabs="yol"><div class="tab-bar"><button type="button" data-tab="2B">2B yolu</button><button type="button" data-tab="3B">3B yolu</button></div><div class="tab-panel" data-tab="2B"><div class="steps-prog" data-for="h06-kur-2b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 3</b></div><ol class="steps" data-key="h06-kur-2b"><li><div class="st-t"><span>Katmanlar</span></div><p>Üç görseli içe aktarın (<i>PPU</i> 32, <i>Filter Mode</i> Bilinear; bunlar piksel sanatı değil) ve sahneye koyun, Position (0, 0, 0).</p></li><li><div class="st-t"><span>Sıralama</span></div><p>Z'ye dokunmayın; 2B'de önde olanı sıralama belirler:</p><div class="set"><span class="k">uzak</span><span class="v">Order in Layer −30</span><span class="k">orta</span><span class="v">Order in Layer −20</span><span class="k">yakın</span><span class="v">Order in Layer −10</span></div><div class="kontrol"><b>Kontrol:</b> Dağlar arkada, ağaçlar önde.</div></li><li><div class="st-t"><span>Kamera boyutu</span></div><p>Main Camera: <i>Projection</i> Orthographic. <i>Size</i>'ı 3, 4,2 ve 8 yapıp karşılaştırın; 4,2'de bırakın.</p><div class="kontrol"><b>Kontrol:</b> Görsel ekranı dolduruyor (270 piksel ÷ 32 PPU = 8,4 birim; Size bunun yarısı).</div></li></ol></div><div class="tab-panel" data-tab="3B"><div class="steps-prog" data-for="h06-kur-3b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 2</b></div><ol class="steps" data-key="h06-kur-3b"><li><div class="st-t"><span>Araç</span></div><p><span class="mp">GameObject<i>›</i>Create Empty</span>: <code>Arac</code>, Position (0, 0,5, 0). Altına çocuk olarak:</p><div class="set"><span class="k">Govde (Cube)</span><span class="v">Scale 1,4 × 0,5 × 2,4</span><span class="k">4 × Teker (Cylinder)</span><span class="v">Scale 0,6 × 0,1 × 0,6, Rotation Z 90</span></div><p>Tekerlekleri gövdenin köşelerine yerleştirin.</p><div class="kontrol"><b>Kontrol:</b> Arac'ın altında beş çocuk var.</div></li><li><div class="st-t"><span>Ebeveyni döndürün</span></div><p>Yalnızca <code>Arac</code>'ın Rotation Y'sini değiştirin ve bir tekerleğin Inspector'daki Position değerine bakın.</p><div class="kontrol"><b>Kontrol:</b> Araç bütün hâlde dönüyor; tekerleğin yerel Position'ı hiç değişmiyor.</div></li></ol></div></div></div></section><section class="sec" id="hareket"><div class="part-head"><span class="part-no">2</span><div><span class="kick">Bölüm 2</span><h2>Hareket ettirin</h2></div><span class="part-dk">15 dk</span></div><div class="col"><div class="tabs" data-tabs="yol"><div class="tab-bar"><button type="button" data-tab="2B">2B yolu</button><button type="button" data-tab="3B">3B yolu</button></div><div class="tab-panel" data-tab="2B"><div class="steps-prog" data-for="h06-hareket-2b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 2</b></div><ol class="steps" data-key="h06-hareket-2b"><li><div class="st-t"><span>Paralaks</span></div><p>Üç katmana <code>Paralaks.cs</code> ekleyin:</p><div class="set"><span class="k">uzak</span><span class="v">Oran 0,9</span><span class="k">orta</span><span class="v">Oran 0,6</span><span class="k">yakın</span><span class="v">Oran 0,3</span></div><p>Main Camera'ya <code>KameraKaydir.cs</code>. ▶ ve ok tuşları.</p><div class="kontrol"><b>Kontrol:</b> Dağlar yavaş, ağaçlar hızlı kayıyor.</div></li><li><div class="st-t"><span>Uç değerler</span></div><p>Üç oranı önce 0, sonra 1 yapın. Oranı 1'e yakın bir katman neden uzakta görünüyor?</p></li></ol><div class="code-label">Paralaks.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
 
-<section class="sec" id="dosya">
-  <div class="sec-head"><span class="sec-no">01</span><h2>Başlangıç dosyaları</h2></div>
-<div class="col">
-<div class="files"><div class="files-head"><span><b>Başlangıç dosyaları</b> · telifsiz, bu ders için üretildi</span><a class="btn btn-solid" href="dosyalar/hafta06.zip" download>Hepsini indir (hafta06.zip)</a></div><div class="files-grid"><a class="file" href="dosyalar/hafta06/arkaplan_uzak.png" download><div class="thumb"><img src="dosyalar/onizleme/arkaplan_uzak.png" alt="arkaplan_uzak.png" loading="lazy"></div><span class="n">arkaplan_uzak.png</span><span class="d">Gökyüzü ve dağlar, 480 × 270</span></a><a class="file" href="dosyalar/hafta06/arkaplan_orta.png" download><div class="thumb"><img src="dosyalar/onizleme/arkaplan_orta.png" alt="arkaplan_orta.png" loading="lazy"></div><span class="n">arkaplan_orta.png</span><span class="d">Tepeler (saydam)</span></a><a class="file" href="dosyalar/hafta06/arkaplan_yakin.png" download><div class="thumb"><img src="dosyalar/onizleme/arkaplan_yakin.png" alt="arkaplan_yakin.png" loading="lazy"></div><span class="n">arkaplan_yakin.png</span><span class="d">Ağaçlar (saydam)</span></a><a class="file" href="dosyalar/hafta06/Paralaks.cs" download><div class="thumb code">C#</div><span class="n">Paralaks.cs</span><span class="d">Katmanı kameranın hareketinin bir oranında izletir</span></a><a class="file" href="dosyalar/hafta06/KameraKaydir.cs" download><div class="thumb code">C#</div><span class="n">KameraKaydir.cs</span><span class="d">Kamerayı ok tuşlarıyla kaydırır</span></a><a class="file" href="dosyalar/hafta06/TasitHareket.cs" download><div class="thumb code">C#</div><span class="n">TasitHareket.cs</span><span class="d">Aracı sürer; uzay seçilebilir</span></a></div><div style="padding:0 1.1rem 1rem;font-size:.84rem;color:var(--ink-2)">2B yolu ilk dördünü ve KameraKaydir'ı, 3B yolu TasitHareket'i kullanır.</div></div>
-</div>
-</section>
-<section class="sec" id="adim">
-  <div class="sec-head"><span class="sec-no">02</span><h2>Adımlar</h2></div>
-<div class="col">
-<div class="tabs" data-tabs="yol"><div class="tab-bar"><button type="button" data-tab="2B">2B yolu</button><button type="button" data-tab="3B">3B yolu</button></div><span class="tab-hint">Kendi yolunuzu seçin; seçiminiz bütün etkinlik sayfalarında hatırlanır.</span><div class="tab-panel" data-tab="2B"><div class="steps-prog" data-for="h06-2b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 5</b></div><ol class="steps" data-key="h06-2b"><li><div class="st-t"><span>Katmanları içe aktarın</span></div><p>Üç arka plan görselini içe aktarın: PPU 32, Filter Mode Bilinear (bunlar piksel sanatı değil). Üçünü de sahneye koyun, Position (0, 0, 0).</p></li><li><div class="st-t"><span>Sıralama</span></div><p>Sprite Renderer'larda <i>Order in Layer</i>: uzak −30, orta −20, yakın −10. Z değerine dokunmayın: 2B'de önde olanı sıralama belirler.</p><div class="kontrol"><b>Kontrol:</b> Dağlar arkada, ağaçlar önde görünüyor.</div></li><li><div class="st-t"><span>Kamera boyutu</span></div><p>Main Camera'yı seçin: <i>Projection</i> Orthographic. <i>Size</i> değerini 3, 4,2 ve 8 yapıp karşılaştırın. Görselin ekranı dolduracağı değeri bırakın (yaklaşık 4,2: görsel 270 piksel / 32 PPU = 8,4 birim yüksek; Size ekranın yarı yüksekliği).</p></li><li><div class="st-t"><span>Paralaks</span></div><p>Üç katmana <code>Paralaks.cs</code> ekleyin. <i>Oran</i>: uzak 0,9, orta 0,6, yakın 0,3. Main Camera'ya <code>KameraKaydir.cs</code> ekleyin. ▶ ile ok tuşlarına basın.</p><div class="kontrol"><b>Kontrol:</b> Dağlar çok yavaş, tepeler orta hızda, ağaçlar hızlı kayıyor.</div></li><li><div class="st-t"><span>Deney</span></div><p>Üç katmanın oranını da 0 yapın, sonra 1 yapın. Ne oluyor? Oranı 1'e yakın bir katman neden “uzakta” görünüyor?</p></li></ol></div><div class="tab-panel" data-tab="3B"><div class="steps-prog" data-for="h06-3b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 6</b></div><ol class="steps" data-key="h06-3b"><li><div class="st-t"><span>Araç hiyerarşisi</span></div><p>Boş bir nesne oluşturun: <code>Arac</code>, Position (0, 0.5, 0). Altına çocuk olarak bir küp (<code>Govde</code>, Scale 1,4 × 0,5 × 2,4) ve dört silindir (<code>Teker_OnSol</code> vb., Scale 0,6 × 0,1 × 0,6, Rotation Z 90) ekleyin. Tekerlekleri gövdenin köşelerine yerleştirin.</p><div class="kontrol"><b>Kontrol:</b> Hierarchy'de Arac'ın altında beş çocuk var.</div></li><li><div class="st-t"><span>Ebeveyni döndürün</span></div><p>Yalnızca <code>Arac</code>'ı seçip Rotation Y değerini değiştirin. Tekerleklerin Inspector'daki Position değerlerine bakın: değişiyor mu?</p><div class="kontrol"><b>Kontrol:</b> Araç bütün hâlde dönüyor; tekerleklerin yerel Position değerleri hiç değişmiyor.</div></li><li><div class="st-t"><span>Sürün</span></div><p><code>Arac</code>'a <code>TasitHareket.cs</code> ekleyin. Zemine bir düzlem koyun. ▶ ile ok tuşlarıyla sürün.</p></li><li><div class="st-t"><span>Uzayı değiştirin</span></div><p>Oyunu durdurup <i>Uzay</i> alanını <b>World</b> yapın, tekrar sürün. Aracı 90° döndürüp ileri basın. Fark ne?</p><div class="kontrol"><b>Kontrol:</b> World'de araç nereye dönük olursa olsun sahnenin ileri yönüne kayıyor.</div></li><li><div class="st-t"><span>Kamera araca bağlı</span></div><p>Main Camera'yı Arac'ın çocuğu yapın; aracın arkasına ve biraz yukarısına yerleştirin. Artık kamera aracı izliyor, hiç kod yazmadan.</p></li><li><div class="st-t"><span>Görüş açısı</span></div><p>Kameranın <i>Field of View</i> değerini 30, 60 ve 100 yapıp her birinde ekran görüntüsü alın.</p></li></ol></div></div>
-</div>
-</section>
-<section class="sec" id="soru">
-  <div class="sec-head"><span class="sec-no">03</span><h2>Yanıtlanacak sorular</h2></div>
-<div class="col">
-<div class="sheet" data-key="h06-soru"><div class="sheet-head"><b>Uzay ve kamera</b><div class="acts"><span class="saved"></span><button type="button" class="btn" data-act="clear">Temizle</button><button type="button" class="btn btn-solid" data-act="print">Yazdır / PDF</button></div></div><div class="sheet-body"><label class="f"><span>Ebeveyn dönerken çocuğun yerel konumu neden değişmedi?</span><textarea name="s1" rows="3"></textarea></label><label class="f"><span>2B: paralaks oranı neden uzaklık izlenimi veriyor? 3B: FOV 100'de ne tür bir bozulma gördünüz?</span><textarea name="s2" rows="3"></textarea></label><label class="f"><span>Kendi konunuzda kamera serbest mi olmalı, sabit mi? Neden?</span><textarea name="s3" rows="3"></textarea></label></div></div>
-</div>
-</section>
-<section class="sec" id="teslim">
-  <div class="sec-head"><span class="sec-no">04</span><h2>Teslim ve tamamlanma ölçütleri</h2></div>
-<div class="col">
-<ul class="crit"><li>2B: üç katman doğru sırada; paralaks çalışıyor ve oranlar uzaklığa göre seçilmiş. 3B: araç iç içe nesnelerden kurulmuş ve sürülebiliyor.</li><li>3B: Space.Self ile Space.World farkı gösterilebiliyor; üç FOV ekran görüntüsü var.</li><li>Üç soru yanıtlanmış.</li></ul>
-</div>
-</section>
-<section class="sec" id="ileri">
-  <div class="sec-head"><span class="sec-no">05</span><h2>İleri görev</h2></div>
-<div class="col">
-<p>2B: <code>Paralaks.cs</code>'yi, katmanın kameranın genişliğini aştığında kendini yeniden konumlandırıp sonsuz tekrar eden bir arka plan olacak biçimde geliştirin. 3B: aracın ön tekerleklerinin, sağa-sola dönüşte yönlendirilmesini sağlayın (yalnızca ön tekerleklerin yerel Rotation Y'si).</p>
-</div>
-</section>
-<section class="sec" id="sorun">
-  <div class="sec-head"><span class="sec-no">06</span><h2>Sık karşılaşılan sorunlar</h2></div>
-<div class="col">
-<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Sorun</th><th>Çözüm</th></tr></thead><tbody><tr><td class="k"><code>NullReferenceException</code>: hareket ya da FindAction satırında</td><td>Projede proje çapında eylemler tanımlı değil. <i>Edit → Project Settings → Input System Package</i>'da <i>Project-wide Actions</i> alanında <code>InputSystem_Actions</code> seçili olmalı. Universal şablonlarında hazır gelir.</td></tr><tr><td class="k">Tekerlekler dönünce garip biçimde uzuyor</td><td>Gövdenin Scale'i 1'den farklıysa çocuklar da o ölçekle çarpılır. Tekerlekleri gövdenin değil Arac'ın çocuğu yapın.</td></tr><tr><td class="k">Paralaks katmanı kameradan kaçıyor</td><td>Katmanın Z konumu kameranın önünde (0) olmalı; kameranın Z'si −10.</td></tr></tbody></table></div>
-</div>
-</section>
-<section class="sec" id="final">
-  <div class="sec-head"><span class="sec-no">07</span><h2>Final projesine taşı</h2></div>
-<div class="col">
-<p>Tasarım belgenize kamera kararınızı ekleyin: sabit mi, oyuncuyu izleyen mi, öğrencinin döndürebildiği mi? Bu karar, öğrenmenin nereye odaklanacağını belirler.</p>
-</div>
-</section>
+<span class="c">// Katmanı kameranın hareketinin belirli bir oranında izletir.</span>
+<span class="c">// Oran 1: katman kamerayla birlikte gider, ekranda sabit durur (çok uzak).</span>
+<span class="c">// Oran 0: katman dünyada sabittir, ekranda kamera hızıyla kayar (çok yakın).</span>
+<span class="k">public</span> <span class="k">class</span> Paralaks : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">Transform</span> kamera;
+    [<span class="t">SerializeField</span>, Range(<span class="n">0f</span>, <span class="n">1f</span>)] <span class="k">private</span> <span class="k">float</span> oran = <span class="n">0.5f</span>;
 
-<div class="col"><div class="pager">
-  <a class="prev" href="hafta-05.html"><small>Önceki etkinlik</small>5. Bir öğretim mekânı</a>
-  <a class="next" href="hafta-07.html"><small>Sonraki etkinlik</small>7. Karakteri yürüt</a>
-</div></div>
+    <span class="k">private</span> <span class="t">Vector3</span> baslangic;
+    <span class="k">private</span> <span class="t">Vector3</span> kameraBaslangic;
+
+    <span class="k">void</span> Start()
+    {
+        <span class="k">if</span> (kamera == <span class="k">null</span>) kamera = <span class="t">Camera</span>.main.transform;
+        baslangic = transform.position;
+        kameraBaslangic = kamera.position;
+    }
+
+    <span class="k">void</span> LateUpdate()
+    {
+        <span class="t">Vector3</span> fark = kamera.position - kameraBaslangic;
+        transform.position = <span class="k">new</span> <span class="t">Vector3</span>(baslangic.x + fark.x * oran, baslangic.y + fark.y * oran, baslangic.z);
+    }
+}</pre></div><div class="tab-panel" data-tab="3B"><div class="steps-prog" data-for="h06-hareket-3b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 2</b></div><ol class="steps" data-key="h06-hareket-3b"><li><div class="st-t"><span>Sürün</span></div><p>Zemine bir Plane koyun. <code>Arac</code>'a <code>TasitHareket.cs</code>. ▶ ve ok tuşları.</p></li><li><div class="st-t"><span>Uzayı değiştirin</span></div><p>Durdurup <i>Uzay</i>'ı <b>World</b> yapın, aracı 90° döndürüp ileri basın.</p><div class="kontrol"><b>Kontrol:</b> World'de araç nereye bakarsa baksın sahnenin ileri yönüne kayıyor.</div></li></ol><div class="code-label">TasitHareket.cs</div>
+<pre class="code"><span class="k">using</span> UnityEngine;
+<span class="k">using</span> UnityEngine.<span class="t">InputSystem</span>;
+
+<span class="c">// Aracı ileri/geri sürer ve sağa/sola döndürür.</span>
+<span class="c">// &quot;Uzay&quot; alanını Inspector&#x27;dan Self ya da World yaparak farkı deneyin.</span>
+<span class="k">public</span> <span class="k">class</span> TasitHareket : <span class="t">MonoBehaviour</span>
+{
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> hiz = <span class="n">6f</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="k">float</span> donusHizi = <span class="n">90f</span>;
+    [<span class="t">SerializeField</span>] <span class="k">private</span> <span class="t">Space</span> uzay = <span class="t">Space</span>.Self;
+
+    <span class="k">private</span> <span class="t">InputAction</span> hareket;
+
+    <span class="k">void</span> Start()
+    {
+        hareket = <span class="t">InputSystem</span>.actions.FindAction(<span class="s">&quot;Move&quot;</span>);
+    }
+
+    <span class="k">void</span> Update()
+    {
+        <span class="t">Vector2</span> girdi = hareket.ReadValue&lt;<span class="t">Vector2</span>&gt;();
+        transform.Rotate(<span class="n">0f</span>, girdi.x * donusHizi * <span class="t">Time</span>.deltaTime, <span class="n">0f</span>, <span class="t">Space</span>.Self);
+        transform.Translate(<span class="t">Vector3</span>.forward * girdi.y * hiz * <span class="t">Time</span>.deltaTime, uzay);
+    }
+}</pre></div></div></div></section><section class="sec" id="kamera"><div class="part-head"><span class="part-no">3</span><div><span class="kick">Bölüm 3</span><h2>Kamerayla anlatın</h2></div><span class="part-dk">15 dk</span></div><div class="col"><div class="tabs" data-tabs="yol"><div class="tab-bar"><button type="button" data-tab="2B">2B yolu</button><button type="button" data-tab="3B">3B yolu</button></div><div class="tab-panel" data-tab="2B"><div class="steps-prog" data-for="h06-kamera-2b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 1</b></div><ol class="steps" data-key="h06-kamera-2b"><li><div class="st-t"><span>Takip</span></div><p>Kamerayı oyuncuyu izleyecek biçimde kaydırın; katmanların hızlarının derinlik hissini nasıl kurduğunu izleyin.</p></li></ol></div><div class="tab-panel" data-tab="3B"><div class="steps-prog" data-for="h06-kamera-3b"><span>İlerleme</span><div class="bar"><i></i></div><b>0 / 2</b></div><ol class="steps" data-key="h06-kamera-3b"><li><div class="st-t"><span>Kamera araca bağlı</span></div><p>Main Camera'yı Arac'ın çocuğu yapın, arkaya ve biraz yukarıya yerleştirin: kod yazmadan takip eden kamera.</p></li><li><div class="st-t"><span>Görüş açısı</span></div><p><i>Field of View</i>'ı 30, 60 ve 100 yapıp her birinde ekran görüntüsü alın.</p></li></ol></div></div></div></section><section class="sec" id="soru"><div class="part-head"><span class="part-no">4</span><div><span class="kick">Bölüm 4</span><h2>Düşünün</h2></div><span class="part-dk">10 dk</span></div><div class="col"><div class="sheet" data-key="h06-soru"><div class="sheet-head"><b>Uzay ve kamera</b><div class="acts"><span class="saved"></span><button type="button" class="btn" data-act="clear">Temizle</button><button type="button" class="btn btn-solid" data-act="print">Yazdır / PDF</button></div></div><div class="sheet-body"><label class="f"><span>Ebeveyn dönerken çocuğun yerel konumu neden değişmedi?</span><textarea name="s1" rows="3"></textarea></label><label class="f"><span>2B: paralaks oranı neden uzaklık izlenimi veriyor? · 3B: FOV 100'de ne tür bir bozulma gördünüz?</span><textarea name="s2" rows="3"></textarea></label><label class="f"><span>Kendi konunuzda kamera serbest mi olmalı, sabit mi? Neden?</span><textarea name="s3" rows="3"></textarea></label></div></div></div></section><section class="sec" id="teslim"><div class="part-head"><span class="part-no alt">✓</span><div><span class="kick">Bitirirken</span><h2>Teslim ve kontrol listesi</h2></div><span></span></div><div class="col"><div class="deliver"><div class="lbl">Teslim edilecek tek dosya</div><div class="fn">H06_Soyad_Ad.pdf</div><ul><li>2B: paralaks sahnesinin görüntüsü · 3B: üç FOV görüntüsü</li><li>Üç sorunun yanıtı</li></ul></div><p class="part-intro">Teslim etmeden önce listeyi işaretleyin:</p><ul class="checklist" data-key="h06"><li><span>2B: üç katman doğru sırada, paralaks oranları uzaklığa göre seçildi. 3B: araç iç içe nesnelerden kuruldu ve sürülebiliyor.</span></li><li><span>Yerel ve dünya uzayının farkını kendi sahnemde gösterebiliyorum.</span></li><li><span>Üç soru yanıtlandı.</span></li></ul></div></section><section class="sec" id="sorun"><div class="part-head"><span class="part-no alt">?</span><div><span class="kick">Sorun giderme</span><h2>Takıldığınızda</h2></div><span></span></div><div class="col"><div class="trouble"><details><summary><code>NullReferenceException</code> FindAction satırında</summary><div><span class="mp">Edit<i>›</i>Project Settings<i>›</i>Input System Package</span> altında <i>Project-wide Actions</i> alanında <code>InputSystem_Actions</code> seçili olmalı.</div></details><details><summary>Tekerlekler dönünce uzuyor</summary><div>Gövdenin Scale'i çocuklara da uygulanır. Tekerlekleri gövdenin değil Arac'ın çocuğu yapın.</div></details><details><summary>Paralaks katmanı görünmüyor</summary><div>Katmanların Z'si 0, kameranınki −10 olmalı.</div></details></div></div></section><section class="sec" id="sonraki"><div class="part-head"><span class="part-no alt">→</span><div><span class="kick">Etkinlikten sonra</span><h2>Sonraki adım</h2></div><span></span></div><div class="col"><div class="next"><div class="acc"><h4>Final projenize taşıyın</h4><p>Tasarım belgenize kamera kararınızı ekleyin: sabit mi, oyuncuyu izleyen mi, öğrencinin döndürebildiği mi? Bu karar öğrencinin neye bakacağını belirler.</p></div><div class="warm"><h4>İleri görev</h4><p>2B: <code>Paralaks.cs</code>'yi kamera katmanın genişliğini aşınca katmanı yeniden konumlandıran sonsuz bir arka plana çevirin. 3B: ön tekerlekleri dönüş yönüne göre yönlendirin.</p></div></div></div></section>
+<div class="col"><div class="pager"><a class="prev" href="hafta-05.html"><small>Önceki etkinlik</small>5. Bir öğretim mekânı</a><a class="next" href="hafta-07.html"><small>Sonraki etkinlik</small>7. Karakteri yürüt</a></div></div>
 </main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="../">Giriş</a> · <a href="../materyaller/">Haftalık materyaller</a> · <a href="./">Etkinlikler</a> · <a href="../atolye/">Atölye</a></footer>
-<script type="module" src="../js/site.js?v=8"></script>
+<script type="module" src="../js/site.js?v=10"></script>
 </body>
 </html>

@@ -56,17 +56,47 @@ document.querySelectorAll('ol.steps[data-key]').forEach((ol) => {
   paint();
 });
 
+
+/* ---------- etkinlik: teslim kontrol listesi ---------- */
+document.querySelectorAll('ul.checklist[data-key]').forEach((ul) => {
+  const key = 'emt_liste_' + ul.dataset.key;
+  let done = store.get(key, []);
+  const items = [...ul.children];
+  const paint = () => items.forEach((li, i) => { li.classList.toggle('done', done.includes(i)); li.querySelector('input').checked = done.includes(i); });
+  items.forEach((li, i) => {
+    const cb = document.createElement('input'); cb.type = 'checkbox';
+    li.prepend(cb);
+    li.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') return;
+      if (e.target !== cb) cb.checked = !cb.checked;
+      done = cb.checked ? [...new Set([...done, i])] : done.filter((x) => x !== i);
+      store.set(key, done); paint();
+    });
+  });
+  paint();
+});
+
 /* ---------- etkinlik: 2B / 3B sekmeleri (seçim sayfalar arasında hatırlanır) ---------- */
-const tabGroups = [...document.querySelectorAll('.tabs[data-tabs]')];
+const tabGroups = [...document.querySelectorAll('.tabs[data-tabs], .yolsec[data-tabs]')];
 if (tabGroups.length) {
   const setTab = (v, save) => {
     tabGroups.forEach((g) => {
       g.querySelectorAll('.tab-bar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === v));
       g.querySelectorAll('.tab-panel').forEach((p) => p.classList.toggle('on', p.dataset.tab === v));
     });
+    // ders notu: seçilmeyen yolun bölümü katlanır, akışta ve içindekilerde soluklaşır
+    document.querySelectorAll('section[data-yol]').forEach((s) => {
+      s.classList.toggle('yol-diger', s.dataset.yol !== v);
+      s.classList.remove('acik');
+      document.querySelectorAll(`.flow a[href="#${s.id}"], .rail a[href="#${s.id}"]`).forEach((a) => a.classList.toggle('soluk', s.dataset.yol !== v));
+    });
     if (save) store.set('emt_yol', v);
   };
   tabGroups.forEach((g) => g.querySelectorAll('.tab-bar button').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.tab, true))));
+  document.querySelectorAll('section[data-yol]').forEach((s) => {
+    s.querySelector('[data-goster]')?.addEventListener('click', () => s.classList.add('acik'));
+    s.querySelector('[data-yolgec]')?.addEventListener('click', (e) => { setTab(e.currentTarget.dataset.yolgec, true); s.scrollIntoView({ block: 'start' }); });
+  });
   setTab(store.get('emt_yol', '2B'), false);
 }
 
@@ -81,13 +111,13 @@ document.querySelectorAll('.sheet[data-key]').forEach((sh) => {
   sh.addEventListener('input', () => {
     clearTimeout(tmr);
     tmr = setTimeout(() => {
-      const d = {}; fields.forEach((f) => (d[f.name] = f.value)); store.set(key, d);
+      const d = store.get(key, {}); fields.forEach((f) => (d[f.name] = f.value)); store.set(key, d);
       if (saved) saved.textContent = 'Bu tarayıcıda kaydedildi';
     }, 300);
   });
   sh.querySelector('[data-act=clear]')?.addEventListener('click', () => {
     if (!confirm('Bu formdaki bütün yazılar silinsin mi?')) return;
-    fields.forEach((f) => (f.value = f.tagName === 'SELECT' ? f.options[0].value : '')); store.set(key, {});
+    const d = store.get(key, {}); fields.forEach((f) => { f.value = f.tagName === 'SELECT' ? f.options[0].value : ''; delete d[f.name]; }); store.set(key, d);
     if (saved) saved.textContent = 'Temizlendi';
   });
   sh.querySelector('[data-act=print]')?.addEventListener('click', () => {
