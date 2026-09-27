@@ -6,12 +6,12 @@
 <title>Derse Giriş · Eğitimde Modelleme ve Tasarım</title>
 <meta name="description" content="Eğitimde Modelleme ve Tasarım dersinin etkileşimli giriş dersi: model ve modelleme, oyun motorları, 2B ve 3B, içsel ve dışsal bütünleşme, dönem planı ve değerlendirme.">
 <meta property="og:title" content="Derse Giriş · Eğitimde Modelleme ve Tasarım">
-<meta property="og:description" content="Etkileşimli 1. hafta ders notu ve ders akışı.">
+<meta property="og:description" content="Etkileşimli 1. hafta ders notu.">
 <meta property="og:image" content="https://ugursirvermez.github.io/GameEngineStudio/cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=6">
+<link rel="stylesheet" href="css/site.css?v=7">
 <script type="importmap">{ "imports": { "three": "./atolye/vendor/three.module.min.js" } }</script>
 </head>
 <body>
@@ -23,7 +23,6 @@
     <a href="./" aria-current="page">Giriş</a>
     <a href="materyaller/">Haftalık materyaller</a>
     <a href="atolye/">Atölye</a>
-    <button class="btn" id="modeBtn" type="button">Sunum görünümü</button>
   </nav>
 </header>
 
@@ -51,7 +50,6 @@
 
 <nav class="rail hidden" aria-label="İçindekiler">
   <ol>
-    <li class="hoca-only"><a href="#akis"><span class="n">0</span>Ders akışı</a></li>
     <li><a href="#amac"><span class="n">1</span>Dersin amacı</a></li>
     <li><a href="#model"><span class="n">2</span>Model ve modelleme</a></li>
     <li><a href="#motor"><span class="n">3</span>Oyun motorları</a></li>
@@ -67,42 +65,6 @@
 
 <main class="page">
 
-<!-- ===================================================== 0 -->
-<section class="sec hoca-only" id="akis">
-  <div class="sec-head">
-    <span class="sec-no">00 · Eğitmen için</span>
-    <h2>Ders akışı</h2>
-    <p class="sub">Bu sayfa, ilk haftayı yürütecek öğretim elemanı için hazırlandı. Bölümlerin arasındaki <b>Eğitmen notu</b> kutuları ders sırasında ne yapılacağını anlatır. Sınıfta yansıtırken sağ üstteki <b>Sunum görünümü</b> düğmesine basın: notlar ve bu bölüm gizlenir, yazı büyür.</p>
-  </div>
-  <div class="col">
-    <div class="timer" id="timer">
-      <div class="timer-top">
-        <div><div class="timer-clock">00:00</div><div class="timer-now"></div></div>
-        <div style="display:flex;gap:.5rem"><button class="btn btn-solid" data-act="start" type="button">Dersi başlat</button><button class="btn" data-act="reset" type="button">Sıfırla</button></div>
-      </div>
-      <div class="timer-bar">
-        <button class="timer-seg" data-min="10" data-target="amac" type="button"><i></i><span>Açılış</span><small>10 dk</small></button>
-        <button class="timer-seg" data-min="15" data-target="model" type="button"><i></i><span>Model</span><small>15 dk</small></button>
-        <button class="timer-seg" data-min="15" data-target="motor" type="button"><i></i><span>Oyun motoru</span><small>15 dk</small></button>
-        <button class="timer-seg" data-min="10" data-target="boyut" type="button"><i></i><span>2B / 3B</span><small>10 dk</small></button>
-        <button class="timer-seg brk" data-min="10" data-target="atolye" type="button"><i></i><span>Teneffüs</span><small>10 dk</small></button>
-        <button class="timer-seg" data-min="15" data-target="atolye" type="button"><i></i><span>Atölye</span><small>15 dk</small></button>
-        <button class="timer-seg" data-min="20" data-target="butunlesme" type="button"><i></i><span>Kesir oyunları</span><small>20 dk</small></button>
-        <button class="timer-seg" data-min="10" data-target="plan" type="button"><i></i><span>Plan, not</span><small>10 dk</small></button>
-        <button class="timer-seg" data-min="5" data-target="hazirlik" type="button"><i></i><span>Kapanış</span><small>5 dk</small></button>
-      </div>
-    </div>
-    <p>Ders 2 × 50 dakika ve arada 10 dakikalık teneffüs olarak planlandı. Zamanlayıcıdaki bir bölüme tıklamak sayfada o bölüme götürür. Zamanlayıcı sayfa yenilense de kaldığı yerden devam eder.</p>
-    <h3>Derse girmeden önce</h3>
-    <ul>
-      <li>Projeksiyon ve internet gerekir. Sayfa Chrome, Edge ya da Firefox'un güncel bir sürümünde açılmalıdır. Sayfayı derse girmeden bir kez baştan sona kaydırıp etkileşimlerin yüklendiğini kontrol edin.</li>
-      <li>Etkileşimlerin çoğu fare ile kullanılır. Öğrencilerin telefonlarından aynı sayfayı açıp birlikte denemeleri mümkündür; bağlantıyı tahtaya yazabilirsiniz.</li>
-      <li>Öğrencilerin bu hafta Unity kurmuş olması beklenmiyor.</li>
-      <li>Ders sonunda yarım A4 boyutunda çıkış kartı toplanacak.</li>
-    </ul>
-  </div>
-</section>
-
 <!-- ===================================================== 1 -->
 <section class="sec" id="amac">
   <div class="sec-head">
@@ -112,7 +74,7 @@
   </div>
   <div class="col">
     <p>Dönem boyunca Unity oyun motoru kullanılarak küçük oyunlar ve benzetimler (simülasyonlar) geliştireceğiz. Unity'yi öğrenmek dersin bir parçası, ama tek hedefi değil. Her çalışmada aynı soru sorulacak: bu ürün hangi öğrenme çıktısını destekliyor ve bunu nasıl yapıyor? Değerlendirme de teknik işlevselliği ve öğretimsel değeri birlikte ölçüyor.</p>
-    <p>Ders geçen yıl yalnızca iki boyutlu projelerle yürütüldü. Bu dönem her konu hem <span class="t2d">2B</span> hem <span class="t3d">3B</span> olarak işlenecek. Vize ve final projesinde iki yoldan birini seçeceksiniz; seçimin konunun gerektirdiğine göre yapılması ve gerekçelendirilmesi bekleniyor.</p>
+    <p>Ders geçen yıl yalnızca iki boyutlu projelerle yürütüldü. Bu dönem her konu hem <span class="t2d">2B</span> hem <span class="t3d">3B</span> olarak işlenecek. Vize ve final projesinde iki yoldan birini seçeceksiniz; seçimin konunun gerektirdiğine göre yapılması ve gerekçelendirilmesi bekleniyor. Sayfanın en üstündeki sahne bu iki yolu gösteriyor.</p>
 
     <h3>Dönem sonunda</h3>
     <ol>
@@ -125,12 +87,6 @@
       <li>Ürününün hangi öğrenme çıktısını nasıl desteklediğini yazılı ve sözlü olarak açıklar.</li>
     </ol>
     <p>Programlama bilgisi beklenmiyor. Kod yazmaya 3. haftada birkaç satırlık örneklerle başlanıyor; kapsamlı ilk kod 7. haftada adım adım yazılıyor.</p>
-
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>10 dk</span></div>
-      <p>Açılışta el kaldırarak iki soru sormak sınıfın düzeyini görmek için yeterli: Daha önce herhangi bir programlama dili kullanan var mı? Unity, Godot, Scratch gibi bir araçla oyun yapmayı deneyen var mı?</p>
-      <p>Programlama bilmeyenlerin çoğunlukta olması beklenen bir durum. Dersin buna göre tasarlandığını açıkça söylemek ilk haftanın kaygısını azaltır. Sayfanın en üstündeki 3B sahneyi kaydırıcıyla bir kez 2B'den 3B'ye geçirmek, dönemin iki yolunu anlatmak için iyi bir açılış olur.</p>
-    </div>
   </div>
 </section>
 
@@ -155,11 +111,7 @@
   </figure>
 
   <div class="col">
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>15 dk</span></div>
-      <p>Kaydırıcıyı yavaşça sona getirin. Çarşı–Kütüphane arası şemada Kütüphane–Hastane kadar uzun görünüyor; gerçekte biri 1 km, diğeri yaklaşık 4 km. Sınıfa sorun: <i>Çarşı'dan Kütüphane'ye metroyla mı gidersiniz, yürüyerek mi? Hangi haritayla karar verirdiniz?</i></p>
-      <p>Ardından: <i>Kendi alanınızdaki derslerde kullanılan bir model söyleyin. Bu model neyi dışarıda bırakıyor?</i> Üç dört örneği tahtaya yazın. Öğrenciler eksikliği çoğunlukla kusur olarak görür; hedef, bunun modelin doğası olduğunu ve neyin bırakılacağının öğretim amacına göre seçildiğini fark ettirmek.</p>
-    </div>
+    <p>Çarşı'dan Kütüphane'ye metroyla mı gidersiniz, yürüyerek mi? Şematik haritaya bakan biri iki durağın arasını, Kütüphane ile Hastane arası kadar uzak sanabilir; gerçekte biri 1 km, diğeri yaklaşık 4 km. Harita bu soruyu yanıtlamak için yapılmadı. Kendi alanınızdaki derslerde kullanılan modelleri düşünün: her biri neyi dışarıda bırakıyor ve bu, öğretim amacı açısından önemli mi?</p>
 
     <h3>Öğretimde kullanılan modeller</h3>
     <div class="tbl-wrap">
@@ -188,7 +140,7 @@
   </figure>
 
   <div class="col">
-    <p>Eğitsel oyunda hedef ve geri bildirim, öğrenme çıktısına bağlanır. Sarkaç oyununu oynayan öğrenci farkında olmadan periyodun ip uzunluğuna ve yerçekimine nasıl bağlı olduğunu keşfetmek zorunda kalıyor: Ay'da aynı periyot için ipi neden bu kadar kısaltmak gerekiyor? Bu bağın nasıl kurulacağı 6. bölümün konusu.</p>
+    <p>Eğitsel oyunda hedef ve geri bildirim, öğrenme çıktısına bağlanır. Sarkaç oyununu oynayan öğrenci, periyodun ip uzunluğuna ve yerçekimine nasıl bağlı olduğunu keşfetmek zorunda kalıyor: Ay'da aynı periyot için ipi neden bu kadar kısaltmak gerekiyor? Bu bağın nasıl kurulacağı 6. bölümün konusu.</p>
   </div>
 </section>
 
@@ -227,14 +179,6 @@
     </div>
     <figcaption>Kırmızı ve yeşil oklar Transform’un gösterimi (Unity’nin sahne penceresindeki gibi); yeşil çerçeve collider’ın sınırı. Nesnenin ne olduğunu bileşen listesi belirliyor.</figcaption>
   </figure>
-
-  <div class="col">
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>15 dk</span></div>
-      <p>Etkileşim 3'te önce 60 FPS'te iki topun birlikte vardığını gösterin, sonra 30 FPS'e geçin. Soru: <i>Arkadaşınızın bilgisayarı sizinkinden yavaşsa ve oyununuz üstteki gibi yazılmışsa ne olur?</i></p>
-      <p>Etkileşim 4'te bileşenleri şu sırayla açın ve her adımda sınıfa ne olacağını tahmin ettirin: Sprite Renderer (görünür oluyor), Rigidbody2D (zeminin içinden düşüyor, çünkü sınırı yok), BoxCollider2D (zemine çarpıp duruyor), PlayerMovement (tuşlarla yönetiliyor). Tuşlarla oynamak için önce tuvale tıklamak gerekiyor.</p>
-    </div>
-  </div>
 </section>
 
 <!-- ===================================================== 4 -->
@@ -265,14 +209,8 @@
       <div class="fig-head"><span class="fig-no">Etkileşim 6</span><span class="fig-title">Bu konu için hangi boyut?</span></div>
       <div data-widget="siniflandir"></div>
     </div>
+    <figcaption>“Kalbin odacıkları” kartının tek bir doğru yanıtı yok: karar, hedeflenen kazanıma bağlı.</figcaption>
   </figure>
-
-  <div class="col">
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>10 dk</span></div>
-      <p>Etkileşim 6'yı sınıfla birlikte yapın: her kart için oylama alıp sonra tıklayın. "Kalbin odacıkları" kartı bilinçli olarak tartışmalı; iki yanıt da kazanıma göre doğru olabilir. Tartışmayı buraya ayırın. Bu bölümün sonunda teneffüs verin.</p>
-    </div>
-  </div>
 </section>
 
 <!-- ===================================================== 5 -->
@@ -288,13 +226,13 @@
       <div class="fig-head"><span class="fig-no">Etkileşim 7</span><span class="fig-title">Atölye</span><a href="atolye/" target="_blank" rel="noopener" style="margin-left:auto;font-size:.8rem">Tam ekran aç ↗</a></div>
       <iframe class="embed" src="atolye/?gomulu=1" title="Oyun Motoru Atölyesi" loading="lazy"></iframe>
     </div>
-    <figcaption>Atölye bu çerçevenin içinde kaydırılarak kullanılabilir. Projeksiyonda daha rahat kullanmak için sağ üstteki bağlantıyla tam ekran açın.</figcaption>
+    <figcaption>Atölye bu çerçevenin içinde kaydırılarak kullanılabilir. Daha rahat kullanmak için sağ üstteki bağlantıyla tam ekran açın.</figcaption>
   </figure>
 
   <div class="col">
     <div class="tbl-wrap">
       <table class="tbl">
-        <thead><tr><th class="num">Aşama</th><th>Yapılan</th><th>Dikkat çekilecek nokta</th></tr></thead>
+        <thead><tr><th class="num">Aşama</th><th>Yapılan</th><th>Dikkat edilecek nokta</th></tr></thead>
         <tbody>
           <tr><td class="num">1</td><td><b>Doku.</b> Bir desen seçilir; düz hâli ve bir yüzeyde tekrarlanışı görülür.</td><td>Doku yalnızca bir görüntüdür.</td></tr>
           <tr><td class="num">2</td><td><b>Materyal.</b> Doku bir yuvaya bırakılır; renk, metaliklik, pürüzlülük değiştirilir.</td><td>Aynı doku farklı ayarlarla farklı bir malzeme gibi görünür.</td></tr>
@@ -305,11 +243,7 @@
         </tbody>
       </table>
     </div>
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>15 dk</span></div>
-      <p>Atölyeyi tam ekran açıp siz yürütün. En çok zamanı 4. aşamaya ayırın: normal haritasını açın, ışığı gezdirin, sınıfa yüzeyin gerçekten pürüzlü olup olmadığını sorun; sonra tel kafes görünümünü açın. Kürenin geometrisinin değişmediğini görmek, 2. bölümdeki "model neyi taklit ediyor" sorusunu somutlaştırır.</p>
-      <p>İnternet sorunu olursa bu bölümü atlayın; atölye 3. ve 4. haftalarda yeniden kullanılacak.</p>
-    </div>
+    <p>4. aşamaya özellikle dikkat edin: normal haritasını açıp ışığı gezdirdiğinizde yüzey pürüzlü görünür; tel kafes görünümünü açtığınızda kürenin geometrisinin hiç değişmediğini görürsünüz. 2. bölümdeki fikrin somut bir örneği: model, gerçekte içermediği bir özelliği yalnızca amaç için yeterli olacak ölçüde taklit ediyor.</p>
   </div>
 </section>
 
@@ -338,12 +272,7 @@
 
     <h3>Grup çalışması</h3>
     <p>Üç dört kişilik gruplar kurun. Her grup kendi alanından bir konu seçip o konu için iki oyun fikri yazar: biri dışsal, biri içsel. Her fikir tek cümle olmalı ve oyuncunun tekrar tekrar yaptığı eylemi anlatmalı. Süre 8 dakika. Örnek konular: besin zinciri, zaman kipleri, iklim bölgeleri, basit elektrik devreleri.</p>
-
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>20 dk</span></div>
-      <p>Önce iki oyunu projeksiyonda birer seviye oynayın; sınıftan bir gönüllü de oynayabilir. Oyun B'nin 3. seviyesi (2/3'ü altıda birlerle bölünmüş doğruda bulmak) iyi bir tartışma noktası. Ardından <i>Karşılaştırmayı göster</i> düğmesine basın.</p>
-      <p>Grup çalışmasından sonra iki üç grubu dinleyin. İçsel diye sunulan her fikir için şunu sorun: <i>Oyuncu tam olarak hangi eylemi yapıyor ve bu eylem konudaki işlemin kendisi mi?</i> Zaman azsa grup çalışmasını tek bir konu üzerinden sınıf tartışmasına çevirin.</p>
-    </div>
+    <p>İçsel diye yazdığınız fikri şu soruyla sınayın: <i>Oyuncu tam olarak hangi eylemi yapıyor ve bu eylem konudaki işlemin kendisi mi?</i></p>
   </div>
 </section>
 
@@ -383,10 +312,6 @@
     <p>8. haftada, sınıfta bilgisayar başında, 90 dakika. Oturumun başında kısa bir öğretim senaryosu verilir; bu senaryoya göre Unity'de çalışan bir sahne hazırlanır ve sahnenin hangi öğrenme çıktısını nasıl hedeflediği yarım sayfayla açıklanır. 2B ya da 3B yolundan biri seçilir; ikisi aynı ölçütlerle değerlendirilir. Kapsam 1–7. haftalardır. Unity belgeleri ve ders notları sınavda kullanılabilir. Ayrıntılı kılavuz <a href="materyaller/hafta-08.html">8. hafta notunda</a>.</p>
     <h3>Final projesi (%60)</h3>
     <p>Kendi alanınızdan bir öğretim konusu için çalışan bir oyun ya da benzetim prototipi. Proje dönem boyunca her hafta biraz büyütülür; 14. haftada sınıfta oynatılarak sunulur ve kısa bir raporla teslim edilir.</p>
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>10 dk (7. ve 8. bölüm)</span></div>
-      <p>Plan etkileşiminde 1., 8. ve 14. haftalara tıklamanız yeterli. Öğrenciler en çok vizeyi soracak: yazılı değil, bilgisayar başında bir uygulama olduğunu ve ayrıntıların 8. hafta notunda bulunduğunu söyleyin.</p>
-    </div>
   </div>
 </section>
 
@@ -408,11 +333,6 @@
 
     <h3>Çıkış kartı</h3>
     <p>Dersten çıkmadan önce yarım sayfaya yazın: adınız ve bölümünüz; oyunlaştırmak istediğiniz bir konu; şu anki tercihiniz (2B, 3B ya da henüz bilmiyorum); dersle ilgili bir soru ya da endişe.</p>
-
-    <div class="hoca">
-      <div class="hoca-l"><span>Eğitmen notu</span><span>5 dk</span></div>
-      <p>Kartları toplayıp dersin sorumlusuna iletin; ikinci haftanın örnekleri bu kartlara göre planlanacak. Yanıtlayamadığınız sorular olduysa onları da not edin.</p>
-    </div>
 
     <h3>Sık sorulan sorular</h3>
     <dl class="faq">
@@ -451,6 +371,6 @@
 </main>
 
 <footer class="footer">Eğitimde Modelleme ve Tasarım · Eğitim Fakültesi · 2025–2026 Güz · <a href="materyaller/">Haftalık materyaller</a> · <a href="atolye/">Atölye</a></footer>
-<script type="module" src="js/site.js?v=6"></script>
+<script type="module" src="js/site.js?v=7"></script>
 </body>
 </html>

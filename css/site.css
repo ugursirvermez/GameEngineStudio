@@ -210,33 +210,10 @@ input[type=range].dual::-webkit-slider-thumb { border-color: #fff; background: v
 .tbl .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .tbl tfoot td { font-weight: 600; border-top: 1px solid var(--line); background: #faf9f5; }
 
-/* ---------- eğitmen notu ---------- */
-.hoca {
-  font-size: .86rem; line-height: 1.6; color: var(--ink-2);
-  background: #fff; border: 1px solid #dcdef5; border-left: 4px solid var(--acc);
-  border-radius: 10px; padding: .95rem 1.15rem; margin: 1.6rem 0;
-}
-.hoca p { margin: .45rem 0; }
-.hoca p:first-of-type { margin-top: 0; }
-.hoca-l { display: flex; justify-content: space-between; font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--acc); margin-bottom: .45rem; }
 .note { font-size: .88rem; color: var(--ink-2); background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: .85rem 1.1rem; margin: 1.3rem 0; }
 .note b { color: var(--ink); }
 .def { font-family: var(--display); font-size: 1.35rem; line-height: 1.4; margin: 1.6rem 0; padding: 0 0 0 1.1rem; border-left: 3px solid var(--ink); }
 .cite { font-size: .8rem; color: var(--mute); }
-
-/* ders zamanlayıcısı */
-.timer { background: #fff; border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); padding: 1rem 1.15rem; margin: 1.5rem 0; }
-.timer-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; margin-bottom: .8rem; }
-.timer-clock { font-family: var(--mono); font-size: 1.4rem; font-weight: 500; font-variant-numeric: tabular-nums; }
-.timer-now { font-size: .86rem; color: var(--ink-2); }
-.timer-now b { color: var(--acc); }
-.timer-bar { display: flex; gap: 3px; height: 46px; }
-.timer-seg { position: relative; flex-grow: 1; border-radius: 6px; background: #f1efe9; overflow: hidden; cursor: pointer; border: none; padding: 0 .45rem; text-align: left; font-size: .68rem; color: var(--ink-2); line-height: 1.2; }
-.timer-seg i { position: absolute; inset: 0 auto 0 0; width: 0; background: #d9dbf7; }
-.timer-seg span { position: relative; display: block; }
-.timer-seg small { position: relative; display: block; color: var(--mute); font-family: var(--mono); }
-.timer-seg.now { outline: 2px solid var(--acc); }
-.timer-seg.brk { background: repeating-linear-gradient(45deg, #f1efe9 0 6px, #ebe8e0 6px 12px); }
 
 /* seçim kartları */
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .8rem; padding: 1rem 1.15rem; }
@@ -290,16 +267,12 @@ dl.faq dd { margin: .3rem 0 0; color: var(--ink-2); }
 .tbl.list .d { display: block; font-weight: 400; color: var(--ink-2); margin-top: .15rem; }
 .tbl.list .ic { font-size: .7rem; color: var(--acc); font-weight: 600; margin-left: .4rem; }
 
-/* ---------- sunum görünümü ---------- */
-html.sunum { font-size: 21px; }
-html.sunum .hoca, html.sunum .hoca-only, html.sunum .rail { display: none !important; }
-
 /* ---------- dar ekran ---------- */
 @media (max-width: 980px) {
   .hero-in { grid-template-columns: 1fr; gap: 2rem; }
 }
 @media (max-width: 640px) {
-  html { font-size: 16px; } html.sunum { font-size: 17px; }
+  html { font-size: 16px; } 
   .masthead { padding: .55rem 1rem; flex-wrap: wrap; }
   .mast-nav { gap: .85rem; flex-wrap: wrap; }
   .hero { padding: 2rem 1rem 2.4rem; }
@@ -310,11 +283,10 @@ html.sunum .hoca, html.sunum .hoca-only, html.sunum .rail { display: none !impor
 /* ---------- yazdırma ---------- */
 @media print {
   html { font-size: 10.5pt; }
-  .masthead, .rail, .hero-actions, .pager, .no-print, .embed, .timer { display: none !important; }
+  .masthead, .rail, .hero-actions, .pager, .no-print, .embed { display: none !important; }
   .hero { background: none; color: var(--ink); padding: 0 0 1rem; border: none; }
   .hero h1 { color: var(--ink); } .hero .dek { color: var(--ink-2); }
-  .fig-card, .hoca, .tbl { box-shadow: none; break-inside: avoid; }
-  html.sunum .hoca, html.sunum .hoca-only { display: block !important; }
+  .fig-card, .tbl { box-shadow: none; break-inside: avoid; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
